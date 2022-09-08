@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +30,13 @@ Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy'])->name('p
 Route::get('/terms-condition', [HomeController::class, 'termsCondition'])->name('terms-conditions');
 
 Route::post('/contact-form', [ContactController::class, 'contactSubmit'])->name('contact-form-submit');
+Route::get('/home', [HomeController::class, 'home'])->name('home');
+Route::get('/search-flights', [HomeController::class, 'searchFlights'])->name('search-flights');
+Route::get('/passenger-details', [HomeController::class, 'passengerDetails'])->name('passenger-details');
+Route::get('/booking-final', [HomeController::class, 'bookingFinal'])->name('booking-final');
+
+Auth::routes();
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/check-exist-email', [LoginController::class, 'checkEmailExist'])->name('check-exist-email');
+Route::post('/check-exist-pwd', [LoginController::class, 'checkPwdExist'])->name('check-exist-pwd');

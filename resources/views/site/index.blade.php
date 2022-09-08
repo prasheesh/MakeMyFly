@@ -26,7 +26,7 @@
               occasions and festivals to entertainment and tours, we’ve got all packages covered.
           </p>
 
-          <a href="about.html" class="btn more-btn">Read More <i class="bx bx-chevron-right"></i></a>
+          <a href="{{ route('about') }}" class="btn more-btn">Read More <i class="bx bx-chevron-right"></i></a>
         </div>
           <div class="col-lg-5 text-center" data-aos="fade-left" data-aos-delay="100">
           <img src="{{ asset('assets/img/home_center.png')}}" class="img-fluid" alt="" style="height: 75%;">

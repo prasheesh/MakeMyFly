@@ -1,6 +1,5 @@
 @extends('layouts.app')
-@section('content')
-
+@section('style-content')
 <style>
     .data{
           width: 600px;
@@ -44,6 +43,9 @@
       }
 
 </style>
+
+@endsection
+@section('content')
 <div class="breadcrumbs aos-init aos-animate" data-aos="fade-in">
     <div class="container">
       <h2>Terms & Conditions</h2>

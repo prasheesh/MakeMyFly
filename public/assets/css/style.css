@@ -1796,14 +1796,14 @@ color: #00b0d5;
 }
 .slick-prev:before {
     content: '←';
-    color: #067289;
+    color: #067289 !important;
 }
 .slick-prev:before, .slick-next:before {
     font-family: 'slick';
     font-size: 20px;
     line-height: 1;
     opacity: .75;
-    color: #067289;
+    color: #067289 !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }

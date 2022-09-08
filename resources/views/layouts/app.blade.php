@@ -9,6 +9,7 @@
 
   <meta content="" name="description">
   <meta content="" name="keywords">
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
 
   <!-- Favicons -->
   <link href="{{asset('assets/img/favicon.png')}}" rel="icon">
@@ -35,7 +36,14 @@
 
     <style type="text/css">
 
+   .validation-error{
+      color: red !important;
+      display: none;
+
+    }
+
     </style>
+    @yield('style-content')
 
     <!-- Jquery min JS google CDN -->
     <script src="{{ asset('assets/js/jquery-3.6.0.js') }}"></script>
@@ -64,12 +72,14 @@
         <p>Login here to your Account</p>
 
         <div class="clearfix mb-4"></div>
-        <form method="post">
+        <form method="post" action="{{ route('login') }}" name="loginForm" id="loginForm" >
+          @csrf
             <div class="row">
                 <div class="col-md-12 label-modal ">
                     <div class="form-group">
                         <label>Email ID</label>
-                        <input type="text" name="text" id="text" class="form-control" autocomplte='off'  placeholder=""/>
+                        <input type="email" name="email" id="email" class="form-control" autocomplte='off'  placeholder=""/>
+                        <label id="email_exist" class="validation-error">Email id does not exist</label>
                         <p class="input-icon"><i class="fa fa-envelope"></i></p>
                     </div>
                 </div>
@@ -77,6 +87,7 @@
                     <div class="form-group">
                          <label>Passsword</label>
                         <input type="password" name="password" id="password"  autocomplte='off' class="form-control" placeholder="">
+                        <label id="pwd_exist" class="validation-error">Password does not exist</label>
                         <p class="input-icon"><i class="fa fa-lock"></i></p>
                     </div>
                 </div>
@@ -85,7 +96,7 @@
                     <p class="link"><a href="" data-bs-toggle="modal" data-bs-target="#reset"><i>Reset Password</i></a></p>
                 </div>
                 <div class="col-md-4 text-right">
-                    <a href="" class="btn btn-theme float-end" data-bs-toggle="modal" data-bs-target="#loginotp" style="cursor:pointer">LOGIN</a>
+                    <a href="" id="loginButton" class="btn btn-theme float-end" data-bs-toggle="modal" data-bs-target="#loginotp" style="cursor:pointer; display:none">LOGIN</a>
                 </div>
             </div>
         </form>
@@ -127,7 +138,7 @@
                     </div>
                 </div>
                 <div class="col-md-12 text-right mt-4">
-                    <a href="home.html" class="btn btn-theme float-end">Submit</a>
+                    <a href="{{ route('home') }}" class="btn btn-theme float-end">Submit</a>
                 </div>
             </div>
         </form>
@@ -185,7 +196,7 @@
                     </div>
                 </div>
                 <div class="col-md-12 text-center">
-                    <a href="" class="btn btn-theme">Submit</a>
+                    <a href="{{ route('home') }}" class="btn btn-theme">Submit</a>
                 </div>
             </div>
         </form>
@@ -273,7 +284,7 @@
 
   <main id="main">
 
-            @yield('content')
+          @yield('content')
 
 </main><!-- End #main -->
 
@@ -381,6 +392,78 @@
 
   <!-- Template Main JS File -->
   <script src="{{asset('assets/js/main.js')}}"></script>
+  <script src="{{ asset('assets/js/dist/jquery.validate.js') }}"></script>
+
+  <script>
+      $(document).ready(function(){
+        $(document).on('keyup','#email',function(){
+          var email = $('#email').val();
+          if(email != '' ){
+            // alert(email);
+            $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+          });
+          // alert(email);
+            $.ajax({
+              url : "{{ route('check-exist-email') }}",
+              type : 'POST',
+              data : {'email': email},
+              dataType:'json',
+              // processData : false,
+              // cache : false,
+              // async : false,
+              success : function(data){
+               if(data == 1){
+                      $('#email_exist').hide();
+               }else{
+                $('#email_exist').show();
+               }
+              }
+            });
+            $('#loginButton').show();
+          }else{
+            $('#loginButton').hide();
+          }
+
+        });
+
+        $(document).on('keyup','#password',function(){
+          var password = $('#password').val();
+          if(password != ''){
+            $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+          });
+            $.ajax({
+              url : "{{ route('check-exist-pwd') }}",
+              type : 'POST',
+              data : {'email':email,'password': password},
+              dataType:'json',
+              // processData : false,
+              // cache : false,
+              // async : false,
+              success : function(data){
+                if(data == 1){
+                      $('#pwd_exist').show();
+               }else{
+                $('#pwd_exist').hide();
+               }
+              }
+            });
+            $('#loginButton').show();
+          }else{
+            $('#loginButton').hide();
+          }
+
+        });
+      })
+
+  </script>
+
+
 
 @yield('script-content')
 
