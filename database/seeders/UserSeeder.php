@@ -18,7 +18,9 @@ class UserSeeder extends Seeder
         $data = [
             'name' => 'admin',
            'email' => 'admin@gmail.com',
+           'mobile_number' => '8977936619',
             'password' => Hash::make('123456'),
+
         ];
         model::create($data);
     }

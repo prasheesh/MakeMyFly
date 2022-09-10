@@ -40,3 +40,6 @@ Auth::routes();
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::post('/check-exist-email', [LoginController::class, 'checkEmailExist'])->name('check-exist-email');
 Route::post('/check-exist-pwd', [LoginController::class, 'checkPwdExist'])->name('check-exist-pwd');
+
+Route::post('/get-otp',[LoginController::class, 'getOTPNumber'])->name('getOTPNumber');
+Route::post('/check-otp',[LoginController::class, 'checkOtpNumber'])->name('checkOtpNumber');

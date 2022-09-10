@@ -8,7 +8,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\facades\Auth;
-use Hash;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -53,18 +53,57 @@ class LoginController extends Controller
     }
     public function checkPwdExist(Request $request)
     {
-        $username = $request->email;
+        $email = $request->email;
         $password = $request->password;
-        $credentials = array('profile_mobile_username' => $username , 'password' => $password);
-      $attempt = Auth::attempt($credentials);
+        // $credentials = array('email' => $email , 'password' => $password);
+        $user = User::where('email', '=', $email)->first();
 
-      return dd($attempt);
+        // $attempt = Auth::attempt($credentials);
+       $pwd_check =  Hash::check($password, $user->password);
+    //    dd($pwd_check);
+      if($pwd_check== true){
+        return 1;
+      }else{
+        return 0;
+      }
 
-        // $count = User::where('password', $request->password)->count();
-        // if($count == 0){
-        //     return 0;
-        // }else{
-        //     return 1;
-        // }
+    }
+
+    public function getOTPNumber(Request $request){
+        $email = $request->email;
+        $user = User::where('email', '=', $email)->first();
+        // dd($user);
+        $random=rand(100000,999999);
+        $primary_contact_number=$user->mobile_number;
+        $count=User::where(['mobile_number'=>$primary_contact_number])->count();
+        if($count>0){
+            User::where(['mobile_number'=>$primary_contact_number])->update(['otp'=>$random]);
+            // return "Please Use OTP Number For Authentication ".$random;
+            return response()->json(['message' => "Please Use OTP Number For Authentication ".$random], 200);
+        }else{
+            $data=['mobile_number'=>$primary_contact_number,'otp'=>$random];
+            User::insert($data);
+            return response()->json(['message' => "Please Use OTP Number For Authentication ".$random], 200);
+            // return "Please Use OTP Number For Authentication ".$random;
+        }
+
+    }
+    public function checkOtpNumber(Request $request){
+        $email = $request->email;
+        $login_otp = $request->login_otp;
+        $user = User::where('email', '=', $email)->first();
+        $count = User::where('email', '=', $email)->count();
+        // dd($user);
+        if($count >0){
+                if($login_otp == $user->otp){
+                    return 1;
+                }else{
+                    return 0;
+                }
+        }else{
+            return "user not found";
+        }
+
+
     }
 }

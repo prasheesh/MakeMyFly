@@ -72,7 +72,7 @@
         <p>Login here to your Account</p>
 
         <div class="clearfix mb-4"></div>
-        <form method="post" action="{{ route('login') }}" name="loginForm" id="loginForm" >
+        <form method="post" action="" name="loginForm" id="loginForm" >
           @csrf
             <div class="row">
                 <div class="col-md-12 label-modal ">
@@ -86,8 +86,8 @@
                 <div class="col-md-12 label-modal">
                     <div class="form-group">
                          <label>Passsword</label>
-                        <input type="password" name="password" id="password"  autocomplte='off' class="form-control" placeholder="">
-                        <label id="pwd_exist" class="validation-error">Password does not exist</label>
+                        <input type="password" name="loginPwd" id="loginPwd"  autocomplte='off' class="form-control" placeholder="">
+                        <label id="pwd_exist" class="validation-error">Incorrect Password</label>
                         <p class="input-icon"><i class="fa fa-lock"></i></p>
                     </div>
                 </div>
@@ -120,6 +120,7 @@
         <h5 class="modal-title modal-titile-mmf">
             OTP Sent to your Registered Mobile</h5>
         <p>XXXXXXXX94 Please Verify</p>
+        <span id="getOtp"></span>
 
         <div class="clearfix mb-4"></div>
         <form method="post">
@@ -128,13 +129,15 @@
                     <div class="form-group">
                         <label>Enter your OTP</label>
                        <div class="otp-input">
+                        {{-- <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/>
                         <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/>
                         <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/>
                         <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/>
-                        <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/>
-                        <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/>
-                        <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/>
+                        <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/> --}}
+                        <input type="text" name="enterLoginOtp" id="enterLoginOtp" class="form-control form-otp" autocomplte='off' minlength="6" maxlength="6"  placeholder=""/>
+
                       </div>
+                      <label id="otpError" style="validation-error">Please Enter 6 Digit otp</label>
                     </div>
                 </div>
                 <div class="col-md-12 text-right mt-4">
@@ -162,6 +165,7 @@
             Forgot Password?</h5>
         <p class="mb-4">Enter detials for Create New Password</p>
         <small>OTP Sent to your Registered Mobile Number XXXXXX94 Please verify</small>
+
         <div class="clearfix mb-4"></div>
         <form method="post">
             <div class="row">
@@ -170,11 +174,11 @@
                         <label>Enter your OTP</label>
                        <div class="otp-input">
                         <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/>
+                        {{-- <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/>
                         <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/>
                         <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/>
                         <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/>
-                        <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/>
-                        <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/>
+                        <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/> --}}
                       </div>
                     </div>
                 </div>
@@ -396,7 +400,7 @@
 
   <script>
       $(document).ready(function(){
-        $(document).on('keyup','#email',function(){
+        $(document).on('change','#email',function(){
           var email = $('#email').val();
           if(email != '' ){
             // alert(email);
@@ -415,6 +419,7 @@
               // cache : false,
               // async : false,
               success : function(data){
+
                if(data == 1){
                       $('#email_exist').hide();
                }else{
@@ -422,15 +427,13 @@
                }
               }
             });
-            $('#loginButton').show();
-          }else{
-            $('#loginButton').hide();
           }
 
         });
 
-        $(document).on('keyup','#password',function(){
-          var password = $('#password').val();
+        $(document).on('change','#loginPwd',function(){
+          var password = $('#loginPwd').val();
+          var email = $('#email').val();
           if(password != ''){
             $.ajaxSetup({
             headers: {
@@ -446,20 +449,80 @@
               // cache : false,
               // async : false,
               success : function(data){
+
                 if(data == 1){
-                      $('#pwd_exist').show();
+                      $('#pwd_exist').hide();
+                      $('#loginButton').show();
                }else{
-                $('#pwd_exist').hide();
+                $('#pwd_exist').show();
+                $('#loginButton').hide();
                }
               }
             });
-            $('#loginButton').show();
-          }else{
-            $('#loginButton').hide();
+
           }
 
         });
-      })
+
+      $(document).on('click','#loginButton',function(){
+          // var password = $('#loginPwd').val();
+          var email = $('#email').val();
+          if(password != ''){
+            $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+          });
+            $.ajax({
+              url : "{{ route('getOTPNumber') }}",
+              type : 'POST',
+              data : {'email':email},
+              dataType:'json',
+              // processData : false,
+              // cache : false,
+              // async : false,
+              success : function(data,result){
+                if(result =='success'){
+                    $('#getOtp').html(data.message);
+                }
+
+              }
+            });
+
+          }
+
+        });
+
+$(document).on('keyup','#enterLoginOtp',function(){
+  var login_otp = $('#enterLoginOtp').val();
+  var email = $('#email').val();
+  // alert(login_otp.length)
+  if(login_otp.length == '6' ){
+
+    $.ajax({
+      url : "{{ route('checkOtpNumber') }}",
+              type : 'POST',
+              data : {'email':email,'login_otp':login_otp},
+              dataType:'json',
+              // processData : false,
+              // cache : false,
+              // async : false,
+              success : function(data){
+                if(data == '1'){
+                    $('#otpError').hide();
+                }else{
+                  $('#otpError').show();
+                }
+
+              }
+    })
+    $('#otpError').hide();
+  }else{
+    $('#otpError').show();
+  }
+});
+
+      });
 
   </script>
 
