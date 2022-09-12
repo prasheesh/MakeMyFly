@@ -43,3 +43,6 @@ Route::post('/check-exist-pwd', [LoginController::class, 'checkPwdExist'])->name
 
 Route::post('/get-otp',[LoginController::class, 'getOTPNumber'])->name('getOTPNumber');
 Route::post('/check-otp',[LoginController::class, 'checkOtpNumber'])->name('checkOtpNumber');
+
+
+Route::any('/forgot-pwd', [LoginController::class, 'forgotPassword'])->name('forgot-pwd');

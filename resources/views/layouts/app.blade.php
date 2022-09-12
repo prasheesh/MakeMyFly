@@ -41,6 +41,9 @@
       display: none;
 
     }
+    .error{
+      color: red !important;
+    }
 
     </style>
     @yield('style-content')
@@ -93,7 +96,7 @@
                 </div>
                 <div class="col-md-8">
                     <p class="gotpw"><a href=""  data-bs-toggle="modal" data-bs-target="#forgot">Forgot Password?</a></p>
-                    <p class="link"><a href="" data-bs-toggle="modal" data-bs-target="#reset"><i>Reset Password</i></a></p>
+                    {{-- <p class="link"><a href="" data-bs-toggle="modal" data-bs-target="#reset"><i>Reset Password</i></a></p> --}}
                 </div>
                 <div class="col-md-4 text-right">
                     <a href="" id="loginButton" class="btn btn-theme float-end" data-bs-toggle="modal" data-bs-target="#loginotp" style="cursor:pointer; display:none">LOGIN</a>
@@ -123,7 +126,8 @@
         <span id="getOtp"></span>
 
         <div class="clearfix mb-4"></div>
-        <form method="post">
+        <form method="post" action="">
+          @csrf
             <div class="row">
                 <div class="col-md-12 label-modal ">
                     <div class="form-group">
@@ -137,11 +141,11 @@
                         <input type="text" name="enterLoginOtp" id="enterLoginOtp" class="form-control form-otp" autocomplte='off' minlength="6" maxlength="6"  placeholder=""/>
 
                       </div>
-                      <label id="otpError" style="validation-error">Please Enter 6 Digit otp</label>
+                      <label id="otpError" class="validation-error">Please Enter valid 6  Digit otp</label>
                     </div>
                 </div>
                 <div class="col-md-12 text-right mt-4">
-                    <a href="{{ route('home') }}" class="btn btn-theme float-end">Submit</a>
+                    <button type="submit" id="loginSubmit" style="display: none"  class="btn btn-theme float-end">Submit</button>
                 </div>
             </div>
         </form>
@@ -163,30 +167,34 @@
          <button type="button" class="btn-close" data-bs-dismiss="modal"><i class="fa fa-times"></i></button>
         <h5 class="modal-title modal-titile-mmf">
             Forgot Password?</h5>
-        <p class="mb-4">Enter detials for Create New Password</p>
-        <small>OTP Sent to your Registered Mobile Number XXXXXX94 Please verify</small>
+            <form method="post" action="" name="forgotOtpForm" id="forgotOtpForm">
+              @csrf
+        <p class="mb-4">Enter details for Create New Password</p>
+        <label>Email ID</label>
+            <input type="email" name="forgotEmail" id="forgotEmail" class="form-control" autocomplte='off'  placeholder=""/>
+            <label id="forgot_email_exist" class="validation-error">Email id does not exist</label>
+        <small id="verifyOtp" style="display:none">OTP Sent to your Registered Mobile Number XXXXXX94 Please verify</small>
+        <span id="getForGotOtp"></span>
 
         <div class="clearfix mb-4"></div>
-        <form method="post">
+
             <div class="row">
                 <div class="col-md-12 mb-3 label-modal ">
                     <div class="form-group">
                         <label>Enter your OTP</label>
                        <div class="otp-input">
-                        <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/>
-                        {{-- <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/>
-                        <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/>
-                        <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/>
-                        <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/>
-                        <input type="text" name="text" id="text" class="form-control form-otp" autocomplte='off'  placeholder=""/> --}}
+                        <input type="text" minlength="6" maxlength="6" name="forgotOtp" id="forgotOtp" class="form-control form-otp" autocomplte='off'  placeholder=""/>
+
+
                       </div>
+                      <label id="forgotOtpError" class="validation-error">Please Enter valid 6  Digit otp</label>
                     </div>
                 </div>
                 <div class="clearfix "></div>
                 <div class="col-md-12 label-modal">
                     <div class="form-group">
                          <label>New Passsword</label>
-                        <input type="password" autocomplte='off' name="password" id="password" class="form-control" placeholder=""/>
+                        <input type="password" autocomplte='off' name="forgotPwd" id="forgotPwd" class="form-control" placeholder=""/>
                         <p class="input-icon"><i class="fa fa-lock"></i></p>
                         <p class="input-icon-after"><i class="fa fa-eye"></i></p>
                     </div>
@@ -194,13 +202,13 @@
                  <div class="col-md-12 label-modal">
                     <div class="form-group">
                          <label>Confirm New Passsword</label>
-                        <input type="password" autocomplte='off' name="password" id="password" class="form-control" placeholder=""/>
+                        <input type="password" autocomplte='off' name="confirmPwd" id="confirmPwd" class="form-control" placeholder=""/>
                         <p class="input-icon"><i class="fa fa-lock"></i></p>
                         <p class="input-icon-after"><i class="fa fa-eye-slash"></i></p>
                     </div>
                 </div>
                 <div class="col-md-12 text-center">
-                    <a href="{{ route('home') }}" class="btn btn-theme">Submit</a>
+                    <button type="submit" class="btn btn-theme">Submit</button>
                 </div>
             </div>
         </form>
@@ -269,6 +277,36 @@
 
       <h1 class="logo me-auto"><a href="{{ route('index') }}"><img src="assets/img/MMF.png"></a></h1>
 
+      @if(Auth::check())
+      <div class="col-md-6
+			 float-end">
+				<div class="row">
+					<div class="col-md-2 top-details">
+						<p class="Hi-user">Hi {{ Str::ucfirst(Auth::user()->name) }} </p>
+						<p>12345</p>
+
+					</div>
+					<div class="col-md-4 text-end  top-details">
+						<p class="Hi-user">Credit Balance </p>
+						<p>50,0000</p>
+					</div>
+					<div class="col-md-4 text-end  top-details">
+						<p class="Hi-user">Due Balance</p>
+						<p>2000,000 - 15/6/2022</p>
+					</div>
+					<div class="col-md-2  top-details">
+            <form action="{{ route('logout') }}" method="post">
+              @csrf
+						<input type="submit" value="Logout" class="Hi-user">
+						<p></p>
+            </form>
+					</div>
+				</div>
+
+			</div>
+      @else
+
+
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
           <!--<li><a class="" href="javascript:void(0);">Flights</a></li>-->
@@ -276,10 +314,16 @@
           <li><a href="{{ route('about') }}">About Us</a></li>
           <li><a href="{{ route('services') }}">Services</a></li>
           <li><a href="{{ route('contact') }}">Contact Us</a></li>
-          <li><a data-bs-toggle="modal" data-bs-target="#loginModal" style="cursor:pointer">Login</a></li>
+          @if(Auth::check())
+                    <li><a data-bs-toggle="modal" data-bs-target="#loginModal" style="cursor:pointer">Logout</a></li>
+                    @else
+                    <li><a data-bs-toggle="modal" data-bs-target="#loginModal" style="cursor:pointer">Login</a></li>
+                    @endif
+
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav>
+      @endif
     </div>
   </header>
 
@@ -400,6 +444,10 @@
 
   <script>
       $(document).ready(function(){
+        $('#email').val('');
+        $('#loginPwd').val('');
+
+//check login email
         $(document).on('change','#email',function(){
           var email = $('#email').val();
           if(email != '' ){
@@ -431,6 +479,7 @@
 
         });
 
+        // check login password
         $(document).on('change','#loginPwd',function(){
           var password = $('#loginPwd').val();
           var email = $('#email').val();
@@ -464,6 +513,7 @@
 
         });
 
+        //submit login
       $(document).on('click','#loginButton',function(){
           // var password = $('#loginPwd').val();
           var email = $('#email').val();
@@ -493,6 +543,7 @@
 
         });
 
+        //check otp validation
 $(document).on('keyup','#enterLoginOtp',function(){
   var login_otp = $('#enterLoginOtp').val();
   var email = $('#email').val();
@@ -509,8 +560,10 @@ $(document).on('keyup','#enterLoginOtp',function(){
               // async : false,
               success : function(data){
                 if(data == '1'){
+                  $('#loginSubmit').show();
                     $('#otpError').hide();
                 }else{
+                  $('#loginSubmit').hide();
                   $('#otpError').show();
                 }
 
@@ -519,10 +572,209 @@ $(document).on('keyup','#enterLoginOtp',function(){
     $('#otpError').hide();
   }else{
     $('#otpError').show();
+    $('#loginSubmit').hide();
   }
 });
 
+
+$('#loginSubmit').click(function(){
+  // e.preventDefault();
+  var email = $('#email').val();
+  var password = $('#loginPwd').val();
+  var login_otp = $('#enterLoginOtp').val();
+  if(login_otp.length == '6' ){
+  $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+          });
+  $.ajax({
+      url : "{{ route('login') }}",
+              type : 'POST',
+              data : {'email':email,'password':password},
+              dataType:'json',
+              // processData : false,
+              // cache : false,
+              // async : false,
+              success : function(data){
+// console.log(data);
+location.replace("/home");
+
+              }
+    })
+  }
+})
+
+
+$(document).on('change','#forgotEmail',function(){
+          var email = $('#forgotEmail').val();
+          if(email != '' ){
+            // alert(email);
+            $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+          });
+          // alert(email);
+            $.ajax({
+              url : "{{ route('check-exist-email') }}",
+              type : 'POST',
+              data : {'email': email},
+              dataType:'json',
+              // processData : false,
+              // cache : false,
+              // async : false,
+              success : function(data){
+
+               if(data == 1){
+                      $('#forgot_email_exist').hide();
+                      $('#verifyOtp').show();
+
+                      $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+          });
+            $.ajax({
+              url : "{{ route('getOTPNumber') }}",
+              type : 'POST',
+              data : {'email':email},
+              dataType:'json',
+              // processData : false,
+              // cache : false,
+              // async : false,
+              success : function(data,result){
+                if(result =='success'){
+                    $('#getForGotOtp').html(data.message);
+                }
+
+              }
+            });
+
+
+
+
+
+               }else{
+                $('#forgot_email_exist').show();
+               }
+              }
+            });
+          }
+
+        });
+
+
+
+
+        $(document).on('keyup','#forgotOtp',function(){
+  var login_otp = $('#forgotOtp').val();
+  var email = $('#forgotEmail').val();
+  // alert(login_otp.length)
+  if(login_otp.length == '6' ){
+
+    $.ajax({
+      url : "{{ route('checkOtpNumber') }}",
+              type : 'POST',
+              data : {'email':email,'login_otp':login_otp},
+              dataType:'json',
+              // processData : false,
+              // cache : false,
+              // async : false,
+              success : function(data){
+                if(data == '1'){
+                    $('#forgotOtpError').hide();
+                }else{
+                  $('#forgotOtpError').show();
+                }
+
+              }
+    })
+    $('#forgotOtpError').hide();
+  }else{
+    $('#forgotOtpError').show();
+  }
+});
+
+
+
       });
+
+      $(function() {
+      $("#forgotOtpForm").validate({
+        rules:{
+          forgotEmail:{
+            required:true,
+            // email:true
+          },
+          forgotOtp:{
+            required:true
+          },
+          forgotPwd :{
+            required:true,
+          },
+          confirmPwd:{
+            required:true,
+            equalTo :"#forgotPwd"
+          },
+        },
+        messages:{
+          forgotEmail:{
+            required:"Please Enter Your Email",
+            // email:"Entered email is invalid"
+
+          },
+          forgotOtp:{
+            required:"Please Enter OTP"
+          },
+          forgotPwd :{
+            required:"Please Enter new Password",
+          },
+          confirmPwd:{
+            required:"Please Enter Confirm Password",
+            equalTo :"Password Does Not match",
+          },
+
+        },
+        submitHandler: function(form) {
+              // form.submit();
+              // var formData = new FormData($(this)[0]);
+              var email = $('#forgotEmail').val();
+              var password = $('#forgotPwd').val();
+              $.ajax({
+              url : "{{ route('forgot-pwd') }}",
+              type : 'POST',
+              data : {'email':email,'password':password},
+              dataType:'json',
+              // processData : false,
+              // cache : false,
+              // async : false,
+              success : function(data, textStatus, xhr){
+                // if(data == '1'){
+                  if (xhr.status == 201) {
+                  $('form[name=forgotOtpForm]')[0].reset();
+                  $('.input-error').remove();
+                  $.toast({
+                            heading: 'Success',
+                            text: data.message,
+                            icon: 'success',
+                            position:'top-right'
+                        });
+                        setTimeout(function() {
+                            location.reload();
+                        }, 3000);
+
+                }
+              // }
+
+              }
+    })
+      }
+    });
+
+  });
+
+
 
   </script>
 

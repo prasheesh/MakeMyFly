@@ -106,4 +106,14 @@ class LoginController extends Controller
 
 
     }
+
+    public function forgotPassword(Request $request){
+        // dd($request);
+        $email = $request->email;
+        $password = $request->password;
+        $user = User::where('email', '=', $email)->first();
+        User::where(['email'=>$email])->update(['password'=>Hash::make($password)]);
+
+        return response()->json(['message' => 'Password  has been updated successfully...'], 201);
+    }
 }

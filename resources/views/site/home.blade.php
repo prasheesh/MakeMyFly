@@ -1,4 +1,10 @@
 @extends('layouts.app')
+
+@section('style-content')
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+@endsection
+
 @section('content')
 <section class="banner">
 	<div class="container-make container">
@@ -35,15 +41,28 @@
      	<div class="col-md-3 " style="position: relative;">
      		<small>From</small>
      		<div class="airport-name from-to">
-     			<p><b>Hyderabad</b></p>
-     			<p>Rajiv Gandi international Airport</p>
+     			{{-- <p><b>Hyderabad</b></p>
+     			<p>Rajiv Gandi international Airport</p> --}}
+          <select class="form-control" name="fromPlace" id="fromPlace">
+            <option value="">Select From</option>
+            @foreach (DB::table('airport_details')->get() as $airport)
+                <option value="{{ $airport->code }}">{{ $airport->name.', '.$airport->country }}</option>
+            @endforeach
+          </select>
      		</div>
      	</div>
      	<div class="col-md-3">
      		<small>To</small>
      		<div class="airport-name">
-     			<p><b>Mumbai</b></p>
-     			<p>Chathrapathi Shivaji international Airport</p>
+     			{{-- <p><b>Mumbai</b></p>
+     			<p>Chathrapathi Shivaji international Airport</p> --}}
+
+           <select class="form-control" name="toPlace" id="toPlace">
+            <option value="">Select To</option>
+            @foreach (DB::table('airport_details')->get() as $airport)
+                <option value="{{ $airport->code }}">{{ $airport->name.', '.$airport->country }}</option>
+            @endforeach
+          </select>
      		</div>
      	</div>
      	<div class="col-md-4">
@@ -51,8 +70,10 @@
      			<div class="col-md-6">
      				<small>Departure</small>
      		<div class="airport-name">
-     			<p><b>10 June, 22</b></p>
-     			<p>Friday</p>
+     			{{-- <p><b>10 June, 22</b></p>
+     			<p>Friday</p> --}}
+          {{-- <input type="date" name="depatDate" id="depatDate" class=""> --}}
+          <p><input type="text" id="datepicker"></p>
      		</div>
      			</div>
      			<div class="col-md-6" >
@@ -196,5 +217,26 @@
         </section>
 
  </div> <!--End of container -->
+
+@endsection
+
+@section('script-content')
+
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script>
+  $('#fromPlace').select2({
+            placeholder: 'From'
+        });
+
+  $('#toPlace').select2({
+            placeholder: 'To'
+        });
+
+
+        $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+</script>
+
 
 @endsection
