@@ -1,6 +1,7 @@
 window._ = require('lodash');
 
 try {
+    window.mobiscroll = require('@mobiscroll/javascript-lite');
     require('bootstrap');
 } catch (e) {}
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AirportDetailController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
@@ -46,3 +47,5 @@ Route::post('/check-otp',[LoginController::class, 'checkOtpNumber'])->name('chec
 
 
 Route::any('/forgot-pwd', [LoginController::class, 'forgotPassword'])->name('forgot-pwd');
+
+Route::any('/get-airports', [AirportDetailController::class, 'getAirports'])->name('get-airports');
