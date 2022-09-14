@@ -115,11 +115,12 @@
 
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
               <form method="post" action="" name="searchOneWay" id="searchOneWay">
+                @csrf
                 <div class="row">
                     <div class="col-md-3 " style="position: relative;">
                         <small>From</small>
 
-                            <div class="airport-name from-to">
+                            <div class="airport-name ">
                               {{-- <div class="mbsc-col-sm-12 mbsc-col-md-6">
                                 <label>
                                     From
@@ -129,15 +130,20 @@
                                 {{-- <p><b>Hyderabad</b></p>
      			                <p>Rajiv Gandi international Airport</p> --}}
                                 <select class="form-control" name="fromPlace" id="fromPlace">
-                                    <option value="">Select From</option>
+                                    {{-- <option value="">Select From</option> --}}
                                     @foreach (DB::table('airport_details')->get() as $airport)
                                         <option value="{{ $airport->code }}">{{ $airport->name . ', ' . $airport->country }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
+                            <span  class=" from-to"> </span>
                     </div>
+                    {{-- <div class="col-md-1" style="position: relative;">
+                        <div class=" from-to" style="position: relative;"></div>
+                    </div> --}}
                     <div class="col-md-3">
+
                         <small>To</small>
                         <div class="airport-name">
                             {{-- <p><b>Mumbai</b></p>
@@ -150,13 +156,15 @@
                       </div> --}}
 
                             <select class="form-control" name="toPlace" id="toPlace">
-                                <option value="">Select To</option>
-                                {{-- @foreach (DB::table('airport_details')->get() as $airport)
+                                {{-- <option value="">Select To</option> --}}
+                                @foreach (DB::table('airport_details')->get() as $airport)
                                     <option value="{{ $airport->code }}">{{ $airport->name . ', ' . $airport->country }}
                                     </option>
-                                @endforeach --}}
+                                @endforeach
                             </select>
                         </div>
+                        <span id="sameFromTo"  class="validation-error">From & To airports cannot be the same</span>
+
                     </div>
                     <div class="col-md-4">
                         <div class="row">
@@ -165,7 +173,7 @@
                                 <div class="mbsc-row">
                                     <label>
                                         Departure
-                                        <input id="demo-flight-booking-type-outbound" mbsc-input data-input-style="outline"
+                                        <input id="flightBookingDepart" mbsc-input data-input-style="outline"
                                             data-label-style="stacked" placeholder="Please select..." />
                                     </label>
 
@@ -177,7 +185,7 @@
                                 <small>Return</small>
                                 <label>
                                     Return
-                                    <input id="demo-flight-booking-type-return" mbsc-input data-input-style="outline"
+                                    <input id="flightBookingReturn" mbsc-input data-input-style="outline"
                                         data-label-style="stacked" placeholder="Please select..." />
                                 </label>
 
@@ -198,16 +206,16 @@
 
           <div class="col-md-7 mb-4">
               <p>ADULTS (12y +)</p>
-              <ul class="count">
-                <li class="active">1</li>
-                <li>2</li>
-                <li>2</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
-                <li>7</li>
-                <li>8</li>
-                <li>9</li>
+              <ul class="count" id="passengerCount">
+                <li class="active" id="adult1" data-val="1" >1</li>
+                <li data-val="2" id="adult2">2</li>
+                <li data-val="3" id="adult3">3</li>
+                <li data-val="4" id="adult4">4</li>
+                <li data-val="5" id="adult5">5</li>
+                <li data-val="6" id="adult6">6</li>
+                <li data-val="7" id="adult7">7</li>
+                <li data-val="8" id="adult8">8</li>
+                <li data-val="9" id="adult9">9</li>
               </ul>
           </div>
 
@@ -240,11 +248,11 @@
 
           <div class="col-md-12 mb-4">
               <p>CHOOSE TRAVEL CLASS</p>
-              <ul class="count">
-                <li class="active">Economy/Premium Economy</li>
-                <li>Premium Economy</li>
-                <li>Business</li>
-                <li>First Class</li>
+              <ul class="count" id="chooseTravel">
+                <li class="active" id="travel1" data-val="EC">Economy/Premium Economy</li>
+                <li id="travel2" data-val="PEC">Premium Economy</li>
+                <li id="travel3" data-val="BUS">Business</li>
+                <li id="travel4" data-val="FC">First Class</li>
               </ul>
           </div>
 
@@ -253,16 +261,16 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-one" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-theme">Save changes</button>
+        <button id="saveTravelDetail" type="button" class="btn btn-theme" data-bs-dismiss="modal">Save changes</button>
       </div>
     </div>
   </div>
 </div>
 <!-- Modal end -->
 
-                    <div class="col-md-2"  data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <small>Travellers & Class</small>
-                        <div class="airport-name">
+                    <div class="col-md-2 travellerData"  data-bs-toggle="modal" data-bs-target="#exampleModal" >
+                        <small>Travellers & Classs</small>
+                        <div class="airport-name" id="travelInfo">
                             <p><b>1 Adult </b></p>
                             <p>Economy</p>
                         </div>
@@ -270,7 +278,7 @@
 
                     <div class="col-md-2 ms-auto " style="    margin-top: 1rem;">
                         {{-- <a href="{{ route('search-flights') }}"> --}}
-                           <button class="btn btn-search-flights">Search Flights one
+                           <button id="searchFlightsButton" type="submit" class="btn btn-search-flights">Search Flights one
                                 Way</button>
                               {{-- </a> --}}
                     </div>
@@ -279,7 +287,7 @@
             </div>
 
             <!-- 2nd tab -->
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            {{-- <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 
                 <div class="row">
                     <div class="col-md-3 " style="position: relative;">
@@ -329,7 +337,7 @@
                     </div>
                 </div>
 
-            </div>
+            </div> --}}
 
 
             <!-- 3rd tab -->
@@ -411,21 +419,17 @@
     <script>
 
 
-        $('#fromPlace').select2({
-            placeholder: 'From'
-        });
-
-        // $('#toPlace').select2({
-        //     placeholder: 'To'
-        // });
-
-
-        // $(function() {
-        //     $("#datepicker").datepicker();
-        // });
 
         $(function() {
+            var d = new Date();
+            var month = d.getMonth()+1;
+var day = d.getDate();
 
+var todayDate = d.getFullYear() + '-' +
+    (month<10 ? '0' : '') + month + '-' +
+    (day<10 ? '0' : '') + day;
+
+    var maxDate = parseInt(d.getFullYear()+1) + '-03-31';
 
 
             mobiscroll.setOptions({
@@ -436,8 +440,8 @@
             });
 
             // Mobiscroll Calendar initialization
-            var min = '2022-09-13T00:00';
-            var max = '2023-03-13T00:00';
+            var min = todayDate;
+            var max = maxDate;
             // $('#departure-booking').mobiscroll().datepicker({
             //           // display: 'inline',                       // Specify display mode like: display: 'bottom' or omit setting to use default
             //           controls: ['calendar'],                  // More info about controls: https://docs.mobiscroll.com/5-18-2/calendar#opt-controls
@@ -496,13 +500,13 @@
             //           }
             //       });
 
-            var booking = $('#demo-flight-booking-type-outbound').mobiscroll().datepicker({
+            var booking = $('#flightBookingDepart').mobiscroll().datepicker({
                 controls: [
                 'calendar'], // More info about controls: https://docs.mobiscroll.com/5-18-2/range#opt-controls
                 select: 'range', // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
                 display: 'anchored', // Specify display mode like: display: 'bottom' or omit setting to use default
-                startInput: '#demo-flight-booking-type-outbound', // More info about startInput: https://docs.mobiscroll.com/5-18-2/range#opt-startInput
-                endInput: '#demo-flight-booking-type-return', // More info about endInput: https://docs.mobiscroll.com/5-18-2/range#opt-endInput
+                startInput: '#flightBookingDepart', // More info about startInput: https://docs.mobiscroll.com/5-18-2/range#opt-startInput
+                endInput: '#flightBookingReturn', // More info about endInput: https://docs.mobiscroll.com/5-18-2/range#opt-endInput
                 min: min, // More info about min: https://docs.mobiscroll.com/5-18-2/range#opt-min
                 max: max, // More info about max: https://docs.mobiscroll.com/5-18-2/range#opt-max
                 pages: 1,
@@ -510,7 +514,7 @@
             }).mobiscroll('getInst');
 
             var oneWayDis = $("#oneWay").val();
-            $('#demo-flight-booking-type-return').mobiscroll('getInst').setOptions({
+            $('#flightBookingReturn').mobiscroll('getInst').setOptions({
                 disabled: oneWayDis
             });
             if (oneWayDis) {
@@ -525,7 +529,7 @@
 
             $('.demo-flight-type').on('change', function() {
                 var oneWay = this.value == 'oneway';
-                $('#demo-flight-booking-type-return').mobiscroll('getInst').setOptions({
+                $('#flightBookingReturn').mobiscroll('getInst').setOptions({
                     disabled: oneWay
                 });
 
@@ -570,9 +574,6 @@
                     }, 'jsonp');
             }
 
-
-            //--------- search flights ---------
-            // $("#searchOneWay").submit()
 
     //         var fromPlace = $('#fromPlace').mobiscroll().select({
     //     display: 'anchored',
@@ -634,32 +635,159 @@
 
     // toFiltering('');
 
-    $("#toPlace").click(function () {
-      var $dropdown = $("#toPlace");
-      $.getJSON("{{ route('get-airports') }}"+ '/?filterText=', function (data) {
-    //       // console.log(data);
-    $dropdown.empty();
-                    $dropdown.append($("<option />").val('').text('--Select--'));
-                    $.each(data, function(key, value) {
-                        $dropdown.append($("<option />").val(value.code).text(value.name));
-                    });
-
-                    $("#overlay").fadeOut();
-
-                    $('#toPlace').select2({
-                        placeholder: 'Select State'
-                    });
 
 
-        }, 'jsonp');
-    })
 
 
-    $("#tofrom").change(function(){
-      alert($(this).val());
-    })
+    $('#fromPlace').select2({
+            placeholder: 'Select from',
+        });
+    $('#toPlace').select2({
+            placeholder: 'Select to'
+        });
 
 
+//choose no of passenger
+        $('#passengerCount li').click(function(){
+            // alert($(this).data('val'));
+            $("#passengerCount li").removeClass('active');
+            $(this).addClass('active');
+        });
+
+//Choose travel type
+        $('#chooseTravel li').click(function(){
+            // alert($(this).data('val'));
+            $("#chooseTravel li").removeClass('active');
+            $(this).addClass('active');
+        });
+
+        $(document).on('click', '#saveTravelDetail',function(){
+        // $('#saveTravelDetail').click(function(){
+
+            localStorage.clear();
+           var adultsVal =  $("#passengerCount .active").data('val');
+           var travelClassVal =  $("#chooseTravel .active").data('val');
+
+           var adultsId =  $("#passengerCount .active").attr('id');
+           var travelId =  $("#chooseTravel .active").attr('id');
+
+        //    alert(adults);
+
+            localStorage.setItem('adultsVal', adultsVal);
+            localStorage.setItem('travelClassVal', travelClassVal);
+            localStorage.setItem('adultsId', adultsId);
+            localStorage.setItem('travelId', travelId);
+
+
+
+            if(travelClassVal == 'EC'){
+                var travelName = "Economy/Premium Economy";
+            }else if(travelClassVal == 'PEC'){
+                var travelName = "Premium Economy";
+            }else if(travelClassVal == 'BUS'){
+                var travelName = "Business";
+            }else if(travelClassVal == 'FC'){
+                var travelName = "First Class";
+            }
+
+
+
+
+            $('#travelInfo').replaceWith('<div class="airport-name" id="travelInfo"><p><b>'+adultsVal+' Adult </b></p><p>'+travelName+'</p></div>');
+
+        });
+
+        $('.travellerData').click(function(){
+            // alert('hj');
+            let adultsId = localStorage.getItem('adultsId');
+            let travelId = localStorage.getItem('travelId');
+
+            $("#passengerCount li").removeClass('active');
+            $('#'+adultsId).addClass('active');
+
+            $("#chooseTravel li").removeClass('active');
+            $('#'+travelId).addClass('active');
+        });
+
+
+        // function travelInfo(){
+
+            let adultsVal = localStorage.getItem('adultsVal');
+            let travelClassVal = localStorage.getItem('travelClassVal');
+
+            if(travelClassVal == 'EC'){
+                var travelName = "Economy/Premium Economy";
+            }else if(travelClassVal == 'PEC'){
+                var travelName = "Premium Economy";
+            }else if(travelClassVal == 'BUS'){
+                var travelName = "Business";
+            }else if(travelClassVal == 'FC'){
+                var travelName = "First Class";
+            }
+
+            $('#travelInfo').replaceWith('<div class="airport-name" id="travelInfo"><p><b>'+adultsVal+' Adult </b></p><p>'+travelName+'</p></div>');
+        // }
+
+        // $('#flightBookingDepart').change(function() {
+        //     alert($(this).val());
+        // })
+        // $('#flightBookingReturn').change(function() {
+        //     alert($(this).val());
+        // })
+
+        $('.from-to').click(function() {
+            var fromPlace = $('#fromPlace').val();
+            var toPlace = $('#toPlace').val();
+
+            $('#fromPlace').val(toPlace);
+            $('#toPlace').val(fromPlace);
+            $('#toPlace').trigger('change');
+            $('#fromPlace').trigger('change');
+            // console.log($('#fromPlace :selected').text());
+        });
+
+        $('#fromPlace, #toPlace').on('change', function(){
+            var fromPlace = $('#fromPlace').val();
+            var toPlace = $('#toPlace').val();
+            if(fromPlace == toPlace){
+                $('#sameFromTo').show();
+                $('#searchFlightsButton').hide();
+
+            }else{
+                $('#sameFromTo').hide();
+                $('#searchFlightsButton').show();
+            }
+
+        })
+
+
+
+            $('form[name=searchOneWay]').on('submit', function(e) {
+            e.preventDefault();
+            var fromPlace = $('#fromPlace').val();
+            var toPlace = $('#toPlace').val();
+            var flightBookingDepart = $('#flightBookingDepart').val();
+            var adultsVal = localStorage.getItem('adultsVal');
+            var travelClassVal = localStorage.getItem('travelClassVal');
+             var formData = {'fromPlace':fromPlace,'toPlace':toPlace,'flightBookingDepart':flightBookingDepart,'adultsVal':adultsVal,'travelClassVal':travelClassVal};
+
+             console.log(formData);
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('SearchFlights') }}',
+                data: formData,
+                dataType: 'json',
+                cache: false,
+                async: true,
+                processData: true,
+                success: function (data) {
+                    console.log(data);
+                }
+            })
+
+
+        })
 
         });
     </script>
