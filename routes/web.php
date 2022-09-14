@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SearchFlightsController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -44,8 +45,8 @@ Route::post('/check-exist-pwd', [LoginController::class, 'checkPwdExist'])->name
 
 Route::post('/get-otp',[LoginController::class, 'getOTPNumber'])->name('getOTPNumber');
 Route::post('/check-otp',[LoginController::class, 'checkOtpNumber'])->name('checkOtpNumber');
-
-
 Route::any('/forgot-pwd', [LoginController::class, 'forgotPassword'])->name('forgot-pwd');
 
 Route::any('/get-airports', [AirportDetailController::class, 'getAirports'])->name('get-airports');
+
+Route::any('/SearchFlights', [SearchFlightsController::class, 'SearchFlights'])->name('SearchFlights');
