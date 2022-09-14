@@ -771,16 +771,21 @@ var todayDate = d.getFullYear() + '-' +
             var travelClassVal = localStorage.getItem('travelClassVal');
              var formData = {'fromPlace':fromPlace,'toPlace':toPlace,'flightBookingDepart':flightBookingDepart,'adultsVal':adultsVal,'travelClassVal':travelClassVal};
 
-             console.log(formData);
+            //  console.log(formData);
+             $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+          });
 
             $.ajax({
                 type: 'POST',
                 url: '{{ route('SearchFlights') }}',
                 data: formData,
                 dataType: 'json',
-                cache: false,
-                async: true,
-                processData: true,
+                // cache: false,
+                // async: true,
+                // processData: true,
                 success: function (data) {
                     console.log(data);
                 }
