@@ -249,10 +249,10 @@
           <div class="col-md-12 mb-4">
               <p>CHOOSE TRAVEL CLASS</p>
               <ul class="count" id="chooseTravel">
-                <li class="active" id="travel1" data-val="EC">Economy/Premium Economy</li>
-                <li id="travel2" data-val="PEC">Premium Economy</li>
-                <li id="travel3" data-val="BUS">Business</li>
-                <li id="travel4" data-val="FC">First Class</li>
+                {{-- <li class="active" id="travel1" data-val="PREMIUM_ECONOMY">Premium Economy</li> --}}
+                <li class="active" id="travel2" data-val="ECONOMY">Economy</li>
+                <li id="travel3" data-val="BUSINESS">Business</li>
+                <li id="travel4" data-val="FIRST">First Class</li>
               </ul>
           </div>
 
@@ -270,7 +270,10 @@
 
                     <div class="col-md-2 travellerData"  data-bs-toggle="modal" data-bs-target="#exampleModal" >
                         <small>Travellers & Classs</small>
+                        <input type="text" value="1" id="adultval" name="adultval" class="">
+                        <input type="text" value="ECONOMY" name="travelClass" id="travelClass" class="">
                         <div class="airport-name" id="travelInfo">
+
                             <p><b>1 Adult </b></p>
                             <p>Economy</p>
                         </div>
@@ -418,6 +421,14 @@
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
 
+//default from to selection
+$( document ).ready( onLoadFromToAirport );
+        function onLoadFromToAirport(){
+            $('#fromPlace').val('HYD');
+            $('#toPlace').val('VGA');
+            $('#toPlace').trigger('change');
+            $('#fromPlace').trigger('change');
+        }
 
 
         $(function() {
@@ -500,6 +511,7 @@ var todayDate = d.getFullYear() + '-' +
             //           }
             //       });
 
+
             var booking = $('#flightBookingDepart').mobiscroll().datepicker({
                 controls: [
                 'calendar'], // More info about controls: https://docs.mobiscroll.com/5-18-2/range#opt-controls
@@ -511,6 +523,11 @@ var todayDate = d.getFullYear() + '-' +
                 max: max, // More info about max: https://docs.mobiscroll.com/5-18-2/range#opt-max
                 pages: 1,
                 dateFormat: 'DDD, DD MMM YYYY',
+                onInit: function (event, inst) {         // More info about onInit: https://docs.mobiscroll.com/5-18-2/calendar#event-onInit
+                          inst.setVal([min], true);
+                      },
+
+
             }).mobiscroll('getInst');
 
             var oneWayDis = $("#oneWay").val();
@@ -678,15 +695,19 @@ var todayDate = d.getFullYear() + '-' +
             localStorage.setItem('adultsId', adultsId);
             localStorage.setItem('travelId', travelId);
 
+            // alert(adultsVal);
+            $('#travelClass').val(travelClassVal);
+            $('#adultval').val(adultsVal);
 
 
-            if(travelClassVal == 'EC'){
-                var travelName = "Economy/Premium Economy";
-            }else if(travelClassVal == 'PEC'){
+
+            if(travelClassVal == 'PREMIUM_ECONOMY'){
                 var travelName = "Premium Economy";
-            }else if(travelClassVal == 'BUS'){
+            }else if(travelClassVal == 'ECONOMY'){
+                var travelName = "Economy";
+            }else if(travelClassVal == 'BUSINESS'){
                 var travelName = "Business";
-            }else if(travelClassVal == 'FC'){
+            }else if(travelClassVal == 'FIRST'){
                 var travelName = "First Class";
             }
 
@@ -702,26 +723,47 @@ var todayDate = d.getFullYear() + '-' +
             let adultsId = localStorage.getItem('adultsId');
             let travelId = localStorage.getItem('travelId');
 
+            if(adultsId==null || travelId==null){
+                $('#adult1').addClass('active');
+                $('#travel2').addClass('active');
+
+            }else{
+
             $("#passengerCount li").removeClass('active');
             $('#'+adultsId).addClass('active');
 
             $("#chooseTravel li").removeClass('active');
             $('#'+travelId).addClass('active');
+            }
         });
 
 
         // function travelInfo(){
 
             let adultsVal = localStorage.getItem('adultsVal');
-            let travelClassVal = localStorage.getItem('travelClassVal');
+            if(adultsVal==null){
+                adultsVal ='1';
+                localStorage.setItem('adultsVal', adultsVal);
+                $('#adultval').val(adultsVal);
 
-            if(travelClassVal == 'EC'){
-                var travelName = "Economy/Premium Economy";
-            }else if(travelClassVal == 'PEC'){
+            }
+            let travelClassVal = localStorage.getItem('travelClassVal');
+            if(travelClassVal==null){
+                travelClassVal ='ECONOMY';
+                localStorage.setItem('travelClassVal', travelClassVal);
+                $('#travelClass').val(travelClassVal);
+            }
+
+            $('#travelClass').val(travelClassVal);
+            $('#adultval').val(adultsVal);
+
+            if(travelClassVal == 'PREMIUM_ECONOMY'){
                 var travelName = "Premium Economy";
-            }else if(travelClassVal == 'BUS'){
+            }else if(travelClassVal == 'ECONOMY'){
+                var travelName = "Economy";
+            }else if(travelClassVal == 'BUSINESS'){
                 var travelName = "Business";
-            }else if(travelClassVal == 'FC'){
+            }else if(travelClassVal == 'FIRST'){
                 var travelName = "First Class";
             }
 
@@ -745,6 +787,8 @@ var todayDate = d.getFullYear() + '-' +
             $('#fromPlace').trigger('change');
             // console.log($('#fromPlace :selected').text());
         });
+
+
 
         $('#fromPlace, #toPlace').on('change', function(){
             var fromPlace = $('#fromPlace').val();
@@ -787,7 +831,10 @@ var todayDate = d.getFullYear() + '-' +
                 // async: true,
                 // processData: true,
                 success: function (data) {
-                    console.log(data);
+                    if(data.status.success == false){
+                        alert(data.errors[0].message);
+
+                    }
                 }
             })
 
