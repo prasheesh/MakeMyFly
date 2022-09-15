@@ -53,5 +53,10 @@ class HomeController extends Controller
     {
         return view('site/booking_final');
     }
+    public function addMultiSelectRow(Request $request)
+    {
+         $addcount =  $request->addcount; 
+       return view('site/add_multiselect_row',compact('addcount'));
+    }
 
 }

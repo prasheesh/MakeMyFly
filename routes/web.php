@@ -36,6 +36,7 @@ Route::get('/home', [HomeController::class, 'home'])->name('home');
 Route::get('/search-flights', [HomeController::class, 'searchFlights'])->name('search-flights');
 Route::get('/passenger-details', [HomeController::class, 'passengerDetails'])->name('passenger-details');
 Route::get('/booking-final', [HomeController::class, 'bookingFinal'])->name('booking-final');
+Route::post('/add-multiselect-row', [HomeController::class, 'addMultiSelectRow'])->name('add-multiselect-row');
 
 Auth::routes();
 
