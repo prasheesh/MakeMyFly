@@ -114,7 +114,7 @@
             <!-- 1st tab -->
 
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-              <form method="post" action="" name="searchOneWay" id="searchOneWay">
+              <form method="get" action="{{ route('SearchFlights')  }}" name="searchOneWay" id="searchOneWay">
                 @csrf
                 <div class="row">
                     <div class="col-md-3 " style="position: relative;">
@@ -173,7 +173,7 @@
                                 <div class="mbsc-row">
                                     <label>
                                         Departure
-                                        <input id="flightBookingDepart" mbsc-input data-input-style="outline"
+                                        <input id="flightBookingDepart" mbsc-input data-input-style="outline" name="flightBookingDepart"
                                             data-label-style="stacked" placeholder="Please select..." />
                                     </label>
 
@@ -802,44 +802,44 @@ var todayDate = d.getFullYear() + '-' +
                 $('#searchFlightsButton').show();
             }
 
-        })
+        });
 
 
 
-            $('form[name=searchOneWay]').on('submit', function(e) {
-            e.preventDefault();
-            var fromPlace = $('#fromPlace').val();
-            var toPlace = $('#toPlace').val();
-            var flightBookingDepart = $('#flightBookingDepart').val();
-            var adultsVal = localStorage.getItem('adultsVal');
-            var travelClassVal = localStorage.getItem('travelClassVal');
-             var formData = {'fromPlace':fromPlace,'toPlace':toPlace,'flightBookingDepart':flightBookingDepart,'adultsVal':adultsVal,'travelClassVal':travelClassVal};
+        //     $('form[name=searchOneWay]').on('submit', function(e) {
+        //     e.preventDefault();
+        //     var fromPlace = $('#fromPlace').val();
+        //     var toPlace = $('#toPlace').val();
+        //     var flightBookingDepart = $('#flightBookingDepart').val();
+        //     var adultsVal = localStorage.getItem('adultsVal');
+        //     var travelClassVal = localStorage.getItem('travelClassVal');
+        //      var formData = {'fromPlace':fromPlace,'toPlace':toPlace,'flightBookingDepart':flightBookingDepart,'adultsVal':adultsVal,'travelClassVal':travelClassVal};
 
-            //  console.log(formData);
-             $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-          });
+        //     //  console.log(formData);
+        //      $.ajaxSetup({
+        //     headers: {
+        //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //     },
+        //   });
 
-            $.ajax({
-                type: 'POST',
-                url: '{{ route('SearchFlights') }}',
-                data: formData,
-                dataType: 'json',
-                // cache: false,
-                // async: true,
-                // processData: true,
-                success: function (data) {
-                    if(data.status.success == false){
-                        alert(data.errors[0].message);
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: '{{ route('SearchFlights') }}',
+        //         data: formData,
+        //         dataType: 'json',
+        //         // cache: false,
+        //         // async: true,
+        //         // processData: true,
+        //         success: function (data) {
+        //             if(data.status.success == false){
+        //                 alert(data.errors[0].message);
 
-                    }
-                }
-            })
+        //             }
+        //         }
+        //     })
 
 
-        })
+        // })
 
         });
     </script>
