@@ -13,7 +13,10 @@ class SearchFlightsController extends Controller
     public function SearchFlights(Request $request)
     {
 
+      // dd($request->all());
         $travelDate = date('Y-m-d', strtotime($request->flightBookingDepart));
+        $travelReturnDate = date('Y-m-d', strtotime($request->flightBookingReturn));
+        if(!isset($request->flightBookingReturn)){
 
         $data = '{
             "searchQuery": {
@@ -40,6 +43,43 @@ class SearchFlightsController extends Controller
               }
             }
           }';
+        }else{
+          $data = '{
+            "searchQuery": {
+              "cabinClass": "' . $request->travelClass . '",
+              "paxInfo": {
+                "ADULT": "' . $request->adultval . '",
+                "CHILD": "0",
+                "INFANT": "0"
+              },
+              "routeInfos": [
+                {
+                  "fromCityOrAirport": {
+                    "code": "' . $request->fromPlace . '"
+                  },
+                  "toCityOrAirport": {
+                    "code": "' . $request->toPlace . '"
+                  },
+                  "travelDate": "' . $travelDate . '"
+                },
+                {
+                  "fromCityOrAirport": {
+                    "code": "' . $request->toPlace . '"
+                  },
+                  "toCityOrAirport": {
+                    "code": "' . $request->fromPlace . '"
+                  },
+                  "travelDate": "' . $travelReturnDate . '"
+                }
+              ],
+              "searchModifiers": {
+                "isDirectFlight": true,
+                "isConnectingFlight": false
+              }
+            }
+          }';
+        }
+
 
 // dd($data);
         $method = "POST";
@@ -126,7 +166,7 @@ class SearchFlightsController extends Controller
         }
         curl_close($curl);
 
-        $result_array =  json_decode($result);
+        $result_array =  $result;
         return $result_array;
     }
 

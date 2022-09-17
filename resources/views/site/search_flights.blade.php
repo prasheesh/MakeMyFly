@@ -71,6 +71,9 @@
 <?php
 $i=1;
 $id=1;
+$c=1;
+$d=1;
+$s=1;
 $totalPriceList = count($value->totalPriceList);
 
 
@@ -88,12 +91,29 @@ $totalPriceList = count($value->totalPriceList);
                                 </td>
                                 <td>{{ $values->fd->ADULT->bI->cB }}</td>
                                 <td>{{ $values->fd->ADULT->bI->iB }}</td>
-                                <td>cancellation <br> fee starting <i class="fa-solid fa-indian-rupee-sign"></i> 3,500 </td>
-                                <td>Date change <br> fee starting <i class="fa-solid fa-indian-rupee-sign"></i> 3250</td>
-                                <td>Middle Seat Free, <br> Window/Asile Chargeable</td>
-                                <td>----</td>
+                                <td id="cancellation{{ $value->sI[0]->id }}{{ $c++ }}">
+                                    {{-- cancellation <br> fee starting <i class="fa-solid fa-indian-rupee-sign"></i> 3,500 --}}
+                                 </td>
+                                <td id="dateChangeText{{ $value->sI[0]->id }}{{ $d++ }}">
+                                    {{-- Date change <br> fee starting <i class="fa-solid fa-indian-rupee-sign"></i> 3250 --}}
+                                </td>
+                                <td id="seatChargeId{{ $value->sI[0]->id }}{{ $s++ }}">
+                                    {{-- Middle Seat Free, <br> Window/Asile Chargeable --}}
+                                </td>
+                                <td>
+                                    @if (isset($values->fd->ADULT->mI))
+                                    @if($values->fd->ADULT->mI == true)
+                                    Free Meal
+                                    @else
+                                    Paid Meal
+                                    @endif
+
+                                    @endif
+
+
+                                </td>
                                 <td align="right">
-                                    <p class="final-price"><b><i class="fa-solid fa-indian-rupee-sign"></i> 5,834</b></p>
+                                    <p class="final-price"><b><i class="fa-solid fa-indian-rupee-sign"></i>{{ number_format($values->fd->ADULT->fC->NF) }}</b></p>
                                     <a href="{{ route('passenger-details') }}"> <button class="btn btn-book-now">Book
                                             Now</button> </a>
                                 </td>
@@ -122,8 +142,13 @@ $totalPriceList = count($value->totalPriceList);
                 <div class="col-md-2 " style="">
 
                     <div class="airport-name-inner ">
-                        <small class="inner-smaltext">Trip Type</small>
-                        <p><b>Round trip</b></p>
+                        {{-- <small class="inner-smaltext">Trip Type</small> --}}
+                        <select name="trip_type" id="trip_type" class="form-control">
+                            <option value="1">One Way Trip</option>
+                            <option value="2">Round Trip</option>
+                            <option value="3">Multi-Trip</option>
+                        </select>
+                        {{-- <p><b>Round trip</b></p> --}}
 
                     </div>
                 </div>
@@ -172,6 +197,7 @@ $totalPriceList = count($value->totalPriceList);
                     <button class="btn btn-search-flights">Search Flights</button>
                 </div>
             </div>
+            
         </div>
     </section>
     {{-- {{ print_r($result_array->searchResult->tripInfos->ONWARD[0]) }} --}}
@@ -423,7 +449,14 @@ $flight_count =  count($result_array->searchResult->tripInfos->ONWARD);
                                                             <?php
                                                             if ($value->sI[0]->fD->aI->code == '6E') {
                                                                 $flight_logo = 'assets/img/flight-logo-2.png';
-                                                            } ?>
+                                                            }elseif ($value->sI[0]->fD->aI->code == 'AI') {
+                                                                $flight_logo = 'assets/img/sorted-flights.png';
+                                                            }elseif ($value->sI[0]->fD->aI->code == 'EK') {
+                                                                $flight_logo = 'assets/img/sorted-flights.png';
+                                                            }else{
+                                                                $flight_logo = 'assets/img/flight-logo-3.png';
+                                                            }
+                                                             ?>
                                                             <img src="{{ $flight_logo }}">
                                                         </div>
                                                         <div class="col-md-8">
@@ -475,7 +508,7 @@ $flight_count =  count($result_array->searchResult->tripInfos->ONWARD);
                                                     </p>
                                                     <p class="flight-brand"><a href="#" data-bs-toggle="modal" id="" class="airportApiId{{ $sno++ }}"
                                                             data-bs-target="#book-table{{ $value->sI[0]->id }}" data-airportId={{ $value->sI[0]->id }}
-                                                            data-flight_count={{ $flight_count }} >View & More</a></p>
+                                                            data-flight_count={{ $flight_count }} onclick="getFareRules()">View & More</a></p>
                                                 </div>
                                             </td>
                                         </tr>
@@ -518,7 +551,7 @@ $flight_count =  count($result_array->searchResult->tripInfos->ONWARD);
 
 <script>
 
-$( document ).ready( getFareRules );
+// $( document ).ready( getFareRules );
 
   function getFareRules(){
 var flight_count = $('.airportApiId1').attr('data-flight_count');
@@ -534,8 +567,21 @@ for(i=1;i<=flight_count;i++){
     for(j=1;j<=totalPriceList;j++){
         var uniqueTripPriceId = $('#uniqueTripPriceId'+airportApiId+j).val();
         // console.log(uniqueTripPriceId);
+        var cancellationId = 'cancellation'+airportApiId+j;
+        var dateChangeId = 'dateChangeText'+airportApiId+j;
+        var seatChargeId = 'seatChargeId'+airportApiId+j;
 
-        $.ajaxSetup({
+
+
+     getFarePrices(uniqueTripPriceId,cancellationId,dateChangeId,seatChargeId);
+
+    }
+
+}
+
+function getFarePrices(uniqueTripPriceId,cancellationId,dateChangeId,seatChargeId){
+
+    $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
@@ -547,20 +593,49 @@ for(i=1;i<=flight_count;i++){
           data: {'uniqueTripPriceId':uniqueTripPriceId},
           dataType:'json',
           success: function(data){
-            console.log(data);
+            if(data.status.success == true && data.status.httpStatus == '200'){
+
+                $.each(data.fareRule,function(k) {
+                    // console.log(data.fareRule[k].fr.CANCELLATION.DEFAULT.policyInfo);
+
+                    if((data.fareRule[k].fr.CANCELLATION).hasOwnProperty('DEFAULT') == true){
+                    let cancellationText  = data.fareRule[k].fr.CANCELLATION.DEFAULT.policyInfo;
+                    let myArray = cancellationText.replace(/__nls__/g,"<br>");
+                    $('#'+cancellationId).html(myArray);
+
+
+                    let dateChangeText  = data.fareRule[k].fr.DATECHANGE.DEFAULT.policyInfo;
+                    let dateDisplay =  dateChangeText.replace(/__nls__/g,"<br>");
+                    $('#'+dateChangeId).html(dateDisplay);
+
+                    let seatCharge  = data.fareRule[k].fr.SEAT_CHARGEABLE.DEFAULT.policyInfo;
+                    $('#'+seatChargeId).html(seatCharge);
+                    }else{
+
+
+                    let cancellationText  = data.fareRule[k].fr.CANCELLATION.BEFORE_DEPARTURE.policyInfo;
+                    let myArray = cancellationText.replace(/__nls__/g,"<br>");
+                    $('#'+cancellationId).html(myArray);
+
+                    let dateChangeText  = data.fareRule[k].fr.DATECHANGE.BEFORE_DEPARTURE.policyInfo;
+                    let dateDisplay =  dateChangeText.replace(/__nls__/g,"<br>");
+                    $('#'+dateChangeId).html(dateDisplay);
+
+                    // let seatCharge  = data.fareRule[k].fr.SEAT_CHARGEABLE.DEFAULT.policyInfo;
+                    // $('#'+seatChargeId).html(seatCharge);
+
+
+
+                    }
+
+                });
+            }
+
+
+
           }
         })
-
-    }
-
-
-
-
 }
-
-    // var uniqueTripPriceId = $(name['uniqueTripPriceId']).attr('id');
-
-    // alert(uniqueTripPriceId);
 
   }
 

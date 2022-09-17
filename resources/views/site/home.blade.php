@@ -185,7 +185,7 @@
                                 <small>Return</small>
                                 <label>
                                     Return
-                                    <input id="flightBookingReturn" mbsc-input data-input-style="outline"
+                                    <input id="flightBookingReturn" name="flightBookingReturn" mbsc-input data-input-style="outline"
                                         data-label-style="stacked" placeholder="Please select..." />
                                 </label>
 
