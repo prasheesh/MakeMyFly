@@ -48,10 +48,7 @@ class HomeController extends Controller
     {
         return view('site/search_flights');
     }
-    public function passengerDetails()
-    {
-        return view('site/passenger_details');
-    }
+    
     public function bookingFinal()
     {
         return view('site/booking_final');

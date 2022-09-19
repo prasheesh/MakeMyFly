@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReviewBookingController;
 use App\Http\Controllers\SearchFlightsController;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,6 +31,9 @@ Route::group(['middleware' => 'auth'],function(){
     Route::any('/SearchFlights', [SearchFlightsController::class, 'SearchFlights'])->name('SearchFlights');
     Route::any('/getFarePrices', [SearchFlightsController::class, 'getFarePrices'])->name('getFarePrices');
 
+    Route::get('/reviewDetails', [ReviewBookingController::class, 'reviewDetails'])->name('reviewDetails');
+    Route::get('/booking-final', [HomeController::class, 'bookingFinal'])->name('booking-final');
+
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
@@ -40,10 +44,7 @@ Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy'])->name('p
 Route::get('/terms-condition', [HomeController::class, 'termsCondition'])->name('terms-conditions');
 
 Route::post('/contact-form', [ContactController::class, 'contactSubmit'])->name('contact-form-submit');
-Route::get('/home', [HomeController::class, 'home'])->name('home');
 
-Route::get('/passenger-details', [HomeController::class, 'passengerDetails'])->name('passenger-details');
-Route::get('/booking-final', [HomeController::class, 'bookingFinal'])->name('booking-final');
 
 Auth::routes();
 
