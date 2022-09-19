@@ -17,7 +17,7 @@ class ReviewBookingController extends Controller
             "priceIds" : [ "'.$priceId.'"]
           }';
         $method = "POST";
-        $url = "https://apitest.tripjack.com/fms/v1/air-search-all";
+        $url = "https://apitest.tripjack.com/fms/v1/review";
         $curl = curl_init();
         switch ($method) {
             case "POST":
