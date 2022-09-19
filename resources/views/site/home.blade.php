@@ -691,7 +691,7 @@
                 dateFormat: 'DDD, DD MMM YYYY',
             }).mobiscroll('getInst');
 
-            ////////////////multi select departure date picker
+            ////////////////multi select departure date picker 
             var booking = $('.flightBookingDepartMulti').mobiscroll().datepicker({
                 controls: [
                 'calendar'], // More info about controls: https://docs.mobiscroll.com/5-18-2/range#opt-controls
