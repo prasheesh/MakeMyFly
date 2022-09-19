@@ -107,8 +107,16 @@
                 </label>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
-                    role="tab" aria-controls="contact" aria-selected="false">Multi City</button>
+                {{-- <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
+                    role="tab" aria-controls="contact" aria-selected="false">Multi City</button> --}}
+
+                    <label class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" role="tab"
+                    aria-controls="contact" aria-selected="false">
+                    Multi City
+                    <input class="demo-flight-type" value="multi" id="multi" mbsc-radio data-theme="material"
+                        data-theme-variant="light" type="radio" name="flight-type">
+                </label>
+
             </li>
         </ul>
 
@@ -200,87 +208,12 @@
                             </div>
                         </div>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Travellers & Class</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"><i
-                                                class="fa fa-times"></i></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
 
-                                            <div class="col-md-7 mb-4">
-                                                <p>ADULTS (12y +)</p>
-                                                <ul class="count" id="passengerCount">
-                                                    <li class="active" id="adult1" data-val="1">1</li>
-                                                    <li data-val="2" id="adult2">2</li>
-                                                    <li data-val="3" id="adult3">3</li>
-                                                    <li data-val="4" id="adult4">4</li>
-                                                    <li data-val="5" id="adult5">5</li>
-                                                    <li data-val="6" id="adult6">6</li>
-                                                    <li data-val="7" id="adult7">7</li>
-                                                    <li data-val="8" id="adult8">8</li>
-                                                    <li data-val="9" id="adult9">9</li>
-                                                </ul>
-                                            </div>
-
-                                            {{-- <div class="col-md-5 mb-4">
-              <p>CHILDREN (2y - 12y )</p>
-              <ul class="count">
-                <li class="active">0</li>
-                <li>1</li>
-                <li>2</li>
-                <li>2</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
-              </ul>
-          </div>
-
-          <div class="col-md-12 mb-4">
-              <p>INFANTS (below 2y)</p>
-              <ul class="count">
-                <li class="active">0</li>
-                <li>1</li>
-                <li>2</li>
-                <li>2</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
-              </ul>
-          </div> --}}
-
-                                            <div class="col-md-12 mb-4">
-                                                <p>CHOOSE TRAVEL CLASS</p>
-                                                <ul class="count" id="chooseTravel">
-                                                    {{-- <li class="active" id="travel1" data-val="PREMIUM_ECONOMY">Premium Economy</li> --}}
-                                                    <li class="active" id="travel2" data-val="ECONOMY">Economy</li>
-                                                    <li id="travel3" data-val="BUSINESS">Business</li>
-                                                    <li id="travel4" data-val="FIRST">First Class</li>
-                                                </ul>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-one" data-bs-dismiss="modal">Close</button>
-                                        <button id="saveTravelDetail" type="button" class="btn btn-theme"
-                                            data-bs-dismiss="modal">Save changes</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Modal end -->
 
                         <div class="col-md-2 travellerData" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <small>Travellers & Classs</small>
-                            <input type="text" value="1" id="adultval" name="adultval" class="">
-                            <input type="text" value="ECONOMY" name="travelClass" id="travelClass" class="">
+                            <input type="hidden" value="1" id="adultval" name="adultval" class="">
+                            <input type="hidden" value="ECONOMY" name="travelClass" id="travelClass" class="">
                             <div class="airport-name" id="travelInfo">
 
                                 <p><b>1 Adult </b></p>
@@ -300,64 +233,144 @@
             </div>
 
             <!-- 2nd tab -->
-            {{-- <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 
-                <div class="row">
-                    <div class="col-md-3 " style="position: relative;">
-                        <small>From</small>
-                        <div class="airport-name from-to">
-                            <p><b>Hyderabad</b></p>
-                            <p>Rajiv Gandi international Airport</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <small>To</small>
-                        <div class="airport-name">
-                            <p><b>Mumbai</b></p>
-                            <p>Chathrapathi Shivaji international Airport</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <small>Departure</small>
-                                <div class="airport-name">
-                                    <p><b>10 June, 22</b></p>
-                                    <p>Friday</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <small>Return</small>
-                                <div class="airport-name" style="padding: 4px 15px;">
-                                    <a href="#">
-                                        <p class="return-book">Click to add a return flight for a better discounts</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <small>Travellers & Class</small>
-                        <div class="airport-name">
-                            <p><b>1 Adult 22</b></p>
-                            <p>Economy</p>
-                        </div>
-                    </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Travellers & Class</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"><i
+                    class="fa fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
 
-                    <div class="col-md-2 ms-auto">
-                        <a href="{{ route('search-flights') }}">
-                            <button class="btn btn-search-flights">Search Flights</button></a>
-                    </div>
+                <div class="col-md-7 mb-4">
+                    <p>ADULTS (12y +)</p>
+                    <ul class="count" id="passengerCount">
+                        <li class="active" id="adult1" data-val="1">1</li>
+                        <li data-val="2" id="adult2">2</li>
+                        <li data-val="3" id="adult3">3</li>
+                        <li data-val="4" id="adult4">4</li>
+                        <li data-val="5" id="adult5">5</li>
+                        <li data-val="6" id="adult6">6</li>
+                        <li data-val="7" id="adult7">7</li>
+                        <li data-val="8" id="adult8">8</li>
+                        <li data-val="9" id="adult9">9</li>
+                    </ul>
                 </div>
 
-            </div> --}}
+                {{-- <div class="col-md-5 mb-4">
+<p>CHILDREN (2y - 12y )</p>
+<ul class="count">
+<li class="active">0</li>
+<li>1</li>
+<li>2</li>
+<li>2</li>
+<li>4</li>
+<li>5</li>
+<li>6</li>
+</ul>
+</div>
 
+<div class="col-md-12 mb-4">
+<p>INFANTS (below 2y)</p>
+<ul class="count">
+<li class="active">0</li>
+<li>1</li>
+<li>2</li>
+<li>2</li>
+<li>4</li>
+<li>5</li>
+<li>6</li>
+</ul>
+</div> --}}
+
+                <div class="col-md-12 mb-4">
+                    <p>CHOOSE TRAVEL CLASS</p>
+                    <ul class="count" id="chooseTravel">
+                        {{-- <li class="active" id="travel1" data-val="PREMIUM_ECONOMY">Premium Economy</li> --}}
+                        <li class="active" id="travel2" data-val="ECONOMY">Economy</li>
+                        <li id="travel3" data-val="BUSINESS">Business</li>
+                        <li id="travel4" data-val="FIRST">First Class</li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-one" data-bs-dismiss="modal">Close</button>
+            <button id="saveTravelDetail" type="button" class="btn btn-theme"
+                data-bs-dismiss="modal">Save changes</button>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Modal end -->
 
             <!-- 3rd tab -->
 
             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
 
-                <div class="row">
+                <div class="row align-items-center newrow">
+                    <div class="col-md-3 " style="position: relative;">
+                        <small>From</small>
+                        <select class="form-control" name="fromPlace" id="fromPlace">
+                                    {{-- <option value="">Select From</option> --}}
+                                    @foreach (DB::table('airport_details')->get() as $airport)
+                                        <option value="{{ $airport->code }}">{{ $airport->name . ', ' . $airport->country }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                    </div>
+                    <div class="col-md-3">
+                        <small>To</small>
+                        <div class="airport-name">
+                            <p><b>Mumbai</b></p>
+                            <p>Chathrapathi Shivaji international Airport</p>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        {{-- <div class="row"> --}}
+                            {{-- <div class="col-md-6"> --}}
+                                <small>Departure</small>
+                                <div class="airport-name">
+                                    <p><b>10 June, 22</b></p>
+                                    <p>Friday</p>
+                                </div>
+                            {{-- </div> --}}
+                            {{-- <div class="col-md-6">
+                                <small>Return</small>
+                                <div class="airport-name" style="padding: 4px 15px;">
+                                    <a href="#">
+                                        <p class="return-book">Click to add a return flight for a better discounts</p>
+                                    </a>
+                                </div>
+                            </div> --}}
+                        {{-- </div> --}}
+                    </div>
+                    <div class="col-md-2 travellerData" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <small>Travellers & Classs</small>
+                        <input type="hidden" value="1" id="adultval" name="adultval" class="">
+                        <input type="hidden" value="ECONOMY" name="travelClass" id="travelClass" class="">
+                        <div class="airport-name travelInfo" id="travelInfo" >
+
+                            <p><b>1 Adult </b></p>
+                            <p>Economy</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 ">
+                        {{-- <button onclick="clone_div()" class="btn btn-sm btn-primary">+ Add Another City</button> --}}
+                    </div>
+
+
+
+                </div>
+                <div class="row align-items-center newrow" id="multiCityDiv">
                     <div class="col-md-3 " style="position: relative;">
                         <small>From</small>
                         <div class="airport-name from-to">
@@ -372,38 +385,30 @@
                             <p>Chathrapathi Shivaji international Airport</p>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="row">
-                            <div class="col-md-6">
+                    <div class="col-md-2">
+
                                 <small>Departure</small>
                                 <div class="airport-name">
                                     <p><b>10 June, 22</b></p>
                                     <p>Friday</p>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <small>Return</small>
-                                <div class="airport-name" style="padding: 4px 15px;">
-                                    <a href="#">
-                                        <p class="return-book">Click to add a return flight for a better discounts</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
-                    <div class="col-md-2">
-                        <small>Travellers & Class</small>
-                        <div class="airport-name">
-                            <p><b>1 Adult 22</b></p>
-                            <p>Economy</p>
-                        </div>
+                    <div class="col-md-2 ">
+                        <button id="addCity1" onclick="clone_div()" class="btn btn-sm btn-primary">+ Add Another City</button>
+                    </div>
+                    <div class="col-md-2 ">
+                        {{-- <button onclick="clone_div()" class="btn btn-sm btn-primary">+ Add Another City</button> --}}
                     </div>
 
-                    <div class="col-md-2 ms-auto">
-                        <a href="{{ route('search-flights') }}"> <button class="btn btn-search-flights">Search
-                                Flights</button></a>
-                    </div>
+
                 </div>
+
+                <div class="col-md-2 ms-auto">
+                    <a href="{{ route('search-flights') }}"> <button class="btn btn-search-flights">Search
+                            Flights</button></a>
+                </div>
+
 
             </div>
 
@@ -535,7 +540,8 @@
                 pages: 1,
                 dateFormat: 'DDD, DD MMM YYYY',
                 onInit: function(event,
-                inst) { // More info about onInit: https://docs.mobiscroll.com/5-18-2/calendar#event-onInit
+                    inst
+                    ) { // More info about onInit: https://docs.mobiscroll.com/5-18-2/calendar#event-onInit
                     inst.setVal([min], true);
                 },
 
@@ -708,8 +714,8 @@
                 localStorage.setItem('travelId', travelId);
 
                 // alert(adultsVal);
-                $('#travelClass').val(travelClassVal);
-                $('#adultval').val(adultsVal);
+                $("input[name='travelClass']").val(travelClassVal);
+                $("input[name='adultval']").val(adultsVal);
 
 
 
@@ -727,6 +733,8 @@
 
 
                 $('#travelInfo').replaceWith('<div class="airport-name" id="travelInfo"><p><b>' +
+                    adultsVal + ' Adult </b></p><p>' + travelName + '</p></div>');
+                $('.travelInfo').replaceWith('<div class="airport-name travelInfo" id="travelInfo"><p><b>' +
                     adultsVal + ' Adult </b></p><p>' + travelName + '</p></div>');
 
             });
@@ -766,9 +774,10 @@
                 localStorage.setItem('travelClassVal', travelClassVal);
                 $('#travelClass').val(travelClassVal);
             }
+            $("input[name='travelClass']").val(travelClassVal);
+            $("input[name='adultval']").val(adultsVal);
 
-            $('#travelClass').val(travelClassVal);
-            $('#adultval').val(adultsVal);
+
 
             if (travelClassVal == 'PREMIUM_ECONOMY') {
                 var travelName = "Premium Economy";
@@ -781,6 +790,9 @@
             }
 
             $('#travelInfo').replaceWith('<div class="airport-name" id="travelInfo"><p><b>' + adultsVal +
+                ' Adult </b></p><p>' + travelName + '</p></div>');
+
+            $('.travelInfo').replaceWith('<div class="airport-name travelInfo" id="travelInfo"><p><b>' + adultsVal +
                 ' Adult </b></p><p>' + travelName + '</p></div>');
             // }
 
@@ -856,5 +868,83 @@
             // })
 
         });
+
+        function clone_div() {
+            var count = $('.newrow').length;
+            // alert(count);
+            var html =`<div class="row align-items-center newrow" id="newrow${count}">
+                                    <div class="col-md-3 " style="position: relative;">
+                        <small>From</small>
+                        <div class="airport-name from-to">
+                            <p><b>Hyderabad</b></p>
+                            <p>Rajiv Gandi international Airport</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <small>To</small>
+                        <div class="airport-name">
+                            <p><b>Mumbai</b></p>
+                            <p>Chathrapathi Shivaji international Airport</p>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+
+                                <small>Departure</small>
+                                <div class="airport-name">
+                                    <p><b>10 June, 22</b></p>
+                                    <p>Friday</p>
+                                </div>
+
+                    </div>
+                    <div class="col-md-2 ">
+                        <button id="addCity${count}" onclick="clone_div()" class="btn btn-sm btn-primary">+ Add Another City</button>
+                    </div>
+                    <div class="col-md-2 ">
+                        <button id="removeCity${count}" type="button" class="plus-bg bg-danger" onclick="remove(${count})">
+                                    <i class="fa-solid fa-minus"></i>
+                                </button>
+
+                    </div>
+
+
+                </div>`;
+
+
+                $('#multiCityDiv').append(html);
+
+                $('#addCity1').hide();
+
+
+                if(count >= 4){
+                    $('#addCity4').hide();
+                    $('#addCity'+(parseInt(count)-1)).hide();
+                    $('#removeCity'+(parseInt(count)-1)).hide();
+                }else{
+
+                    $('#addCity'+(parseInt(count)-1)).hide();
+                    $('#removeCity'+(parseInt(count)-1)).hide();
+                }
+
+
+
+
+        }
+
+        function remove(id) {
+            var count = $('.newrow').length;
+            // alert(count)
+            // alert(id+'kkk')
+            $('#newrow' + id).remove();
+            // $('#addCity1').show();
+            if(count <= 5){
+                // alert('addCity'+(parseInt(id)-1));
+                $('#addCity'+(parseInt(id)-1)).show();
+                $('#removeCity'+(parseInt(id)-1)).show();
+            }
+
+        }
+
+
+
     </script>
 @endsection
