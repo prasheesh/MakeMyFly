@@ -12,8 +12,8 @@ class AirportDetailController extends Controller
     public function getAirports(Request $request){
 // dd($request->filterText);
         try{
-if($request->filterText != ''){
-    $airpot_list = AirportDetail::where('name','LIKE', '%'.$request->filterText.'%')->get();
+if($request->q != ''){
+    $airpot_list = AirportDetail::where('name','LIKE', '%'.$request->q.'%')->get();
     return json_encode($airpot_list);
 }else{
     $airpot_list = AirportDetail::all();

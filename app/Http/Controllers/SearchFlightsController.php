@@ -16,7 +16,7 @@ class SearchFlightsController extends Controller
       // dd($request->all());
         $travelDate = date('Y-m-d', strtotime($request->flightBookingDepart));
         $travelReturnDate = date('Y-m-d', strtotime($request->flightBookingReturn));
-        if(!isset($request->flightBookingReturn)){
+        if($request->tripType == 'oneway'){
 
         $data = '{
             "searchQuery": {
@@ -43,7 +43,7 @@ class SearchFlightsController extends Controller
               }
             }
           }';
-        }else{
+        }else if($request->tripType == 'round'){
           $data = '{
             "searchQuery": {
               "cabinClass": "' . $request->travelClass . '",

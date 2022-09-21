@@ -92,12 +92,161 @@
             color: #fff;
             transition: 0.3s;
         }
+        .round-trip1 p {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .round-trip1 span {
+      font-size: 12px;
+      margin-left: 5px;
+    }
+
+    .shadow {
+      border: 1px solid #b0dae3;
+    }
+
+    .departture {
+      text-align: left;
+    }
+
+    .departture p {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 0;
+    }
+
+    .departture span:nth-child(1) {
+      font-size: 16px;
+      font-weight: 600;
+      border-bottom: 1px solid #ccc;
+      margin-bottom: 0px;
+    }
+
+    .departture span:nth-child(2) {
+      font-size: 10px;
+      margin-bottom: 0px;
+    }
+
+    .shadow img {
+      width: 40px;
+    }
+
+    .time-gap span:nth-child(1) {
+      font-size: 11px;
+      font-weight: 500;
+      padding-bottom: 3px;
+      line-height: 0;
+    }
+
+    .price-round {
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      text-align: center;
+    }
+
+    .price-round i {
+      font-size: 11px;
+    }
+
+    .departture input {
+      width: 20px;
+      height: 20px;
+      /* border-bottom: 5px solid #ccc; */
+      margin-bottom: 5px;
+      margin-top: 0;
+    }
+
+    .pricedetails {
+      position: relative;
+    }
+
+    .pricedetails-btm {
+      position: sticky;
+      bottom: 0;
+      background-color: #9bd3df;
+      padding: 15px;
+      border-radius: 5px;
+      width: 100%;
+      z-index: 9999;
+      float: right;
+      margin-top: 15px;
+    }
+
+    .btm-price {
+      border-right: 1px solid #293389;
+
+    }
+
+    .btm-flights-price p {
+      font-weight: 600;
+      margin-bottom: 0;
+      font-size: 13px;
+    }
+
+    .btm-flights-price a {
+      color: #0d6efd;
+      font-size: 12px;
+    }
+
+    .btm-fligh-price {
+      text-align: right !important;
+      margin-top: 15px;
+    }
+
+    .btm-fligh-price p {
+      text-align: right !important;
+    }
+
+    .btm-fligh-price a {
+      color: #0d6efd;
+      font-size: 12px;
+    }
+
+    .fixed-btm {
+      position: relative;
+    }
+
+    :host {
+      display: block;
+    }
+    .final-price {
+      font-size: 18px;
+      margin-bottom: 0;
+    }
+
+    .bg-tablle {
+      display: flex;
+      background-color: #eeeeee;
+      padding: 0px 5px;
+      margin-top: 15px;
+    }
+
+    .bg-tablle p {
+      width: 33%;
+      padding: 1px 5px;
+      font-size: 13px;
+    }
+
+    .loader_div{
+  position: absolute;
+  top: 0;
+  bottom: 0%;
+  left: 0;
+  right: 0%;
+  z-index: 9999;
+  opacity:0.7;
+  display:none;
+  background: lightgrey url('http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/images/loader-large.gif') center center no-repeat;
+}
     </style>
-@endsection;
+@endsection
 
 @section('content')
+<div id="loader_div" class="loader_div"></div>
     <!-- book modal -->
 
+    @if($_GET['tripType'] == 'oneway')
 
     @if ($result_array->status->success == true && $result_array->status->httpStatus ==200 )
 
@@ -194,6 +343,7 @@ $totalPriceList = count($value->totalPriceList);
 @endforeach
 
 @endif
+@endif
 
     <section class="bg-grey" style="height: 300px; margin-bottom: -150px;">
         <form method="get" action="{{ route('SearchFlights') }}" name="searchOneWay" id="searchOneWay">
@@ -205,10 +355,10 @@ $totalPriceList = count($value->totalPriceList);
 
                     <div class="airport-name-inner ">
                         <small class="inner-smaltext">Trip Type</small>
-                        <select name="trip_type" id="trip_type" class="form-control">
-                            <option value="oneway">One Way Trip</option>
-                            <option <?php  if(isset($_GET['flightBookingReturn'])){echo 'selected';} ?> value="2">Round Trip</option>
-                            <option value="3">Multi-Trip</option>
+                        <select name="tripType" id="trip_type" class="form-control">
+                            <option <?php  if($_GET['tripType']=='oneway'){echo 'selected';} ?> value="oneway">One Way Trip</option>
+                            <option <?php  if($_GET['tripType']=='round'){echo 'selected';} ?> value="round">Round Trip</option>
+                            <option <?php  if($_GET['tripType']=='multi'){echo 'selected';} ?> value="3">Multi-Trip</option>
                         </select>
                         {{-- <p><b>Round trip</b></p> --}}
 
@@ -253,15 +403,15 @@ $totalPriceList = count($value->totalPriceList);
                         <div class="col-md-6">
                             <div class="airport-name-inner">
                                 <small class="inner-smaltext">Departure</small>
-                                <div class="mbsc-row">
+                                {{-- <div class="mbsc-row"> --}}
                                     <label>
                                         {{-- Departure --}}
 
-                                        <input id="flightBookingDepart" mbsc-input data-input-style="outline" name="flightBookingDepart"
-                                            data-label-style="stacked" placeholder="Please select..." value="{{ $_GET['flightBookingDepart'] }}"/>
+                                        <input autocomplete="off" id="flightBookingDepart" name="flightBookingDepart"
+                                             placeholder="Please select..." value="{{ $_GET['flightBookingDepart'] }}"/>
                                     </label>
 
-                                </div>
+                                {{-- </div> --}}
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -276,8 +426,8 @@ $totalPriceList = count($value->totalPriceList);
                                         $return_date = '';
                                     }
                                     ?>
-                                    <input id="flightBookingReturn" name="flightBookingReturn" mbsc-input data-input-style="outline"
-                                        data-label-style="stacked" placeholder="Please select..." value="{{ $return_date }}" />
+                                    <input autocomplete="off" id="flightBookingReturn" name="flightBookingReturn"
+                                      placeholder="Please select..." value="{{ $return_date }}" />
                                 </label>
                             </div>
                         </div>
@@ -501,12 +651,31 @@ $totalPriceList = count($value->totalPriceList);
                     </div>
                 </div>
 
-                <div class="col-md-9 p-3">
+                <div class="col-md-9 p-3 bbook-price-details">
                     <div class="card">
                         <div class="card-body card-shadow">
+
                             @if ( $result_array->status->success == true && $result_array->status->httpStatus ==200 )
-                            <h5>Flights from {{ $result_array->searchResult->tripInfos->ONWARD[0]->sI[0]->da->city }} to {{ $result_array->searchResult->tripInfos->ONWARD[0]->sI[0]->aa->city }}</h5>
+                             @if(isset($result_array->searchResult->tripInfos->ONWARD))
+                            <h5>Flights from {{ $result_array->searchResult->tripInfos->ONWARD[0]->sI[0]->da->city }} to {{ $result_array->searchResult->tripInfos->ONWARD[0]->sI[0]->aa->city }}
+                                @if($_GET['tripType'] == 'round')
+                                , and back
+                                @endif
+
+                            </h5>
+                            @elseif (isset($result_array->searchResult->tripInfos->COMBO))
+                            <h5>Flights from {{ $result_array->searchResult->tripInfos->COMBO[0]->sI[0]->da->city }} to {{ $result_array->searchResult->tripInfos->COMBO[0]->sI[0]->aa->city }}
+                                @if($_GET['tripType'] == 'round')
+                                , and back
+                                @endif
+
+                            </h5>
+
                             @endif
+                            @endif
+
+
+                            @if($_GET['tripType'] == 'oneway')
                             <div class="wrapper">
                                 <div class="carousel">
                                     <div class="date-active">
@@ -592,7 +761,6 @@ $totalPriceList = count($value->totalPriceList);
 
                                 </div>
                             </div>
-
                             <table class="table mt-3 mb-3">
                                 <thead class="bg-thead">
                                     <tr>
@@ -611,11 +779,9 @@ $totalPriceList = count($value->totalPriceList);
 
                                   @if ( $result_array->status->success == true && $result_array->status->httpStatus ==200 )
 
-<?php $sno=1;
-
+<?php
+$sno=1;
 $flight_count =  count($result_array->searchResult->tripInfos->ONWARD);
-
-
 
 ?>
 
@@ -631,15 +797,9 @@ $flight_count =  count($result_array->searchResult->tripInfos->ONWARD);
                                                     <div class="row">
                                                         <div class="col-md-4">
                                                             <?php
-                                                            if ($value->sI[0]->fD->aI->code == '6E') {
-                                                                $flight_logo = 'assets/img/flight-logo-2.png';
-                                                            }elseif ($value->sI[0]->fD->aI->code == 'AI') {
-                                                                $flight_logo = 'assets/img/sorted-flights.png';
-                                                            }elseif ($value->sI[0]->fD->aI->code == 'EK') {
-                                                                $flight_logo = 'assets/img/sorted-flights.png';
-                                                            }else{
-                                                                $flight_logo = 'assets/img/flight-logo-3.png';
-                                                            }
+                                                            $flight_code = $value->sI[0]->fD->aI->code;
+                                                            $flight_logo = 'assets/img/AirlinesLogo/'.$flight_code.'.png';
+
                                                              ?>
                                                             <img src="{{ $flight_logo }}">
                                                         </div>
@@ -690,7 +850,7 @@ $flight_count =  count($result_array->searchResult->tripInfos->ONWARD);
 
                                                         {{ number_format($value->totalPriceList[0]->fd->ADULT->fC->TF,0) }}
                                                     </p>
-                                                    <p class="flight-brand"><a href="#" data-bs-toggle="modal" id="" class="airportApiId{{ $sno++ }}"
+                                                    <p class="flight-brand oneWayFromTo"><a href="#" data-bs-toggle="modal" id="" class="airportApiId{{ $sno++ }}"
                                                             data-bs-target="#book-table{{ $value->sI[0]->id }}" data-airportId={{ $value->sI[0]->id }}
                                                             data-flight_count={{ $flight_count }} onclick="getFareRules()">View & More</a></p>
                                                 </div>
@@ -710,8 +870,227 @@ $flight_count =  count($result_array->searchResult->tripInfos->ONWARD);
 
                                 </tbody>
                             </table>
+
+@elseif($_GET['tripType'] == 'round')
+
+
+
+
+<div class="row mt-2">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body round-trip1">
+            @if ( $result_array->status->success == true && $result_array->status->httpStatus ==200 )
+            @if(isset($result_array->searchResult->tripInfos->ONWARD))
+
+          <p>{{ $result_array->searchResult->tripInfos->ONWARD[0]->sI[0]->da->city }} → {{ $result_array->searchResult->tripInfos->ONWARD[0]->sI[0]->aa->city }} <span>{{ date('D, d M',strtotime($_GET['flightBookingDepart'])) }}</span></p>
+          @endif
+          @endif
+          <div class="bg-tablle">
+            <p>Departure</p>
+            <p>Duration</p>
+            <p>Arrival</p>
+            <p>Price</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body round-trip1">
+            @if ( $result_array->status->success == true && $result_array->status->httpStatus ==200 )
+            @if(isset($result_array->searchResult->tripInfos->RETURN))
+
+            <p>{{ $result_array->searchResult->tripInfos->RETURN[0]->sI[0]->da->city }} → {{ $result_array->searchResult->tripInfos->RETURN[0]->sI[0]->aa->city }} <span>{{ date('D, d M',strtotime($_GET['flightBookingReturn'])) }}</span></p>
+            @endif
+            @endif
+          <div class="bg-tablle">
+            <p>Departure</p>
+            <p>Duration</p>
+            <p>Arrival</p>
+            <p>Price</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-2">
+
+    @if ( $result_array->status->success == true && $result_array->status->httpStatus ==200 )
+    @if(isset($result_array->searchResult->tripInfos->ONWARD))
+
+    <div class="col-md-6">
+        @foreach ($result_array->searchResult->tripInfos->ONWARD as $key => $value)
+        <div class="row mt-2">
+            <div class="col-md-12">
+      <div class="card">
+        <div class="card-body round-trip1 shadow">
+            <?php
+            $flight_code = $value->sI[0]->fD->aI->code;
+            $flight_logo = 'assets/img/AirlinesLogo/'.$flight_code.'.png';
+             ?>
+            <img src="{{ $flight_logo }}">
+          <span>FI.No.{{ $value->sI[0]->fD->aI->code }}
+            {{ $value->sI[0]->fD->fN }}, <b>{{ $value->sI[0]->fD->aI->name }}</b></span>
+          <div class="row pt-3">
+            <div class="col-md-3 departture">
+              <span>{{ date('H:m', strtotime($value->sI[0]->dt)) }}</span>
+              <span>{{ $value->sI[0]->da->city }}</span>
+            </div>
+            <div class="col-md-3 departture time-gap">
+                <?php
+                $minutes = $value->sI[0]->duration;
+                $hours = intdiv($minutes, 60) . ' h ' . $minutes % 60 . ' m';
+                ?>
+
+              <span class="">{{ $hours }}</span>
+              <span>
+                @if ($value->sI[0]->stops == '0')
+                NON-STOP
+            @else
+                {{ $value->sI[0]->stops }} Stops
+            @endif
+              </span>
+            </div>
+            <div class="col-md-3 departture">
+              <span>{{ date('H:m', strtotime($value->sI[0]->at)) }}</span>
+              <span>{{ $value->sI[0]->aa->city }}</span>
+            </div>
+            <div class="col-md-3 departture text-center">
+              <input type="radio" name="roundFromTo" class="form-check-input roundFromTo">
+              <p class="price-round"> <i class="fa-solid fa-indian-rupee-sign mr-2"></i> {{ number_format($value->totalPriceList[0]->fd->ADULT->fC->TF,0) }} </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+@endforeach
+    </div>
+
+
+
+
+    <div class="col-md-6">
+        @foreach ($result_array->searchResult->tripInfos->RETURN as $key => $value)
+<div class="row mt-2">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body round-trip1 shadow">
+            <?php
+            $flight_code = $value->sI[0]->fD->aI->code;
+            $flight_logo = 'assets/img/AirlinesLogo/'.$flight_code.'.png';
+             ?>
+            <img src="{{ $flight_logo }}">
+          <span>FI.No.{{ $value->sI[0]->fD->aI->code }}
+            {{ $value->sI[0]->fD->fN }}, <b>{{ $value->sI[0]->fD->aI->name }}</b></span>
+          <div class="row pt-3">
+            <div class="col-md-3 departture">
+              <span>{{ date('H:m', strtotime($value->sI[0]->dt)) }}</span>
+              <span>{{ $value->sI[0]->da->city }}</span>
+            </div>
+            <div class="col-md-3 departture time-gap">
+                <?php
+                $minutes = $value->sI[0]->duration;
+                $hours = intdiv($minutes, 60) . ' h ' . $minutes % 60 . ' m';
+                ?>
+
+              <span class="">{{ $hours }}</span>
+              <span>
+                @if ($value->sI[0]->stops == '0')
+                NON-STOP
+            @else
+                {{ $value->sI[0]->stops }} Stops
+            @endif
+              </span>
+            </div>
+            <div class="col-md-3 departture">
+              <span>{{ date('H:m', strtotime($value->sI[0]->at)) }}</span>
+              <span>{{ $value->sI[0]->aa->city }}</span>
+            </div>
+            <div class="col-md-3 departture text-center">
+              <input type="radio" name="roundToFrom" class="form-check-input">
+              <p class="price-round"> <i class="fa-solid fa-indian-rupee-sign mr-2"></i> {{ number_format($value->totalPriceList[0]->fd->ADULT->fC->TF,0) }} </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+@endforeach
+    </div>
+
+    @endif
+    @endif
+  </div>
+
+
+  @else
+  {{-- {{ print_r($errors) }} --}}
+
+  <div>
+    <div>{{ $errors[0]->message}}</div>
+  </div>
+  @endif
+
+
+
                         </div>
                     </div>
+
+
+
+          <!-- pricedetails -->
+
+          <div class="row pricedetails-btm pricedetails-btm-full">
+            <div class="col-md-8">
+              <div class="row">
+                <div class="col-md-6 btm-price">
+                  <p>Departure ・ IndiGo</p>
+                  <div class="row align-items-center">
+                    <div class="col-md-2 p-0">
+                      <img src="assets/img/flight-logo-2.png" class="img-fluid">
+                    </div>
+                    <div class="col-md-5 btm-flights-price">
+                      <p>06:05 → 07:40</p>
+                      <a href="#">Flight Details</a>
+                    </div>
+                    <div class="col-md-5 p-0">
+                      <p class="price-round"> <i class="fa-solid fa-indian-rupee-sign mr-2"></i> 75,845.00 </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 btm-price">
+                  <p>Return ・ Go first</p>
+                  <div class="row align-items-center">
+                    <div class="col-md-2 p-0">
+                      <img src="assets/img/flight-logo-2.png" class="img-fluid">
+                    </div>
+                    <div class="col-md-5 btm-flights-price">
+                      <p>06:05 → 07:40</p>
+                      <a href="#">Flight Details</a>
+                    </div>
+                    <div class="col-md-5 p-0">
+                      <p class="price-round"> <i class="fa-solid fa-indian-rupee-sign mr-2"></i> 75,845.00 </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 btm-fligh-price">
+              <div class="row justify-content-between align-items-center">
+                <div class="col-md-8">
+                  <p class="price-round"> <i class="fa-solid fa-indian-rupee-sign mr-2"></i> 75,845.00 </p>
+                  <a href="#">Flight Details</a>
+                </div>
+                <div class="col-md-4">
+                  <button class="btn btn-primary">Book</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
 
                 </div>
             </div>
@@ -723,6 +1102,7 @@ $flight_count =  count($result_array->searchResult->tripInfos->ONWARD);
     <!-- slick js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.8/slick.min.js"></script>
 
+
         <script type="text/javascript">
         $(document).ready(function() {
             $('.carousel').slick({
@@ -731,6 +1111,20 @@ $flight_count =  count($result_array->searchResult->tripInfos->ONWARD);
                 centerMode: true,
             });
         });
+
+        var elementPosition = $('#footer').offset();
+
+$(window).scroll(function () {
+//   console.log(elementPosition.top);
+//   console.log($(window).scrollTop());
+  if ($(window).scrollTop() < 200) {
+    $('.pricedetails-btm-full').css('position', 'fixed').css('bottom', '0').css('right', '0').css('width','70%');
+  } else {
+    $('.pricedetails-btm').css('position', 'static').css('width','100%');
+  }
+});
+
+
     </script>
 
 <script src="{{ asset('mobiscroll/js/mobiscroll.jquery.min.js') }}"></script>
@@ -748,82 +1142,84 @@ $('#fromPlace').select2({
         });
 
 
-        $(function() {
+        // $(function() {
 
 
-            var todayDate = $('#flightBookingDepart').val();
-            var returnDate = $('#flightBookingReturn').val();
+        //     var todayDate = $('#flightBookingDepart').val();
+        //     var returnDate = $('#flightBookingReturn').val();
 
-            var d = new Date(todayDate);
-            // var month = d.getMonth() + 1;
-            // var day = d.getDate();
+        //     var d = new Date(todayDate);
+        //     // var month = d.getMonth() + 1;
+        //     // var day = d.getDate();
 
-            var maxDate = parseInt(d.getFullYear() + 1) + '-03-31';
-
-
-            mobiscroll.setOptions({
-                locale: mobiscroll
-                    .localeEn, // Specify language like: locale: mobiscroll.localePl or omit setting to use default
-                theme: 'ios', // Specify theme like: theme: 'ios' or omit setting to use default
-                themeVariant: 'light' // More info about themeVariant: https://docs.mobiscroll.com/5-18-2/calendar#opt-themeVariant
-            });
-
-            // Mobiscroll Calendar initialization
-            var min = todayDate;
-            var max = maxDate;
-            var booking = $('#flightBookingDepart').mobiscroll().datepicker({
-                controls: [
-                    'calendar'
-                ], // More info about controls: https://docs.mobiscroll.com/5-18-2/range#opt-controls
-                select: 'range', // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
-              //  display: 'anchored', // Specify display mode like: display: 'bottom' or omit setting to use default
-                startInput: '#flightBookingDepart', // More info about startInput: https://docs.mobiscroll.com/5-18-2/range#opt-startInput
-                endInput: '#flightBookingReturn', // More info about endInput: https://docs.mobiscroll.com/5-18-2/range#opt-endInput
-                min: min, // More info about min: https://docs.mobiscroll.com/5-18-2/range#opt-min
-                max: max, // More info about max: https://docs.mobiscroll.com/5-18-2/range#opt-max
-                pages: 1,
-                dateFormat: 'DDD, DD MMM YYYY',
-                onInit: function(event,
-                inst) { // More info about onInit: https://docs.mobiscroll.com/5-18-2/calendar#event-onInit
-                    inst.setVal([min], true);
-
-                },
+        //     var maxDate = parseInt(d.getFullYear() + 1) + '-03-31';
 
 
-            }).mobiscroll('getInst');
+        //     mobiscroll.setOptions({
+        //         locale: mobiscroll
+        //             .localeEn, // Specify language like: locale: mobiscroll.localePl or omit setting to use default
+        //         theme: 'ios', // Specify theme like: theme: 'ios' or omit setting to use default
+        //         themeVariant: 'light' // More info about themeVariant: https://docs.mobiscroll.com/5-18-2/calendar#opt-themeVariant
+        //     });
+
+        //     // Mobiscroll Calendar initialization
+        //     var min = todayDate;
+        //     var max = maxDate;
+        //     var booking = $('#flightBookingDepart').mobiscroll().datepicker({
+        //         controls: [
+        //             'calendar'
+        //         ], // More info about controls: https://docs.mobiscroll.com/5-18-2/range#opt-controls
+        //         select: 'range', // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
+        //       //  display: 'anchored', // Specify display mode like: display: 'bottom' or omit setting to use default
+        //         startInput: '#flightBookingDepart', // More info about startInput: https://docs.mobiscroll.com/5-18-2/range#opt-startInput
+        //         endInput: '#flightBookingReturn', // More info about endInput: https://docs.mobiscroll.com/5-18-2/range#opt-endInput
+        //         min: min, // More info about min: https://docs.mobiscroll.com/5-18-2/range#opt-min
+        //         max: max, // More info about max: https://docs.mobiscroll.com/5-18-2/range#opt-max
+        //         pages: 1,
+        //         dateFormat: 'DDD, DD MMM YYYY',
+        //         onInit: function(event,
+        //         inst) { // More info about onInit: https://docs.mobiscroll.com/5-18-2/calendar#event-onInit
+        //             inst.setVal([min], true);
+
+        //         },
 
 
-            var oneWayDis = $("#trip_type").val();
-            $('#flightBookingReturn').mobiscroll('getInst').setOptions({
-                disabled: oneWayDis
-            });
-            if (oneWayDis) {
-                booking.setOptions({
-                    select: 'date' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
-                });
-            } else {
-                booking.setOptions({
-                    select: 'range' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
-                });
-            }
+        //     }).mobiscroll('getInst');
 
-            $('#trip_type').on('change', function() {
-                var oneWay = this.value == 'oneway';
-                $('#flightBookingReturn').mobiscroll('getInst').setOptions({
-                    disabled: oneWay
-                });
 
-                if (oneWay) {
-                    booking.setOptions({
-                        select: 'date' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
-                    });
-                } else {
-                    booking.setOptions({
-                        select: 'range' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
-                    });
-                }
-            });
-            });
+        //     var oneWayDis = $("#trip_type").val();
+        //     if(oneWayDis == 'oneway'){
+        //     $('#flightBookingReturn').mobiscroll('getInst').setOptions({
+        //         disabled: oneWayDis
+        //     });
+        //     if (oneWayDis) {
+        //         booking.setOptions({
+        //             select: 'date' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
+        //         });
+        //     } else {
+        //         booking.setOptions({
+        //             select: 'range' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
+        //         });
+        //     }
+        // }
+
+        //     $('#trip_type').on('change', function() {
+        //         var oneWay = this.value == 'oneway';
+        //         $('#flightBookingReturn').mobiscroll('getInst').setOptions({
+        //             disabled: oneWay
+        //         });
+
+        //         if (oneWay) {
+        //             booking.setOptions({
+        //                 select: 'date' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
+        //             });
+        //         } else {
+        //             booking.setOptions({
+        //                 select: 'range' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
+        //             });
+        //         }
+        //     });
+        //     });
 
             $('.from-to-inner').click(function() {
                 var fromPlace = $('#fromPlace').val();
@@ -1042,8 +1438,186 @@ function getFarePrices(uniqueTripPriceId,cancellationId,dateChangeId,seatChargeI
 
   }
 
+  $(document).ready(function() {
+    $('.roundFromTo, .oneWayFromTo').click(function(){
+        // alert($(this).val());
+        $("#loader_div").show();
+
+        setTimeout(function () {
+      $("#loader_div").hide();
+   }, 5000);
+
+    })
+  })
+
+//   alert($('#trip_type').val() );
+  if($('#trip_type').val() == 'oneway'){
+    $('#flightBookingReturn').val('');
+    $('#flightBookingReturn').prop('disabled', true);
+  }else{
+    $('#flightBookingReturn').prop('disabled', false);
+
+  }
+
+  $('#trip_type').on('change', function(){
+    if($('#trip_type').val() == 'oneway'){
+    $('#flightBookingReturn').val('');
+    $('#flightBookingReturn').prop('disabled', true);
+  }else{
+    $('#flightBookingReturn').prop('disabled', false);
+  }
+  })
 
 
 </script>
+
+<script>
+    var start_date = null, end_date = null;
+    var timestamp_start_date = null, timestamp_end_date = null;
+    var $input_start_date = null, $input_end_date = null;
+
+
+
+    function getDateClass(date, start, end){
+        if(end != null && start != null){
+            if(date > start && date < end)
+                return [ true, "sejour", "Séjour" ];
+        }
+
+        if(date == start)
+            return [ true, "start", "Début de votre séjour" ];
+        if(date == end)
+            return [ true, "end", "Fin de votre séjour" ];
+
+        return false;
+    }
+
+    function datepicker_draw_nb_nights(){
+        var $datepicker = jQuery("#ui-datepicker-div");
+        setTimeout(function(){
+            if(start_date != null && end_date != null){
+                var $qty_days_stay = jQuery("<div />", { class: "ui-datepicker-stay-duration" });
+                var qty_nights_stay = get_days_difference(timestamp_start_date, timestamp_end_date);
+                $qty_days_stay.text(qty_nights_stay + " nights stay");
+                $qty_days_stay.appendTo($datepicker);
+            }
+        });
+    }
+
+            var fromDate = $('#flightBookingDepart').val();
+            var returnDate = $('#flightBookingReturn').val();
+
+
+                var d = new Date();
+                var month = d.getMonth() + 1;
+                var day = d.getDate();
+
+
+                var todayDate = (day < 10 ? '0' : '') + day+ '-' +
+                    (month < 10 ? '0' : '') + month + '-' + d.getFullYear();
+
+
+                var maxDate = '31-03-'+parseInt(d.getFullYear() + 1) ;
+
+
+
+    var options_start_date = {
+        dateFormat : "dd-mm-yy",
+        showAnim: false,
+        constrainInput: true,
+          numberOfMonths: 1,
+        showOtherMonths: true,
+        minDate: todayDate,
+        maxDate: maxDate,
+        beforeShow: function(input, datepicker){
+
+            datepicker_draw_nb_nights();
+        },
+        beforeShowDay: function(date){
+
+            // 0: published
+            // 1: class
+            // 2: tooltip
+            var timestamp_date = date.getTime();
+            var result = getDateClass(timestamp_date, timestamp_start_date, timestamp_end_date);
+            if(result != false)
+                return result;
+
+            return [true, "", ""];
+            // return [ true, "chocolate", "Chocolate! " ];
+        },
+        onSelect: function(date_string, datepicker){
+            // this => input
+            if($('#trip_type').val() != 'oneway'){
+            start_date = $input_start_date.datepicker("getDate",'minDate');
+            timestamp_start_date = start_date.getTime();
+            }
+
+        },
+        onClose: function(){
+            if(end_date != null){
+                if(timestamp_start_date >= timestamp_end_date || end_date == null){
+                    $input_end_date.datepicker("setDate", null);
+                    end_date = null;
+                    timestamp_end_date = null;
+                    $input_end_date.datepicker("show");
+                    return;
+                }
+            }
+            if(start_date != null && end_date == null)
+                $input_end_date.datepicker("show");
+        }
+    };
+
+    var options_end_date = {
+        dateFormat : "dd-mm-yy",
+        showAnim: false,
+        constrainInput: true,
+          numberOfMonths: 1,
+        showOtherMonths: true,
+        minDate: todayDate,
+        maxDate:maxDate,
+        beforeShow: function(input, datepicker){
+            datepicker_draw_nb_nights();
+        },
+        beforeShowDay: function(date){
+            var timestamp_date = date.getTime();
+            var result = getDateClass(timestamp_date, timestamp_start_date, timestamp_end_date);
+            if(result != false)
+                return result;
+
+            return [ true, "", "Chocolate !" ];
+        },
+        onSelect: function(date_string, datepicker){
+            // this => input
+            end_date = $input_end_date.datepicker("getDate",'minDate');
+            timestamp_end_date = end_date.getTime();
+        },
+        onClose: function(){
+            if(end_date == null)
+                return;
+
+            if(timestamp_end_date <= timestamp_start_date || start_date == null){
+                $input_start_date.datepicker("setDate", null);
+                start_date = null;
+                timestamp_start_date = null;
+                $input_start_date.datepicker("show");
+            }
+        }
+    };
+
+    $input_start_date = jQuery("#flightBookingDepart");
+    $input_end_date = jQuery("#flightBookingReturn");
+// alert(fromDate)
+
+    $input_start_date.datepicker(options_start_date);
+    $input_start_date.datepicker('setDate',fromDate);
+    $input_end_date.datepicker(options_end_date);
+    $input_end_date.datepicker('setDate',returnDate);
+
+    function get_days_difference(start_date, end_date){
+        return Math.floor(end_date - start_date) / (1000*60*60*24);
+    }
+            </script>
 
 @endsection

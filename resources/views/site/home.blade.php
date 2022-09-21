@@ -2,7 +2,7 @@
 
 @section('style-content')
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <link href="{{ asset('mobiscroll/css/mobiscroll.jquery.min.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('mobiscroll/css/mobiscroll.jquery.min.css') }}" rel="stylesheet"> --}}
     <style type="text/css">
         body {
             margin: 0;
@@ -103,7 +103,7 @@
                     aria-controls="profile" aria-selected="false">
                     Round trip
                     <input class="demo-flight-type" value="round" mbsc-radio data-theme="material"
-                        data-theme-variant="light" type="radio" name="flight-type">
+                        data-theme-variant="light" type="radio" name="flight-type" id="roundTrip">
                 </label>
             </li>
             <li class="nav-item" role="presentation">
@@ -130,6 +130,8 @@
                 <form method="get" action="{{ route('SearchFlights') }}" name="searchOneWay" id="searchOneWay">
                     @csrf
                     <div class="row">
+
+                    <input type="hidden" name="tripType" id="tripType" value="oneway">
                         <div class="col-md-3 " style="position: relative;">
                             <small>From</small>
 
@@ -183,25 +185,28 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <small>Departure</small>
-                                    <div class="mbsc-row">
+                                    {{-- <div class="mbsc-row"> --}}
                                         <label>
-                                            Departure
-                                            <input id="flightBookingDepart" mbsc-input data-input-style="outline"
+                                            {{-- Departure --}}
+
+                                            <input type="text" name="flightBookingDepart" id="flightBookingDepart" placeholder="Start date" />
+                                            {{-- <input id="flightBookingDepart" mbsc-input data-input-style="outline"
                                                 name="flightBookingDepart" data-label-style="stacked"
-                                                placeholder="Please select..." />
+                                                placeholder="Please select..." /> --}}
                                         </label>
 
-                                    </div>
+                                    {{-- </div> --}}
 
 
                                 </div>
                                 <div class="col-md-6">
                                     <small>Return</small>
                                     <label>
-                                        Return
-                                        <input id="flightBookingReturn" name="flightBookingReturn" mbsc-input
+                                        {{-- Return --}}
+                                        <input type="text" name="flightBookingReturn" id="flightBookingReturn" placeholder="Return date" />
+                                        {{-- <input id="flightBookingReturn" name="flightBookingReturn" mbsc-input
                                             data-input-style="outline" data-label-style="stacked"
-                                            placeholder="Please select..." />
+                                            placeholder="Please select..." /> --}}
                                     </label>
 
                                 </div>
@@ -316,6 +321,7 @@ aria-hidden="true">
             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
 
                 <div class="row align-items-center newrow">
+                    <input type="hidden" name="tripType" id="tripTypeMulti" value="multi">
                     <div class="col-md-3 " style="position: relative;">
                         <small>From</small>
                         <select class="form-control" name="fromPlace" id="fromPlace">
@@ -432,7 +438,7 @@ aria-hidden="true">
 @endsection
 
 @section('script-content')
-    <script src="{{ asset('mobiscroll/js/mobiscroll.jquery.min.js') }}"></script>
+    {{-- <script src="{{ asset('mobiscroll/js/mobiscroll.jquery.min.js') }}"></script> --}}
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
         //default from to selection
@@ -447,27 +453,27 @@ aria-hidden="true">
 
 
         $(function() {
-            var d = new Date();
-            var month = d.getMonth() + 1;
-            var day = d.getDate();
+            // var d = new Date();
+            // var month = d.getMonth() + 1;
+            // var day = d.getDate();
 
-            var todayDate = d.getFullYear() + '-' +
-                (month < 10 ? '0' : '') + month + '-' +
-                (day < 10 ? '0' : '') + day;
+            // var todayDate = d.getFullYear() + '-' +
+            //     (month < 10 ? '0' : '') + month + '-' +
+            //     (day < 10 ? '0' : '') + day;
 
-            var maxDate = parseInt(d.getFullYear() + 1) + '-03-31';
+            // var maxDate = parseInt(d.getFullYear() + 1) + '-03-31';
 
 
-            mobiscroll.setOptions({
-                locale: mobiscroll
-                    .localeEn, // Specify language like: locale: mobiscroll.localePl or omit setting to use default
-                theme: 'ios', // Specify theme like: theme: 'ios' or omit setting to use default
-                themeVariant: 'light' // More info about themeVariant: https://docs.mobiscroll.com/5-18-2/calendar#opt-themeVariant
-            });
+            // mobiscroll.setOptions({
+            //     locale: mobiscroll
+            //         .localeEn, // Specify language like: locale: mobiscroll.localePl or omit setting to use default
+            //     theme: 'ios', // Specify theme like: theme: 'ios' or omit setting to use default
+            //     themeVariant: 'light' // More info about themeVariant: https://docs.mobiscroll.com/5-18-2/calendar#opt-themeVariant
+            // });
 
             // Mobiscroll Calendar initialization
-            var min = todayDate;
-            var max = maxDate;
+            // var min = todayDate;
+            // var max = maxDate;
             // $('#departure-booking').mobiscroll().datepicker({
             //           // display: 'inline',                       // Specify display mode like: display: 'bottom' or omit setting to use default
             //           controls: ['calendar'],                  // More info about controls: https://docs.mobiscroll.com/5-18-2/calendar#opt-controls
@@ -527,87 +533,89 @@ aria-hidden="true">
             //       });
 
 
-            var booking = $('#flightBookingDepart').mobiscroll().datepicker({
-                controls: [
-                    'calendar'
-                ], // More info about controls: https://docs.mobiscroll.com/5-18-2/range#opt-controls
-                select: 'range', // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
-                display: 'anchored', // Specify display mode like: display: 'bottom' or omit setting to use default
-                startInput: '#flightBookingDepart', // More info about startInput: https://docs.mobiscroll.com/5-18-2/range#opt-startInput
-                endInput: '#flightBookingReturn', // More info about endInput: https://docs.mobiscroll.com/5-18-2/range#opt-endInput
-                min: min, // More info about min: https://docs.mobiscroll.com/5-18-2/range#opt-min
-                max: max, // More info about max: https://docs.mobiscroll.com/5-18-2/range#opt-max
-                pages: 1,
-                dateFormat: 'DDD, DD MMM YYYY',
-                onInit: function(event,
-                    inst
-                    ) { // More info about onInit: https://docs.mobiscroll.com/5-18-2/calendar#event-onInit
-                    inst.setVal([min], true);
-                },
+            // var booking = $('#flightBookingDepart').mobiscroll().datepicker({
+            //     controls: [
+            //         'calendar'
+            //     ], // More info about controls: https://docs.mobiscroll.com/5-18-2/range#opt-controls
+            //     select: 'range', // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
+            //     display: 'anchored', // Specify display mode like: display: 'bottom' or omit setting to use default
+            //     startInput: '#flightBookingDepart', // More info about startInput: https://docs.mobiscroll.com/5-18-2/range#opt-startInput
+            //     endInput: '#flightBookingReturn', // More info about endInput: https://docs.mobiscroll.com/5-18-2/range#opt-endInput
+            //     min: min, // More info about min: https://docs.mobiscroll.com/5-18-2/range#opt-min
+            //     max: max, // More info about max: https://docs.mobiscroll.com/5-18-2/range#opt-max
+            //     pages: 1,
+            //     dateFormat: 'DDD, DD MMM YYYY',
+            //     onInit: function(event,
+            //         inst
+            //         ) { // More info about onInit: https://docs.mobiscroll.com/5-18-2/calendar#event-onInit
+            //         inst.setVal([min], true);
+            //     },
 
 
-            }).mobiscroll('getInst');
+            // }).mobiscroll('getInst');
 
-            var oneWayDis = $("#oneway").val();
-            $('#flightBookingReturn').mobiscroll('getInst').setOptions({
-                disabled: oneWayDis
-            });
-            if (oneWayDis) {
-                booking.setOptions({
-                    select: 'date' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
-                });
-            } else {
-                booking.setOptions({
-                    select: 'range' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
-                });
-            }
+            // var oneWayDis = $("#oneWay").val();
+            // // alert(oneWayDis)
+            // $('#flightBookingReturn').mobiscroll('getInst').setOptions({
+            //     disabled: oneWayDis
+            // });
 
-            $('.demo-flight-type').on('change', function() {
-                var oneWay = this.value == 'oneway';
-                $('#flightBookingReturn').mobiscroll('getInst').setOptions({
-                    disabled: oneWay
-                });
+            // if (oneWayDis) {
+            //     booking.setOptions({
+            //         select: 'date' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
+            //     });
+            // } else {
+            //     booking.setOptions({
+            //         select: 'range' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
+            //     });
+            // }
 
-                if (oneWay) {
-                    booking.setOptions({
-                        select: 'date' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
-                    });
-                } else {
-                    booking.setOptions({
-                        select: 'range' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
-                    });
-                }
-            });
+            // $('.demo-flight-type').on('change', function() {
+            //     var oneWay = this.value == 'oneway';
+            //     $('#flightBookingReturn').mobiscroll('getInst').setOptions({
+            //         disabled: oneWay
+            //     });
+
+            //     if (oneWay) {
+            //         booking.setOptions({
+            //             select: 'date' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
+            //         });
+            //     } else {
+            //         booking.setOptions({
+            //             select: 'range' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
+            //         });
+            //     }
+            // });
 
 
 
-            function getPrices(d, callback) {
-                var invalid = [],
-                    labels = [];
+            // function getPrices(d, callback) {
+            //     var invalid = [],
+            //         labels = [];
 
-                mobiscroll.util.http.getJson('https://trial.mobiscroll.com/getprices/?year=' + d.getFullYear() +
-                    '&month=' + d.getMonth(),
-                    function(bookings) {
-                        for (var i = 0; i < bookings.length; ++i) {
-                            var booking = bookings[i],
-                                d = new Date(booking.d);
+            //     mobiscroll.util.http.getJson('https://trial.mobiscroll.com/getprices/?year=' + d.getFullYear() +
+            //         '&month=' + d.getMonth(),
+            //         function(bookings) {
+            //             for (var i = 0; i < bookings.length; ++i) {
+            //                 var booking = bookings[i],
+            //                     d = new Date(booking.d);
 
-                            if (booking.price > 0) {
-                                labels.push({
-                                    start: d,
-                                    title: '$' + booking.price,
-                                    textColor: '#e1528f'
-                                });
-                            } else {
-                                invalid.push(d);
-                            }
-                        }
-                        callback({
-                            labels: labels,
-                            invalid: invalid
-                        });
-                    }, 'jsonp');
-            }
+            //                 if (booking.price > 0) {
+            //                     labels.push({
+            //                         start: d,
+            //                         title: '$' + booking.price,
+            //                         textColor: '#e1528f'
+            //                     });
+            //                 } else {
+            //                     invalid.push(d);
+            //                 }
+            //             }
+            //             callback({
+            //                 labels: labels,
+            //                 invalid: invalid
+            //             });
+            //         }, 'jsonp');
+            // }
 
 
             //         var fromPlace = $('#fromPlace').mobiscroll().select({
@@ -943,8 +951,159 @@ aria-hidden="true">
             }
 
         }
-
-
+        $('#flightBookingReturn').prop('disabled', true);
+        $('#oneWay').click(function(){
+            $('#tripType').val('oneway');
+            $('#flightBookingReturn').prop('disabled', true);
+        });
+         $('#roundTrip').click(function(){
+            $('#tripType').val('round');
+            $('#flightBookingReturn').prop('disabled', false);
+        });
 
     </script>
+
+    <script>
+var start_date = null, end_date = null;
+var timestamp_start_date = null, timestamp_end_date = null;
+var $input_start_date = null, $input_end_date = null;
+
+
+
+function getDateClass(date, start, end){
+	if(end != null && start != null){
+		if(date > start && date < end)
+			return [ true, "sejour", "Séjour" ];
+	}
+
+	if(date == start)
+		return [ true, "start", "Début de votre séjour" ];
+	if(date == end)
+		return [ true, "end", "Fin de votre séjour" ];
+
+	return false;
+}
+
+function datepicker_draw_nb_nights(){
+	var $datepicker = jQuery("#ui-datepicker-div");
+	setTimeout(function(){
+		if(start_date != null && end_date != null){
+			var $qty_days_stay = jQuery("<div />", { class: "ui-datepicker-stay-duration" });
+			var qty_nights_stay = get_days_difference(timestamp_start_date, timestamp_end_date);
+			$qty_days_stay.text(qty_nights_stay + " nights stay");
+			$qty_days_stay.appendTo($datepicker);
+		}
+	});
+}
+
+            var d = new Date();
+            var month = d.getMonth() + 1;
+            var day = d.getDate();
+
+            var todayDate = (day < 10 ? '0' : '') + day+ '-' +
+                (month < 10 ? '0' : '') + month + '-' + d.getFullYear();
+
+            // var todayDate = '21/09/2022';
+
+            var maxDate = '31-03-'+parseInt(d.getFullYear() + 1) ;
+
+
+
+var options_start_date = {
+    dateFormat : "dd-mm-yy",
+	showAnim: false,
+	constrainInput: true,
+  	numberOfMonths: 1,
+	showOtherMonths: true,
+    minDate: todayDate,
+    maxDate: maxDate,
+	beforeShow: function(input, datepicker){
+
+		datepicker_draw_nb_nights();
+	},
+	beforeShowDay: function(date){
+
+		// 0: published
+		// 1: class
+		// 2: tooltip
+		var timestamp_date = date.getTime();
+		var result = getDateClass(timestamp_date, timestamp_start_date, timestamp_end_date);
+		if(result != false)
+			return result;
+
+		return [true, "", ""];
+		// return [ true, "chocolate", "Chocolate! " ];
+	},
+	onSelect: function(date_string, datepicker){
+		// this => input
+        if($('#tripType').val() != 'oneway'){
+		start_date = $input_start_date.datepicker("getDate",'minDate');
+		timestamp_start_date = start_date.getTime();
+        }
+
+	},
+	onClose: function(){
+		if(end_date != null){
+			if(timestamp_start_date >= timestamp_end_date || end_date == null){
+				$input_end_date.datepicker("setDate", null);
+				end_date = null;
+				timestamp_end_date = null;
+				$input_end_date.datepicker("show");
+				return;
+			}
+		}
+		if(start_date != null && end_date == null)
+			$input_end_date.datepicker("show");
+	}
+};
+
+var options_end_date = {
+    dateFormat : "dd-mm-yy",
+	showAnim: false,
+	constrainInput: true,
+  	numberOfMonths: 1,
+	showOtherMonths: true,
+    minDate: todayDate,
+    maxDate:maxDate,
+	beforeShow: function(input, datepicker){
+		datepicker_draw_nb_nights();
+	},
+	beforeShowDay: function(date){
+		var timestamp_date = date.getTime();
+		var result = getDateClass(timestamp_date, timestamp_start_date, timestamp_end_date);
+		if(result != false)
+			return result;
+
+		return [ true, "", "Chocolate !" ];
+	},
+	onSelect: function(date_string, datepicker){
+		// this => input
+		end_date = $input_end_date.datepicker("getDate",'minDate');
+		timestamp_end_date = end_date.getTime();
+	},
+	onClose: function(){
+		if(end_date == null)
+			return;
+
+		if(timestamp_end_date <= timestamp_start_date || start_date == null){
+			$input_start_date.datepicker("setDate", null);
+			start_date = null;
+			timestamp_start_date = null;
+			$input_start_date.datepicker("show");
+		}
+	}
+};
+
+$input_start_date = jQuery("#flightBookingDepart");
+$input_end_date = jQuery("#flightBookingReturn");
+
+
+$input_start_date.datepicker(options_start_date);
+$input_start_date.datepicker('setDate',todayDate);
+$input_end_date.datepicker(options_end_date);
+
+function get_days_difference(start_date, end_date){
+	return Math.floor(end_date - start_date) / (1000*60*60*24);
+}
+        </script>
 @endsection

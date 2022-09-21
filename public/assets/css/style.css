@@ -15,8 +15,8 @@ body {
 }
 @font-face {
     font-family: 'abril_fatfaceregular';
-    src: url('/assets/font/abrilfatface-regular-webfont.woff2') format('woff2'),
-         url('/assets/font/abrilfatface-regular-webfont.woff') format('woff');
+    src: url('assets/font/abrilfatface-regular-webfont.woff2') format('woff2'),
+         url('assets/font/abrilfatface-regular-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -149,7 +149,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /**
-* Get Startet Button
+* Get Startet Button 
 */
 .get-started-btn {
   margin-left: 22px;
@@ -177,7 +177,7 @@ h1, h2, h3, h4, h5, h6 {
 # Navigation Menu
 --------------------------------------------------------------*/
 /**
-* Desktop Navigation
+* Desktop Navigation 
 */
 .navbar {
   padding: 0;
@@ -268,7 +268,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /**
-* Mobile Navigation
+* Mobile Navigation 
 */
 .mobile-nav-toggle {
   color: #37423b;
@@ -400,7 +400,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'abril_fatfaceregular';
   font-size: 38px;
    line-height: 56px;
-
+  
 }
 #hero h3 {
   color: #fff;
@@ -408,7 +408,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 18px;
    line-height: 56px;
     font-family: "Poppins", sans-serif;
-
+  
 }
 #hero .btn-get-started {
   font-family: "Raleway", sans-serif;
@@ -1431,7 +1431,7 @@ section {
             background:none;
             opacity: 1;
         }
-
+         
         .modal{
             background:rgba(33,92,104,0.5);
         }
@@ -1558,7 +1558,7 @@ color: #00b0d5;
     text-align: center;
     padding: 5px;
         transition: 0.3s;
-}
+} 
 .social-icon li i {
   text-align: center;
     padding: 5px;
@@ -1568,7 +1568,7 @@ color: #00b0d5;
     height: 25px;
         transition: 0.3s;
 
-}
+} 
 .container-make {
   max-width: 1170px;
 }
@@ -1644,7 +1644,7 @@ color: #00b0d5;
     color: #495057;
     background-color: #fff;
     border-color: #dee2e6 #dee2e6 #fff;
-
+   
     font-weight: 600;
 }
 .nav-link {
@@ -1786,7 +1786,7 @@ color: #00b0d5;
 .price-inner {
   font-size: 14px;
   margin-bottom: 0px;
-
+  
 }
 .slick-slide {
     margin: 5px 6px;
@@ -1796,14 +1796,14 @@ color: #00b0d5;
 }
 .slick-prev:before {
     content: '←';
-    color: #067289 !important;
+    color: #067289;
 }
 .slick-prev:before, .slick-next:before {
     font-family: 'slick';
     font-size: 20px;
     line-height: 1;
     opacity: .75;
-    color: #067289 !important;
+    color: #067289;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -1872,19 +1872,19 @@ color: #00b0d5;
       border: none;
       margin: 20px 0 20px 0;
     }
-
+  
   .range-bar {
     border: none;
     background: #000;
-    height: 3px;
+    height: 3px;  
     width: 96%;
     margin-left: 8px;
   }
-
+    
     .ui-slider-range {
       background: 0px 0px 1px 1px #eeeeee;
     }
-
+    
     .ui-slider-handle {
       border:none;
       border-radius:25px;
@@ -1983,7 +1983,7 @@ color: #00b0d5;
     border-color: #86b7fe;
     /* outline: 0; */
     box-shadow: 0 0 0 0rem rgb(13 110 253 / 25%);
-}
+} 
 .accordion-button {
   font-size: 14px !important;
       background: #e3f2f5;
@@ -2059,7 +2059,7 @@ color: #00b0d5;
 .unsure-ticket h5 {
   margin-left: 10px;
       margin-bottom: 0;
-
+  
 }
 .check-ticket {
       padding-left: 15px;
@@ -2073,7 +2073,7 @@ color: #00b0d5;
 }
 .check-ticket p   {
     margin-bottom: 0px;
-
+    
 }
 .check-ticket img {
     text-align: right;
@@ -2121,7 +2121,7 @@ color: #00b0d5;
  .input-info p{
   padding: 0px 5px;
     font-size: 13px;
-    margin-top: 10px;
+    margin-top: 10px; 
  }
  .first-inputname {
    margin-top: 2rem;
@@ -2146,7 +2146,7 @@ color: #00b0d5;
    }
    .check-ticket-new {
     padding-left: 15px;   }
-   .check-ticket-new h6 {
+   .check-ticket-new h6 { 
      margin-top: 12px;
    }
 
@@ -2167,7 +2167,7 @@ color: #00b0d5;
    .btn-confirm {
         background: #067289;
     color: white;
-    border-radius: 0;
+    border-radius: 0; 
    }
    .bussiness-p p:nth-child(2) {
           margin-bottom: 0;
@@ -2248,3 +2248,106 @@ color: #00b0d5;
   width: 100%;
 
  }
+ .bbook-price-details {
+          height: 725px;
+    overflow-y: scroll;
+    overflow-x: none;
+ }
+ /* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+/*::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}*/
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #ccc; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #c1c1c1; 
+}  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /*media queries*/
+
+/* For Tablet View */
+@media screen and (min-device-width: 768px)
+and (max-device-width: 1024px) {
+  .gfg-div {
+    width: 400px;
+    height: 400px;
+    background-color: orange;
+    color: black;
+  }
+ 
+
+}
+ 
+/* For Mobile Portrait View */
+@media screen and (max-device-width: 480px)
+and (orientation: portrait) {
+   .btn-refund {
+    font-size: 10px;
+}
+.economy-mbl  {
+  font-size: 11px;
+}
+ .f-14-mb-10 {
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+}
+ 
+/* For Mobile Landscape View */
+@media screen and (max-device-width: 640px)
+and (orientation: landscape) {
+  
+}
+ 
+/* For Mobile Phones Portrait or Landscape View */
+/*@media screen and (max-device-width: 640px) {
+  
+}*/
+ 
+
