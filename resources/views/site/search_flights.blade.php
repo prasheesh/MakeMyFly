@@ -234,7 +234,7 @@
   bottom: 0%;
   left: 0;
   right: 0%;
-  z-index: 9999;
+  z-index: 9999999;
   opacity:0.7;
   display:none;
   background: lightgrey url('http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/images/loader-large.gif') center center no-repeat;
@@ -921,6 +921,7 @@ $flight_count =  count($result_array->searchResult->tripInfos->ONWARD);
     @if(isset($result_array->searchResult->tripInfos->ONWARD))
 
     <div class="col-md-6">
+        <?php $radio_on_cnt=1; ?>
         @foreach ($result_array->searchResult->tripInfos->ONWARD as $key => $value)
         <div class="row mt-2">
             <div class="col-md-12">
@@ -930,6 +931,7 @@ $flight_count =  count($result_array->searchResult->tripInfos->ONWARD);
             $flight_code = $value->sI[0]->fD->aI->code;
             $flight_logo = 'assets/img/AirlinesLogo/'.$flight_code.'.png';
              ?>
+
             <img src="{{ $flight_logo }}">
           <span>FI.No.{{ $value->sI[0]->fD->aI->code }}
             {{ $value->sI[0]->fD->fN }}, <b>{{ $value->sI[0]->fD->aI->name }}</b></span>
@@ -958,7 +960,7 @@ $flight_count =  count($result_array->searchResult->tripInfos->ONWARD);
               <span>{{ $value->sI[0]->aa->city }}</span>
             </div>
             <div class="col-md-3 departture text-center">
-              <input type="radio" name="roundFromTo" class="form-check-input roundFromTo">
+              <input <?php echo $radio_on_cnt==1?'Checked':'' ?> type="radio" name="roundFromTo" class="form-check-input roundFromTo" data-f_on_code="{{ $value->sI[0]->fD->fN }}" data-f_on_name="{{ $value->sI[0]->fD->aI->name }}" data-f_on_depat_time="{{ date('H:m', strtotime($value->sI[0]->dt)) }}" data-f_on_arival_time="{{ date('H:m', strtotime($value->sI[0]->at)) }}" data-f_on_price="{{ number_format($value->totalPriceList[0]->fd->ADULT->fC->TF,0) }}" data-f_on_logo="{{ $flight_logo }}" data-onward_price="{{ $value->totalPriceList[0]->fd->ADULT->fC->TF }}">
               <p class="price-round"> <i class="fa-solid fa-indian-rupee-sign mr-2"></i> {{ number_format($value->totalPriceList[0]->fd->ADULT->fC->TF,0) }} </p>
             </div>
           </div>
@@ -966,6 +968,7 @@ $flight_count =  count($result_array->searchResult->tripInfos->ONWARD);
       </div>
     </div>
 </div>
+<?php $radio_on_cnt++ ?>
 @endforeach
     </div>
 
@@ -973,6 +976,9 @@ $flight_count =  count($result_array->searchResult->tripInfos->ONWARD);
 
 
     <div class="col-md-6">
+        <?php
+            $radio_re_cnt = 1;
+        ?>
         @foreach ($result_array->searchResult->tripInfos->RETURN as $key => $value)
 <div class="row mt-2">
     <div class="col-md-12">
@@ -1010,7 +1016,7 @@ $flight_count =  count($result_array->searchResult->tripInfos->ONWARD);
               <span>{{ $value->sI[0]->aa->city }}</span>
             </div>
             <div class="col-md-3 departture text-center">
-              <input type="radio" name="roundToFrom" class="form-check-input">
+              <input <?php echo $radio_re_cnt==1?'Checked':'' ?> type="radio" name="roundToFrom" class="form-check-input roundToFrom" value="" data-f_re_code="{{ $value->sI[0]->fD->fN }}" data-f_re_name="{{ $value->sI[0]->fD->aI->name }}" data-f_re_depat_time="{{ date('H:m', strtotime($value->sI[0]->dt)) }}" data-f_re_arival_time="{{ date('H:m', strtotime($value->sI[0]->at)) }}" data-f_re_price="{{ number_format($value->totalPriceList[0]->fd->ADULT->fC->TF,0) }}" data-f_re_logo={{ $flight_logo }} data-return_price="{{ $value->totalPriceList[0]->fd->ADULT->fC->TF }}" >
               <p class="price-round"> <i class="fa-solid fa-indian-rupee-sign mr-2"></i> {{ number_format($value->totalPriceList[0]->fd->ADULT->fC->TF,0) }} </p>
             </div>
           </div>
@@ -1018,6 +1024,7 @@ $flight_count =  count($result_array->searchResult->tripInfos->ONWARD);
       </div>
     </div>
 </div>
+<?php $radio_re_cnt++ ?>
 @endforeach
     </div>
 
@@ -1046,42 +1053,71 @@ $flight_count =  count($result_array->searchResult->tripInfos->ONWARD);
           <div class="row pricedetails-btm pricedetails-btm-full">
             <div class="col-md-8">
               <div class="row">
+                @if ( $result_array->status->success == true && $result_array->status->httpStatus ==200 )
+
+    @if(isset($result_array->searchResult->tripInfos->ONWARD))
+
+<?php $key = $result_array->searchResult->tripInfos->ONWARD[0]; ?>
+
+
+        {{-- @foreach ($result_array->searchResult->tripInfos->ONWARD as $key => $value) --}}
                 <div class="col-md-6 btm-price">
-                  <p>Departure ・ IndiGo</p>
+                  <p id="f_on_name">Departure ・ {{ $key->sI[0]->fD->aI->name  }}</p>
                   <div class="row align-items-center">
                     <div class="col-md-2 p-0">
-                      <img src="assets/img/flight-logo-2.png" class="img-fluid">
+                        <?php
+            $flight_code = $key->sI[0]->fD->aI->code;
+            $flight_logo = 'assets/img/AirlinesLogo/'.$flight_code.'.png';
+             ?>
+                      <img id="f_on_logo" src="{{ $flight_logo  }}" class="img-fluid">
                     </div>
                     <div class="col-md-5 btm-flights-price">
-                      <p>06:05 → 07:40</p>
+                      <p id="f_on_a_d_time">{{ date('H:m', strtotime($key->sI[0]->dt)) }} → {{ date('H:m', strtotime($key->sI[0]->at)) }}</p>
                       <a href="#">Flight Details</a>
                     </div>
                     <div class="col-md-5 p-0">
-                      <p class="price-round"> <i class="fa-solid fa-indian-rupee-sign mr-2"></i> 75,845.00 </p>
+                      <p class="price-round"> <i class="fa-solid fa-indian-rupee-sign mr-2"></i> <span id="f_on_price">{{ number_format($key->totalPriceList[0]->fd->ADULT->fC->TF,0) }}</span>
+
+                    <input type="hidden" name="ontripPrice" id="ontripPrice" value="{{ $key->totalPriceList[0]->fd->ADULT->fC->TF }}">
+                    </p>
                     </div>
                   </div>
                 </div>
+                {{-- @endforeach --}}
+
+
+            <?php $return = $result_array->searchResult->tripInfos->RETURN[0]; ?>
+
                 <div class="col-md-6 btm-price">
-                  <p>Return ・ Go first</p>
+                  <p id="f_re_name">Return ・ {{ $return->sI[0]->fD->aI->name  }}</p>
                   <div class="row align-items-center">
                     <div class="col-md-2 p-0">
-                      <img src="assets/img/flight-logo-2.png" class="img-fluid">
+                        <?php
+            $flight_code = $return->sI[0]->fD->aI->code;
+            $flight_logo = 'assets/img/AirlinesLogo/'.$flight_code.'.png';
+             ?>
+                      <img id="f_re_logo" src="{{ $flight_logo }}" class="img-fluid">
                     </div>
                     <div class="col-md-5 btm-flights-price">
-                      <p>06:05 → 07:40</p>
+                      <p id="f_re_a_d_time">{{ date('H:m', strtotime($return->sI[0]->dt)) }} → {{ date('H:m', strtotime($return->sI[0]->at)) }}</p>
                       <a href="#">Flight Details</a>
                     </div>
                     <div class="col-md-5 p-0">
-                      <p class="price-round"> <i class="fa-solid fa-indian-rupee-sign mr-2"></i> 75,845.00 </p>
+                      <p class="price-round"> <i class="fa-solid fa-indian-rupee-sign mr-2"></i> <span id="f_re_price">{{ number_format($return->totalPriceList[0]->fd->ADULT->fC->TF,0) }}</span> </p>
+
+
+                      <input type="hidden" name="retripPrice" id="retripPrice" value="{{ $return->totalPriceList[0]->fd->ADULT->fC->TF }}">
                     </div>
                   </div>
                 </div>
+                @endif
+                @endif
               </div>
             </div>
             <div class="col-md-4 btm-fligh-price">
               <div class="row justify-content-between align-items-center">
                 <div class="col-md-8">
-                  <p class="price-round"> <i class="fa-solid fa-indian-rupee-sign mr-2"></i> 75,845.00 </p>
+                  {{-- <p class="price-round"> <i class="fa-solid fa-indian-rupee-sign mr-2"></i> <span id="total_fare">{{ number_format(round($key->totalPriceList[0]->fd->ADULT->fC->TF)+round($return->totalPriceList[0]->fd->ADULT->fC->TF),0) }}</span> </p> --}}
                   <a href="#">Flight Details</a>
                 </div>
                 <div class="col-md-4">
@@ -1131,6 +1167,155 @@ $(window).scroll(function () {
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 <script>
+    var start_date = null, end_date = null;
+    var timestamp_start_date = null, timestamp_end_date = null;
+    var $input_start_date = null, $input_end_date = null;
+
+
+
+    function getDateClass(date, start, end){
+        if(end != null && start != null){
+            if(date > start && date < end)
+                return [ true, "sejour", "Séjour" ];
+        }
+
+        if(date == start)
+            return [ true, "start", "Début de votre séjour" ];
+        if(date == end)
+            return [ true, "end", "Fin de votre séjour" ];
+
+        return false;
+    }
+
+    function datepicker_draw_nb_nights(){
+        var $datepicker = jQuery("#ui-datepicker-div");
+        setTimeout(function(){
+            if(start_date != null && end_date != null){
+                var $qty_days_stay = jQuery("<div />", { class: "ui-datepicker-stay-duration" });
+                var qty_nights_stay = get_days_difference(timestamp_start_date, timestamp_end_date);
+                $qty_days_stay.text(qty_nights_stay + " nights stay");
+                $qty_days_stay.appendTo($datepicker);
+            }
+        });
+    }
+
+            var fromDate = $('#flightBookingDepart').val();
+            var returnDate = $('#flightBookingReturn').val();
+
+
+                var d = new Date();
+                var month = d.getMonth() + 1;
+                var day = d.getDate();
+
+
+                var todayDate = (day < 10 ? '0' : '') + day+ '-' +
+                    (month < 10 ? '0' : '') + month + '-' + d.getFullYear();
+
+
+                var maxDate = '31-03-'+parseInt(d.getFullYear() + 1) ;
+
+
+
+    var options_start_date = {
+        dateFormat : "dd-mm-yy",
+        showAnim: false,
+        constrainInput: true,
+          numberOfMonths: 1,
+        showOtherMonths: true,
+        minDate: todayDate,
+        maxDate: maxDate,
+        beforeShow: function(input, datepicker){
+
+            datepicker_draw_nb_nights();
+        },
+        beforeShowDay: function(date){
+
+            // 0: published
+            // 1: class
+            // 2: tooltip
+            var timestamp_date = date.getTime();
+            var result = getDateClass(timestamp_date, timestamp_start_date, timestamp_end_date);
+            if(result != false)
+                return result;
+
+            return [true, "", ""];
+            // return [ true, "chocolate", "Chocolate! " ];
+        },
+        onSelect: function(date_string, datepicker){
+            // this => input
+            if($('#trip_type').val() != 'oneway'){
+            start_date = $input_start_date.datepicker("getDate",'minDate');
+            timestamp_start_date = start_date.getTime();
+            }
+
+        },
+        onClose: function(){
+            if(end_date != null){
+                if(timestamp_start_date >= timestamp_end_date || end_date == null){
+                    $input_end_date.datepicker("setDate", null);
+                    end_date = null;
+                    timestamp_end_date = null;
+                    $input_end_date.datepicker("show");
+                    return;
+                }
+            }
+            if(start_date != null && end_date == null)
+                $input_end_date.datepicker("show");
+        }
+    };
+
+    var options_end_date = {
+        dateFormat : "dd-mm-yy",
+        showAnim: false,
+        constrainInput: true,
+          numberOfMonths: 1,
+        showOtherMonths: true,
+        minDate: todayDate,
+        maxDate:maxDate,
+        beforeShow: function(input, datepicker){
+            datepicker_draw_nb_nights();
+        },
+        beforeShowDay: function(date){
+            var timestamp_date = date.getTime();
+            var result = getDateClass(timestamp_date, timestamp_start_date, timestamp_end_date);
+            if(result != false)
+                return result;
+
+            return [ true, "", "Chocolate !" ];
+        },
+        onSelect: function(date_string, datepicker){
+            // this => input
+            end_date = $input_end_date.datepicker("getDate",'minDate');
+            timestamp_end_date = end_date.getTime();
+        },
+        onClose: function(){
+            if(end_date == null)
+                return;
+
+            if(timestamp_end_date <= timestamp_start_date || start_date == null){
+                $input_start_date.datepicker("setDate", null);
+                start_date = null;
+                timestamp_start_date = null;
+                $input_start_date.datepicker("show");
+            }
+        }
+    };
+
+    $input_start_date = jQuery("#flightBookingDepart");
+    $input_end_date = jQuery("#flightBookingReturn");
+// alert(fromDate)
+
+    $input_start_date.datepicker(options_start_date);
+    $input_start_date.datepicker('setDate',fromDate);
+    $input_end_date.datepicker(options_end_date);
+    $input_end_date.datepicker('setDate',returnDate);
+
+    function get_days_difference(start_date, end_date){
+        return Math.floor(end_date - start_date) / (1000*60*60*24);
+    }
+            </script>
+
+<script>
 
 
 
@@ -1142,84 +1327,6 @@ $('#fromPlace').select2({
         });
 
 
-        // $(function() {
-
-
-        //     var todayDate = $('#flightBookingDepart').val();
-        //     var returnDate = $('#flightBookingReturn').val();
-
-        //     var d = new Date(todayDate);
-        //     // var month = d.getMonth() + 1;
-        //     // var day = d.getDate();
-
-        //     var maxDate = parseInt(d.getFullYear() + 1) + '-03-31';
-
-
-        //     mobiscroll.setOptions({
-        //         locale: mobiscroll
-        //             .localeEn, // Specify language like: locale: mobiscroll.localePl or omit setting to use default
-        //         theme: 'ios', // Specify theme like: theme: 'ios' or omit setting to use default
-        //         themeVariant: 'light' // More info about themeVariant: https://docs.mobiscroll.com/5-18-2/calendar#opt-themeVariant
-        //     });
-
-        //     // Mobiscroll Calendar initialization
-        //     var min = todayDate;
-        //     var max = maxDate;
-        //     var booking = $('#flightBookingDepart').mobiscroll().datepicker({
-        //         controls: [
-        //             'calendar'
-        //         ], // More info about controls: https://docs.mobiscroll.com/5-18-2/range#opt-controls
-        //         select: 'range', // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
-        //       //  display: 'anchored', // Specify display mode like: display: 'bottom' or omit setting to use default
-        //         startInput: '#flightBookingDepart', // More info about startInput: https://docs.mobiscroll.com/5-18-2/range#opt-startInput
-        //         endInput: '#flightBookingReturn', // More info about endInput: https://docs.mobiscroll.com/5-18-2/range#opt-endInput
-        //         min: min, // More info about min: https://docs.mobiscroll.com/5-18-2/range#opt-min
-        //         max: max, // More info about max: https://docs.mobiscroll.com/5-18-2/range#opt-max
-        //         pages: 1,
-        //         dateFormat: 'DDD, DD MMM YYYY',
-        //         onInit: function(event,
-        //         inst) { // More info about onInit: https://docs.mobiscroll.com/5-18-2/calendar#event-onInit
-        //             inst.setVal([min], true);
-
-        //         },
-
-
-        //     }).mobiscroll('getInst');
-
-
-        //     var oneWayDis = $("#trip_type").val();
-        //     if(oneWayDis == 'oneway'){
-        //     $('#flightBookingReturn').mobiscroll('getInst').setOptions({
-        //         disabled: oneWayDis
-        //     });
-        //     if (oneWayDis) {
-        //         booking.setOptions({
-        //             select: 'date' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
-        //         });
-        //     } else {
-        //         booking.setOptions({
-        //             select: 'range' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
-        //         });
-        //     }
-        // }
-
-        //     $('#trip_type').on('change', function() {
-        //         var oneWay = this.value == 'oneway';
-        //         $('#flightBookingReturn').mobiscroll('getInst').setOptions({
-        //             disabled: oneWay
-        //         });
-
-        //         if (oneWay) {
-        //             booking.setOptions({
-        //                 select: 'date' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
-        //             });
-        //         } else {
-        //             booking.setOptions({
-        //                 select: 'range' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
-        //             });
-        //         }
-        //     });
-        //     });
 
             $('.from-to-inner').click(function() {
                 var fromPlace = $('#fromPlace').val();
@@ -1439,16 +1546,94 @@ function getFarePrices(uniqueTripPriceId,cancellationId,dateChangeId,seatChargeI
   }
 
   $(document).ready(function() {
-    $('.roundFromTo, .oneWayFromTo').click(function(){
+    $('.oneWayFromTo').click(function(){
         // alert($(this).val());
         $("#loader_div").show();
-
         setTimeout(function () {
       $("#loader_div").hide();
    }, 5000);
 
+    });
+
+
+    // var radio_on_checked = $("input[name='roundFromTo']").val();
+    // if(radio_on_checked == 'on'){
+    //     alert(radio_on_checked);
+    // }
+
+    $('.roundFromTo').click(function(){
+        // alert($(this).val());
+        $("#loader_div").show();
+
+        //onward
+        var f_on_name = $(this).data('f_on_name');
+        var f_on_code = $(this).data('f_on_code');
+        var f_on_depat_time = $(this).data('f_on_depat_time');
+        var f_on_arival_time = $(this).data('f_on_arival_time');
+        var f_on_price = $(this).data('f_on_price');
+        var f_on_logo = $(this).data('f_on_logo');
+        var onward_price = $(this).data('onward_price');
+
+        $('#ontripPrice').val(onward_price);
+
+        var ontripPrice = $('#ontripPrice').val();
+        var retripPrice = $('#retripPrice').val();
+
+
+        $('#f_on_name').html('Departure ・'+f_on_name);
+        $('#f_on_a_d_time').html(f_on_depat_time+' → '+f_on_arival_time);
+        $('#f_on_price').html(f_on_price);
+        $('#f_on_logo').attr('src',f_on_logo);
+
+        $('#total_fare').html(parseInt(retripPrice)+parseInt(ontripPrice))
+
+        setTimeout(function () {
+      $("#loader_div").hide();
+   }, 1000);
+
+    })
+
+
+  $('.roundToFrom').click(function(){
+        // alert($(this).val());
+        $("#loader_div").show();
+
+        //return
+        var f_re_code = $(this).data('f_re_code');
+        var f_re_name = $(this).data('f_re_name');
+        var f_re_depat_time = $(this).data('f_re_depat_time');
+        var f_re_arival_time = $(this).data('f_re_arival_time');
+        var f_re_price = $(this).data('f_re_price');
+        var f_re_logo = $(this).data('f_re_logo');
+
+        var return_price = $(this).data('return_price');
+
+        $('#retripPrice').val(return_price);
+
+        var retripPrice = $('#retripPrice').val();
+        var ontripPrice = $('#ontripPrice').val();
+
+
+
+        $('#total_fare').html(parseInt(retripPrice)+parseInt(ontripPrice))
+
+        $('#f_re_name').html('Return ・'+f_re_name);
+        $('#f_re_a_d_time').html(f_re_depat_time+' → '+f_re_arival_time);
+        $('#f_re_price').html(f_re_price);
+        $('#f_re_logo').attr('src',f_re_logo);
+
+
+        setTimeout(function () {
+      $("#loader_div").hide();
+   }, 1000);
+
     })
   })
+
+  $('.roundToFrom').click(function(){
+
+
+  });
 
 //   alert($('#trip_type').val() );
   if($('#trip_type').val() == 'oneway'){
@@ -1470,154 +1655,4 @@ function getFarePrices(uniqueTripPriceId,cancellationId,dateChangeId,seatChargeI
 
 
 </script>
-
-<script>
-    var start_date = null, end_date = null;
-    var timestamp_start_date = null, timestamp_end_date = null;
-    var $input_start_date = null, $input_end_date = null;
-
-
-
-    function getDateClass(date, start, end){
-        if(end != null && start != null){
-            if(date > start && date < end)
-                return [ true, "sejour", "Séjour" ];
-        }
-
-        if(date == start)
-            return [ true, "start", "Début de votre séjour" ];
-        if(date == end)
-            return [ true, "end", "Fin de votre séjour" ];
-
-        return false;
-    }
-
-    function datepicker_draw_nb_nights(){
-        var $datepicker = jQuery("#ui-datepicker-div");
-        setTimeout(function(){
-            if(start_date != null && end_date != null){
-                var $qty_days_stay = jQuery("<div />", { class: "ui-datepicker-stay-duration" });
-                var qty_nights_stay = get_days_difference(timestamp_start_date, timestamp_end_date);
-                $qty_days_stay.text(qty_nights_stay + " nights stay");
-                $qty_days_stay.appendTo($datepicker);
-            }
-        });
-    }
-
-            var fromDate = $('#flightBookingDepart').val();
-            var returnDate = $('#flightBookingReturn').val();
-
-
-                var d = new Date();
-                var month = d.getMonth() + 1;
-                var day = d.getDate();
-
-
-                var todayDate = (day < 10 ? '0' : '') + day+ '-' +
-                    (month < 10 ? '0' : '') + month + '-' + d.getFullYear();
-
-
-                var maxDate = '31-03-'+parseInt(d.getFullYear() + 1) ;
-
-
-
-    var options_start_date = {
-        dateFormat : "dd-mm-yy",
-        showAnim: false,
-        constrainInput: true,
-          numberOfMonths: 1,
-        showOtherMonths: true,
-        minDate: todayDate,
-        maxDate: maxDate,
-        beforeShow: function(input, datepicker){
-
-            datepicker_draw_nb_nights();
-        },
-        beforeShowDay: function(date){
-
-            // 0: published
-            // 1: class
-            // 2: tooltip
-            var timestamp_date = date.getTime();
-            var result = getDateClass(timestamp_date, timestamp_start_date, timestamp_end_date);
-            if(result != false)
-                return result;
-
-            return [true, "", ""];
-            // return [ true, "chocolate", "Chocolate! " ];
-        },
-        onSelect: function(date_string, datepicker){
-            // this => input
-            if($('#trip_type').val() != 'oneway'){
-            start_date = $input_start_date.datepicker("getDate",'minDate');
-            timestamp_start_date = start_date.getTime();
-            }
-
-        },
-        onClose: function(){
-            if(end_date != null){
-                if(timestamp_start_date >= timestamp_end_date || end_date == null){
-                    $input_end_date.datepicker("setDate", null);
-                    end_date = null;
-                    timestamp_end_date = null;
-                    $input_end_date.datepicker("show");
-                    return;
-                }
-            }
-            if(start_date != null && end_date == null)
-                $input_end_date.datepicker("show");
-        }
-    };
-
-    var options_end_date = {
-        dateFormat : "dd-mm-yy",
-        showAnim: false,
-        constrainInput: true,
-          numberOfMonths: 1,
-        showOtherMonths: true,
-        minDate: todayDate,
-        maxDate:maxDate,
-        beforeShow: function(input, datepicker){
-            datepicker_draw_nb_nights();
-        },
-        beforeShowDay: function(date){
-            var timestamp_date = date.getTime();
-            var result = getDateClass(timestamp_date, timestamp_start_date, timestamp_end_date);
-            if(result != false)
-                return result;
-
-            return [ true, "", "Chocolate !" ];
-        },
-        onSelect: function(date_string, datepicker){
-            // this => input
-            end_date = $input_end_date.datepicker("getDate",'minDate');
-            timestamp_end_date = end_date.getTime();
-        },
-        onClose: function(){
-            if(end_date == null)
-                return;
-
-            if(timestamp_end_date <= timestamp_start_date || start_date == null){
-                $input_start_date.datepicker("setDate", null);
-                start_date = null;
-                timestamp_start_date = null;
-                $input_start_date.datepicker("show");
-            }
-        }
-    };
-
-    $input_start_date = jQuery("#flightBookingDepart");
-    $input_end_date = jQuery("#flightBookingReturn");
-// alert(fromDate)
-
-    $input_start_date.datepicker(options_start_date);
-    $input_start_date.datepicker('setDate',fromDate);
-    $input_end_date.datepicker(options_end_date);
-    $input_end_date.datepicker('setDate',returnDate);
-
-    function get_days_difference(start_date, end_date){
-        return Math.floor(end_date - start_date) / (1000*60*60*24);
-    }
-            </script>
-
 @endsection
