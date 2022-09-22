@@ -147,7 +147,7 @@
                                 <select class="form-control" name="fromPlace" id="fromPlace">
                                     {{-- <option value="">Select From</option> --}}
                                     @foreach (DB::table('airport_details')->get() as $airport)
-                                        <option value="{{ $airport->code }}">{{ $airport->name . ', ' . $airport->country }}
+                                        <option value="{{ $airport->code }}">{{ $airport->name . ', ' . $airport->city.', '.$airport->country }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -173,7 +173,7 @@
                                 <select class="form-control" name="toPlace" id="toPlace">
                                     {{-- <option value="">Select To</option> --}}
                                     @foreach (DB::table('airport_details')->get() as $airport)
-                                        <option value="{{ $airport->code }}">{{ $airport->name . ', ' . $airport->country }}
+                                        <option value="{{ $airport->code }}">{{ $airport->name . ', ' .$airport->city.', '. $airport->country }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -189,7 +189,7 @@
                                         <label>
                                             {{-- Departure --}}
 
-                                            <input type="text" name="flightBookingDepart" id="flightBookingDepart" placeholder="Start date" />
+                                            <input type="text" name="flightBookingDepart" id="flightBookingDepart" placeholder="Start date" autocomplete="off" required/>
                                             {{-- <input id="flightBookingDepart" mbsc-input data-input-style="outline"
                                                 name="flightBookingDepart" data-label-style="stacked"
                                                 placeholder="Please select..." /> --}}
@@ -203,7 +203,7 @@
                                     <small>Return</small>
                                     <label>
                                         {{-- Return --}}
-                                        <input type="text" name="flightBookingReturn" id="flightBookingReturn" placeholder="Return date" />
+                                        <input type="text" name="flightBookingReturn" id="flightBookingReturn" placeholder="Return date" autocomplete="off" required />
                                         {{-- <input id="flightBookingReturn" name="flightBookingReturn" mbsc-input
                                             data-input-style="outline" data-label-style="stacked"
                                             placeholder="Please select..." /> --}}
@@ -218,7 +218,7 @@
                         <div class="col-md-2 travellerData" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <small>Travellers & Classs</small>
                             <input type="hidden" value="1" id="adultval" name="adultval" class="">
-                            <input type="hidden" value="ECONOMY" name="travelClass" id="travelClass" class="">
+                            <input type="hidden" value="ECONOMY" name="travelClass" id="travelClass" class="" autocomplete="off" >
                             <div class="airport-name" id="travelInfo">
 
                                 <p><b>1 Adult </b></p>
@@ -327,7 +327,7 @@ aria-hidden="true">
                         <select class="form-control" name="fromPlace" id="fromPlace">
                                     {{-- <option value="">Select From</option> --}}
                                     @foreach (DB::table('airport_details')->get() as $airport)
-                                        <option value="{{ $airport->code }}">{{ $airport->name . ', ' . $airport->country }}
+                                        <option value="{{ $airport->code }}">{{ $airport->name . ', ' .$airport->city.', '. $airport->country }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -344,8 +344,9 @@ aria-hidden="true">
                             {{-- <div class="col-md-6"> --}}
                                 <small>Departure</small>
                                 <div class="airport-name">
-                                    <p><b>10 June, 22</b></p>
-                                    <p>Friday</p>
+                                    {{-- <p><b>10 June, 22</b></p>
+                                    <p>Friday</p> --}}
+                                    <input type="text" name="flightBookingDepart" class="flightBookingDepart" placeholder="Start date" autocomplete="off" required/>
                                 </div>
                             {{-- </div> --}}
                             {{-- <div class="col-md-6">
@@ -379,7 +380,7 @@ aria-hidden="true">
                 <div class="row align-items-center newrow" id="multiCityDiv">
                     <div class="col-md-3 " style="position: relative;">
                         <small>From</small>
-                        <div class="airport-name from-to">
+                        <div class="airport-name">
                             <p><b>Hyderabad</b></p>
                             <p>Rajiv Gandi international Airport</p>
                         </div>
@@ -395,8 +396,9 @@ aria-hidden="true">
 
                                 <small>Departure</small>
                                 <div class="airport-name">
-                                    <p><b>10 June, 22</b></p>
-                                    <p>Friday</p>
+                                    {{-- <p><b>10 June, 22</b></p>
+                                    <p>Friday</p> --}}
+                                    <input type="text" name="flightBookingDepart" class="flightBookingDepart" placeholder="Start date" autocomplete="off" required/>
                                 </div>
 
                     </div>
@@ -883,7 +885,7 @@ aria-hidden="true">
             var html =`<div class="row align-items-center newrow" id="newrow${count}">
                                     <div class="col-md-3 " style="position: relative;">
                         <small>From</small>
-                        <div class="airport-name from-to">
+                        <div class="airport-name ">
                             <p><b>Hyderabad</b></p>
                             <p>Rajiv Gandi international Airport</p>
                         </div>
@@ -899,8 +901,7 @@ aria-hidden="true">
 
                                 <small>Departure</small>
                                 <div class="airport-name">
-                                    <p><b>10 June, 22</b></p>
-                                    <p>Friday</p>
+                                    <input type="text" name="flightBookingDepart" class="flightBookingDepart" placeholder="Start date" autocomplete="off" required/>
                                 </div>
 
                     </div>
@@ -1098,12 +1099,25 @@ $input_start_date = jQuery("#flightBookingDepart");
 $input_end_date = jQuery("#flightBookingReturn");
 
 
+
+
 $input_start_date.datepicker(options_start_date);
 $input_start_date.datepicker('setDate',todayDate);
 $input_end_date.datepicker(options_end_date);
 
+
+
+
+
 function get_days_difference(start_date, end_date){
 	return Math.floor(end_date - start_date) / (1000*60*60*24);
 }
+
+
+    $(document).on('focus','.flightBookingDepart',function(){
+        $(this).datepicker(options_start_date);
+    })
+
+
         </script>
 @endsection
