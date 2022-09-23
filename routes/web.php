@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReviewBookingController;
 use App\Http\Controllers\SearchFlightsController;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,6 +25,17 @@ use Illuminate\Support\Facades\Auth;
 // });
 
 //site
+Route::group(['middleware' => 'auth'],function(){
+    Route::get('/home', [HomeController::class, 'home'])->name('home');
+    Route::get('/search-flights', [HomeController::class, 'searchFlights'])->name('search-flights');
+    Route::any('/SearchFlights', [SearchFlightsController::class, 'SearchFlights'])->name('SearchFlights');
+    Route::any('/getFarePrices', [SearchFlightsController::class, 'getFarePrices'])->name('getFarePrices');
+
+    Route::get('/reviewDetails', [ReviewBookingController::class, 'reviewDetails'])->name('reviewDetails');
+    Route::get('/booking-final', [HomeController::class, 'bookingFinal'])->name('booking-final');
+
+});
+
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/about-us', [HomeController::class, 'aboutUs'])->name('about');
 Route::get('/services', [HomeController::class, 'services'])->name('services');
@@ -32,11 +44,6 @@ Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy'])->name('p
 Route::get('/terms-condition', [HomeController::class, 'termsCondition'])->name('terms-conditions');
 
 Route::post('/contact-form', [ContactController::class, 'contactSubmit'])->name('contact-form-submit');
-Route::get('/home', [HomeController::class, 'home'])->name('home');
-Route::get('/search-flights', [HomeController::class, 'searchFlights'])->name('search-flights');
-Route::get('/passenger-details', [HomeController::class, 'passengerDetails'])->name('passenger-details');
-Route::get('/booking-final', [HomeController::class, 'bookingFinal'])->name('booking-final');
-Route::post('/add-multiselect-row', [HomeController::class, 'addMultiSelectRow'])->name('add-multiselect-row');
 
 Auth::routes();
 
@@ -49,5 +56,3 @@ Route::post('/check-otp',[LoginController::class, 'checkOtpNumber'])->name('chec
 Route::any('/forgot-pwd', [LoginController::class, 'forgotPassword'])->name('forgot-pwd');
 
 Route::any('/get-airports', [AirportDetailController::class, 'getAirports'])->name('get-airports');
-
-Route::any('/SearchFlights', [SearchFlightsController::class, 'SearchFlights'])->name('SearchFlights');
