@@ -48,10 +48,10 @@ class HomeController extends Controller
     {
         return view('site/search_flights');
     }
-    
+
     public function bookingFinal()
     {
-        return view('site/booking_final');
+        return view('site/seat_selection');
     }
 
 }

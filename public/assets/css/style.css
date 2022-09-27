@@ -1658,6 +1658,24 @@ color: #00b0d5;
     border-right: 1px solid black;
     border-radius: 0px;
 }
+.nav-tabs .nav-link:hover{
+    border-color: transparent;
+  }
+.nav-tabs .nav-link{
+  text-align: left;
+}
+
+.nav-tabs .nav-link h5{
+  margin: 0;
+}
+.nav-tabs .nav-link small{
+  font-weight: 100;
+}
+
+.p-tb15{
+  padding: 8px 18px;
+}
+
 .tab-content-btm {
   background-color: white;
   padding: 10px 15px;
@@ -2351,3 +2369,25 @@ and (orientation: landscape) {
 }*/
  
 
+.btn-outline-primary{
+  color:#067289;
+  border-color:#067289;
+  transition: 0.3s;  
+}
+.btn-outline-primary:hover{
+  color:#fff;
+  background-color:#067289;
+  border-color:#067289;
+  transition: 0.3s;
+}
+
+.tab-view-data{
+  background-color: #f1f1f1;
+  margin: 0;
+  padding: 15px;
+  clear: both;
+}
+.tab-view-data li{
+  list-style: none;
+  float: left;
+}

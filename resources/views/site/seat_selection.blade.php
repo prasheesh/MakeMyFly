@@ -282,16 +282,16 @@
                                                 <ul class="bussiness-ul">
                                                     <li><span><img src="assets/img/preferred-seats.png" class="img-fluid">
                                                         </span>
-                                                        <p>39 Preffered Seats <span>(34- in pitch)</span></p>
+                                                        <p>{{ $isBookedtrue }} Booked Seats <span>(34- in pitch)</span></p>
                                                     </li>
 
                                                     <li><span><img src="assets/img/preferred-seats1.png" class="img-fluid">
                                                         </span>
-                                                        <p>5 Bassinet Seats</p>
+                                                        <p>5 Bussiness Seats</p>
                                                     </li>
                                                     <li><span><img src="assets/img/preferred-seats2.png" class="img-fluid">
                                                         </span>
-                                                        <p>14 Extra Leg Space Seats</p>
+                                                        <p>{{ $isLegroom }} Leg Space Seats</p>
                                                     </li>
 
                                                     <li><span><img src="assets/img/preferred-seats3.png" class="img-fluid">
@@ -471,34 +471,10 @@
 
                                                     </div>
                                                 </label>
-                                                <label class="item" for="t-2">
-                                                    <div class="mycard">
-                                                        <p class="cardtitle">Práctica</p>
-                                                        <div>
-                                                            <img src="https://i.pravatar.cc/200" alt="nivel5"
-                                                                class="cardimg" />
-                                                        </div>
-                                                        <div>
-                                                            <p class="carddescription">Poner en práctica los conocimientos
-                                                                adquiridos.</p>
-                                                        </div>
-                                                    </div>
-                                                </label>
+
 
                                             </div>
-                                            <button class="carousel-control-prev" type="button" data-bs-target="#demo"
-                                                data-bs-slide="prev">
-                                                <i class="fa-solid fa-arrow-left"></i>
-                                            </button>
-                                            <button class="carousel-control-next" type="button" data-bs-target="#demo"
-                                                data-bs-slide="next">
-                                                <i class="fa-solid fa-arrow-right"></i>
-                                            </button>
-                                            <div class="dots">
-                                                <label for="t-1"></label>
-                                                <label for="t-2"></label>
 
-                                            </div>
                                         </div>
 
                                     </div>
@@ -520,7 +496,7 @@
 
 
 
-                </div>
+
             </div>
 
             <div class="col-md-3 p-3 mt30 ">

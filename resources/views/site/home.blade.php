@@ -71,6 +71,9 @@
             color: #fff;
             transition: 0.3s;
         }
+        .select2  {
+            width:100% !important;
+        }
     </style>
 @endsection
 
@@ -110,7 +113,7 @@
                 {{-- <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
                     role="tab" aria-controls="contact" aria-selected="false">Multi City</button> --}}
 
-                    <label class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" role="tab"
+                <label class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" role="tab"
                     aria-controls="contact" aria-selected="false">
                     Multi City
                     <input class="demo-flight-type" value="multi" id="multi" mbsc-radio data-theme="material"
@@ -131,7 +134,7 @@
                     @csrf
                     <div class="row">
 
-                    <input type="hidden" name="tripType" id="tripType" value="oneway">
+                        <input type="hidden" name="tripType" id="tripType" value="oneway">
                         <div class="col-md-3 " style="position: relative;">
                             <small>From</small>
 
@@ -147,7 +150,8 @@
                                 <select class="form-control" name="fromPlace" id="fromPlace">
                                     {{-- <option value="">Select From</option> --}}
                                     @foreach (DB::table('airport_details')->get() as $airport)
-                                        <option value="{{ $airport->code }}">{{ $airport->name . ', ' . $airport->city.', '.$airport->country }}
+                                        <option value="{{ $airport->code }}">
+                                            {{ $airport->name . ', ' . $airport->city . ', ' . $airport->country }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -173,7 +177,8 @@
                                 <select class="form-control" name="toPlace" id="toPlace">
                                     {{-- <option value="">Select To</option> --}}
                                     @foreach (DB::table('airport_details')->get() as $airport)
-                                        <option value="{{ $airport->code }}">{{ $airport->name . ', ' .$airport->city.', '. $airport->country }}
+                                        <option value="{{ $airport->code }}">
+                                            {{ $airport->name . ', ' . $airport->city . ', ' . $airport->country }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -186,14 +191,15 @@
                                 <div class="col-md-6">
                                     <small>Departure</small>
                                     {{-- <div class="mbsc-row"> --}}
-                                        <label>
-                                            {{-- Departure --}}
+                                    <label>
+                                        {{-- Departure --}}
 
-                                            <input type="text" name="flightBookingDepart" id="flightBookingDepart" placeholder="Start date" autocomplete="off" required/>
-                                            {{-- <input id="flightBookingDepart" mbsc-input data-input-style="outline"
+                                        <input type="text" name="flightBookingDepart" id="flightBookingDepart"
+                                            placeholder="Start date" autocomplete="off" required />
+                                        {{-- <input id="flightBookingDepart" mbsc-input data-input-style="outline"
                                                 name="flightBookingDepart" data-label-style="stacked"
                                                 placeholder="Please select..." /> --}}
-                                        </label>
+                                    </label>
 
                                     {{-- </div> --}}
 
@@ -203,7 +209,8 @@
                                     <small>Return</small>
                                     <label>
                                         {{-- Return --}}
-                                        <input type="text" name="flightBookingReturn" id="flightBookingReturn" placeholder="Return date" autocomplete="off" required />
+                                        <input type="text" name="flightBookingReturn" id="flightBookingReturn"
+                                            placeholder="Return date" autocomplete="off" required />
                                         {{-- <input id="flightBookingReturn" name="flightBookingReturn" mbsc-input
                                             data-input-style="outline" data-label-style="stacked"
                                             placeholder="Please select..." /> --}}
@@ -218,7 +225,8 @@
                         <div class="col-md-2 travellerData" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <small>Travellers & Classs</small>
                             <input type="hidden" value="1" id="adultval" name="adultval" class="">
-                            <input type="hidden" value="ECONOMY" name="travelClass" id="travelClass" class="" autocomplete="off" >
+                            <input type="hidden" value="ECONOMY" name="travelClass" id="travelClass" class=""
+                                autocomplete="off">
                             <div class="airport-name" id="travelInfo">
 
                                 <p><b>1 Adult </b></p>
@@ -239,35 +247,35 @@
 
             <!-- 2nd tab -->
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-aria-hidden="true">
-<div class="modal-dialog modal-lg">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Travellers & Class</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"><i
-                    class="fa fa-times"></i></button>
-        </div>
-        <div class="modal-body">
-            <div class="row">
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Travellers & Class</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"><i
+                                    class="fa fa-times"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
 
-                <div class="col-md-7 mb-4">
-                    <p>ADULTS (12y +)</p>
-                    <ul class="count" id="passengerCount">
-                        <li class="active" id="adult1" data-val="1">1</li>
-                        <li data-val="2" id="adult2">2</li>
-                        <li data-val="3" id="adult3">3</li>
-                        <li data-val="4" id="adult4">4</li>
-                        <li data-val="5" id="adult5">5</li>
-                        <li data-val="6" id="adult6">6</li>
-                        <li data-val="7" id="adult7">7</li>
-                        <li data-val="8" id="adult8">8</li>
-                        <li data-val="9" id="adult9">9</li>
-                    </ul>
-                </div>
+                                <div class="col-md-7 mb-4">
+                                    <p>ADULTS (12y +)</p>
+                                    <ul class="count" id="passengerCount">
+                                        <li class="active" id="adult1" data-val="1">1</li>
+                                        <li data-val="2" id="adult2">2</li>
+                                        <li data-val="3" id="adult3">3</li>
+                                        <li data-val="4" id="adult4">4</li>
+                                        <li data-val="5" id="adult5">5</li>
+                                        <li data-val="6" id="adult6">6</li>
+                                        <li data-val="7" id="adult7">7</li>
+                                        <li data-val="8" id="adult8">8</li>
+                                        <li data-val="9" id="adult9">9</li>
+                                    </ul>
+                                </div>
 
-                {{-- <div class="col-md-5 mb-4">
+                                {{-- <div class="col-md-5 mb-4">
 <p>CHILDREN (2y - 12y )</p>
 <ul class="count">
 <li class="active">0</li>
@@ -293,147 +301,166 @@ aria-hidden="true">
 </ul>
 </div> --}}
 
-                <div class="col-md-12 mb-4">
-                    <p>CHOOSE TRAVEL CLASS</p>
-                    <ul class="count" id="chooseTravel">
-                        {{-- <li class="active" id="travel1" data-val="PREMIUM_ECONOMY">Premium Economy</li> --}}
-                        <li class="active" id="travel2" data-val="ECONOMY">Economy</li>
-                        <li id="travel3" data-val="BUSINESS">Business</li>
-                        <li id="travel4" data-val="FIRST">First Class</li>
-                    </ul>
+                                <div class="col-md-12 mb-4">
+                                    <p>CHOOSE TRAVEL CLASS</p>
+                                    <ul class="count" id="chooseTravel">
+                                        {{-- <li class="active" id="travel1" data-val="PREMIUM_ECONOMY">Premium Economy</li> --}}
+                                        <li class="active" id="travel2" data-val="ECONOMY">Economy</li>
+                                        <li id="travel3" data-val="BUSINESS">Business</li>
+                                        <li id="travel4" data-val="FIRST">First Class</li>
+                                    </ul>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-one" data-bs-dismiss="modal">Close</button>
+                            <button id="saveTravelDetail" type="button" class="btn btn-theme"
+                                data-bs-dismiss="modal">Save changes</button>
+                        </div>
+                    </div>
                 </div>
-
             </div>
-
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-one" data-bs-dismiss="modal">Close</button>
-            <button id="saveTravelDetail" type="button" class="btn btn-theme"
-                data-bs-dismiss="modal">Save changes</button>
-        </div>
-    </div>
-</div>
-</div>
-<!-- Modal end -->
+            <!-- Modal end -->
 
             <!-- 3rd tab -->
 
             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-
-                <div class="row align-items-center newrow">
-                    <input type="hidden" name="tripType" id="tripTypeMulti" value="multi">
-                    <div class="col-md-3 " style="position: relative;">
-                        <small>From</small>
-                        <select class="form-control" name="fromPlace" id="fromPlace">
-                                    {{-- <option value="">Select From</option> --}}
+                <form method="get" action="{{ route('SearchFlights') }}" id="MultiCityForm" name="MultiCityForm">
+                    @csrf
+                    <div class="row align-items-center newrow">
+                        <input type="hidden" name="tripType" id="tripTypeMulti" value="multi">
+                        <div class="col-md-3 " style="position: relative;">
+                            <small>From</small>
+                            <div class="airport-name">
+                                <select class="form-select form-control" onchange="validateLocation(1)"
+                                    name="fromPlace[]" id="FromPlace1">
+                                    <option value="">Select From</option>
                                     @foreach (DB::table('airport_details')->get() as $airport)
-                                        <option value="{{ $airport->code }}">{{ $airport->name . ', ' .$airport->city.', '. $airport->country }}
+                                        <option value="{{ $airport->code }}">
+                                            {{ $airport->name . ', ' . $airport->city . ', ' . $airport->country }}
                                         </option>
                                     @endforeach
                                 </select>
-                    </div>
-                    <div class="col-md-3">
-                        <small>To</small>
-                        <div class="airport-name">
-                            <p><b>Mumbai</b></p>
-                            <p>Chathrapathi Shivaji international Airport</p>
+                            </div>
+
                         </div>
-                    </div>
-                    <div class="col-md-2">
-                        {{-- <div class="row"> --}}
-                            {{-- <div class="col-md-6"> --}}
-                                <small>Departure</small>
-                                <div class="airport-name">
-                                    {{-- <p><b>10 June, 22</b></p>
-                                    <p>Friday</p> --}}
-                                    <input type="text" name="flightBookingDepart" class="flightBookingDepart" placeholder="Start date" autocomplete="off" required/>
-                                </div>
-                            {{-- </div> --}}
-                            {{-- <div class="col-md-6">
-                                <small>Return</small>
-                                <div class="airport-name" style="padding: 4px 15px;">
-                                    <a href="#">
-                                        <p class="return-book">Click to add a return flight for a better discounts</p>
-                                    </a>
-                                </div>
-                            </div> --}}
-                        {{-- </div> --}}
-                    </div>
-                    <div class="col-md-2 travellerData" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <small>Travellers & Classs</small>
-                        <input type="hidden" value="1" id="adultval" name="adultval" class="">
-                        <input type="hidden" value="ECONOMY" name="travelClass" id="travelClass" class="">
-                        <div class="airport-name travelInfo" id="travelInfo" >
-
-                            <p><b>1 Adult </b></p>
-                            <p>Economy</p>
+                        <div class="col-md-3">
+                            <small>To</small>
+                            <div class="airport-name">
+                                <select class="form-select" name="toPlace[]" onchange="setFromPlace(1)" id="ToPlace1">
+                                    <option value="">Select To</option>
+                                    @foreach (DB::table('airport_details')->get() as $airport)
+                                        <option value="{{ $airport->code }}">
+                                            {{ $airport->name . ', ' . $airport->city . ', ' . $airport->country }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="col-md-2 ">
-                        {{-- <button onclick="clone_div()" class="btn btn-sm btn-primary">+ Add Another City</button> --}}
-                    </div>
-
-
-
-                </div>
-                <div class="row align-items-center newrow" id="multiCityDiv">
-                    <div class="col-md-3 " style="position: relative;">
-                        <small>From</small>
-                        <div class="airport-name">
-                            <p><b>Hyderabad</b></p>
-                            <p>Rajiv Gandi international Airport</p>
+                        <div class="col-md-3">
+                            <small>Departure</small>
+                            <div class="airport-name">
+                                <input type="text" name="flightBookingDepart[]" class="flightBookingDepart"
+                                    placeholder="Start date" autocomplete="off" id="flightBookingDepart1" />
+                            </div>
+                            <span id="error_date1" style="color:red"></span>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <small>To</small>
-                        <div class="airport-name">
-                            <p><b>Mumbai</b></p>
-                            <p>Chathrapathi Shivaji international Airport</p>
+                        <div class="col-md-3 travellerData" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <small>Travellers & Classs</small>
+                            <input type="hidden" value="1" id="adultval" name="adultval" class="">
+                            <input type="hidden" value="ECONOMY" name="travelClass" id="travelClass" class="">
+                            <div class="airport-name travelInfo" id="travelInfo">
+
+                                <p><b>1 Adult </b></p>
+                                <p>Economy</p>
+                            </div>
+
                         </div>
-                    </div>
-                    <div class="col-md-2">
-
-                                <small>Departure</small>
-                                <div class="airport-name">
-                                    {{-- <p><b>10 June, 22</b></p>
-                                    <p>Friday</p> --}}
-                                    <input type="text" name="flightBookingDepart" class="flightBookingDepart" placeholder="Start date" autocomplete="off" required/>
-                                </div>
 
                     </div>
-                    <div class="col-md-2 ">
-                        <button id="addCity1" onclick="clone_div()" class="btn btn-sm btn-primary">+ Add Another City</button>
+                    <span id="error_same1" style="color:red"></span>
+                    <div class="row align-items-center newrow" id="multiCityDiv">
+                        <div class="col-md-3 " style="position: relative;">
+                            <small>From</small>
+                            <div class="airport-name">
+                                <select class="form-control" onchange="validateLocation(2)" name="fromPlace[]"
+                                    id="FromPlace2">
+                                    <option value="">Select From</option>
+                                    @foreach (DB::table('airport_details')->get() as $airport)
+                                        <option value="{{ $airport->code }}">
+                                            {{ $airport->name . ', ' . $airport->city . ', ' . $airport->country }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <small>To</small>
+                            <div class="airport-name">
+                                <select class="form-control" name="toPlace[]" onchange="setFromPlace(2)" id="ToPlace2">
+                                    <option value="">Select To</option>
+                                    @foreach (DB::table('airport_details')->get() as $airport)
+                                        <option value="{{ $airport->code }}">
+                                            {{ $airport->name . ', ' . $airport->city . ', ' . $airport->country }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+
+                            <small>Departure</small>
+                            <div class="airport-name">
+                                {{-- <p><b>10 June, 22</b></p>
+                                      <p>Friday</p> --}}
+                                <input type="text" name="flightBookingDepart[]" class="flightBookingDepart"
+                                    placeholder="Start date" autocomplete="off" id="flightBookingDepart2" />
+                            </div>
+                            <span id="error_date2" style="color:red"></span>
+
+                        </div>
+                        <div class="col-md-3 ">
+                            <button type="button" id="addCity1" onclick="clone_div()" class="btn btn-sm btn-primary">+
+                                Add Another City</button>
+
+                        </div>
+
+
+                        {{-- <div class="col-md-2 ">
+                          <button onclick="clone_div()" class="btn btn-sm btn-primary">+ Add Another City</button>
+                      </div> --}}
+
+                        <span id="error_same2" style="color:red"></span>
                     </div>
-                    <div class="col-md-2 ">
-                        {{-- <button onclick="clone_div()" class="btn btn-sm btn-primary">+ Add Another City</button> --}}
+
+                    <div class="col-md-2 ms-auto">
+                        <a href="{{ route('search-flights') }}"> <button id="Submit"
+                                class="btn btn-search-flights">Search
+                                Flights</button></a>
                     </div>
-
-
-                </div>
-
-                <div class="col-md-2 ms-auto">
-                    <a href="{{ route('search-flights') }}"> <button class="btn btn-search-flights">Search
-                            Flights</button></a>
-                </div>
 
 
             </div>
 
-
+            </form>
         </div>
 
-        <section class="title">
-            <h1>Makemyfly Flights offers for you</h1>
-            <div class="row">
-                <div class="col-md-4">
-                    <img src="assets/img/covid-precations.png" class="img-fluid">
-                </div>
-                <div class="col-md-8">
-                    <img src="assets/img/covid-precations-offers.png" class="img-fluid">
-                </div>
+
+    </div>
+
+    <section class="title">
+        <h1>Makemyfly Flights offers for you</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <img src="assets/img/covid-precations.png" class="img-fluid">
             </div>
-        </section>
+            <div class="col-md-8">
+                <img src="assets/img/covid-precations-offers.png" class="img-fluid">
+            </div>
+        </div>
+    </section>
 
     </div>
     <!--End of container -->
@@ -455,234 +482,6 @@ aria-hidden="true">
 
 
         $(function() {
-            // var d = new Date();
-            // var month = d.getMonth() + 1;
-            // var day = d.getDate();
-
-            // var todayDate = d.getFullYear() + '-' +
-            //     (month < 10 ? '0' : '') + month + '-' +
-            //     (day < 10 ? '0' : '') + day;
-
-            // var maxDate = parseInt(d.getFullYear() + 1) + '-03-31';
-
-
-            // mobiscroll.setOptions({
-            //     locale: mobiscroll
-            //         .localeEn, // Specify language like: locale: mobiscroll.localePl or omit setting to use default
-            //     theme: 'ios', // Specify theme like: theme: 'ios' or omit setting to use default
-            //     themeVariant: 'light' // More info about themeVariant: https://docs.mobiscroll.com/5-18-2/calendar#opt-themeVariant
-            // });
-
-            // Mobiscroll Calendar initialization
-            // var min = todayDate;
-            // var max = maxDate;
-            // $('#departure-booking').mobiscroll().datepicker({
-            //           // display: 'inline',                       // Specify display mode like: display: 'bottom' or omit setting to use default
-            //           controls: ['calendar'],                  // More info about controls: https://docs.mobiscroll.com/5-18-2/calendar#opt-controls
-            //           min: min,                                // More info about min: https://docs.mobiscroll.com/5-18-2/calendar#opt-min
-            //           max: max,                                // More info about max: https://docs.mobiscroll.com/5-18-2/calendar#opt-max
-            //           // pages: 'auto',
-            //           selectMultiple: false,
-            //           selectMin: 1,
-            //           // controls: ['date'],
-            //           dateFormat: 'DDD, DD MMM YYYY',
-
-            //           // pages: 'auto',
-            //           onInit: function (event, inst) {         // More info about onInit: https://docs.mobiscroll.com/5-18-2/calendar#event-onInit
-            //               // inst.setVal([
-            //               //     '2022-09-11T00:00',
-            //               //     '2022-09-16T00:00',
-            //               //     '2022-09-17T00:00'
-            //               // ], true);
-            //           },
-            //           onPageLoading: function (event, inst) {  // More info about onPageLoading: https://docs.mobiscroll.com/5-18-2/calendar#event-onPageLoading
-            //             // getPrices(event.firstDay, function callback(bookings) {
-            //             //       inst.setOptions({
-            //             //           labels: bookings.labels,     // More info about labels: https://docs.mobiscroll.com/5-18-2/calendar#opt-labels
-            //             //           invalid: bookings.invalid    // More info about invalid: https://docs.mobiscroll.com/5-18-2/calendar#opt-invalid
-            //             //       });
-            //             //   });
-            //           }
-            //       });
-
-            //       $('#return-booking').mobiscroll().datepicker({
-            //           // display: 'inline',                       // Specify display mode like: display: 'bottom' or omit setting to use default
-            //           controls: ['calendar'],                  // More info about controls: https://docs.mobiscroll.com/5-18-2/calendar#opt-controls
-            //           min: min,                                // More info about min: https://docs.mobiscroll.com/5-18-2/calendar#opt-min
-            //           max: max,                                // More info about max: https://docs.mobiscroll.com/5-18-2/calendar#opt-max
-            //           // pages: 'auto',
-            //           selectMultiple: false,
-            //           selectMin: 1,
-            //           // controls: ['date'],
-            //           dateFormat: 'DDD, DD MMM YYYY',
-
-            //           // pages: 'auto',
-            //           onInit: function (event, inst) {         // More info about onInit: https://docs.mobiscroll.com/5-18-2/calendar#event-onInit
-            //               // inst.setVal([
-            //               //     '2022-09-11T00:00',
-            //               //     '2022-09-16T00:00',
-            //               //     '2022-09-17T00:00'
-            //               // ], true);
-            //           },
-            //           onPageLoading: function (event, inst) {  // More info about onPageLoading: https://docs.mobiscroll.com/5-18-2/calendar#event-onPageLoading
-            //             // getPrices(event.firstDay, function callback(bookings) {
-            //             //       inst.setOptions({
-            //             //           labels: bookings.labels,     // More info about labels: https://docs.mobiscroll.com/5-18-2/calendar#opt-labels
-            //             //           invalid: bookings.invalid    // More info about invalid: https://docs.mobiscroll.com/5-18-2/calendar#opt-invalid
-            //             //       });
-            //             //   });
-            //           }
-            //       });
-
-
-            // var booking = $('#flightBookingDepart').mobiscroll().datepicker({
-            //     controls: [
-            //         'calendar'
-            //     ], // More info about controls: https://docs.mobiscroll.com/5-18-2/range#opt-controls
-            //     select: 'range', // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
-            //     display: 'anchored', // Specify display mode like: display: 'bottom' or omit setting to use default
-            //     startInput: '#flightBookingDepart', // More info about startInput: https://docs.mobiscroll.com/5-18-2/range#opt-startInput
-            //     endInput: '#flightBookingReturn', // More info about endInput: https://docs.mobiscroll.com/5-18-2/range#opt-endInput
-            //     min: min, // More info about min: https://docs.mobiscroll.com/5-18-2/range#opt-min
-            //     max: max, // More info about max: https://docs.mobiscroll.com/5-18-2/range#opt-max
-            //     pages: 1,
-            //     dateFormat: 'DDD, DD MMM YYYY',
-            //     onInit: function(event,
-            //         inst
-            //         ) { // More info about onInit: https://docs.mobiscroll.com/5-18-2/calendar#event-onInit
-            //         inst.setVal([min], true);
-            //     },
-
-
-            // }).mobiscroll('getInst');
-
-            // var oneWayDis = $("#oneWay").val();
-            // // alert(oneWayDis)
-            // $('#flightBookingReturn').mobiscroll('getInst').setOptions({
-            //     disabled: oneWayDis
-            // });
-
-            // if (oneWayDis) {
-            //     booking.setOptions({
-            //         select: 'date' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
-            //     });
-            // } else {
-            //     booking.setOptions({
-            //         select: 'range' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
-            //     });
-            // }
-
-            // $('.demo-flight-type').on('change', function() {
-            //     var oneWay = this.value == 'oneway';
-            //     $('#flightBookingReturn').mobiscroll('getInst').setOptions({
-            //         disabled: oneWay
-            //     });
-
-            //     if (oneWay) {
-            //         booking.setOptions({
-            //             select: 'date' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
-            //         });
-            //     } else {
-            //         booking.setOptions({
-            //             select: 'range' // More info about select: https://docs.mobiscroll.com/5-18-2/range#methods-select
-            //         });
-            //     }
-            // });
-
-
-
-            // function getPrices(d, callback) {
-            //     var invalid = [],
-            //         labels = [];
-
-            //     mobiscroll.util.http.getJson('https://trial.mobiscroll.com/getprices/?year=' + d.getFullYear() +
-            //         '&month=' + d.getMonth(),
-            //         function(bookings) {
-            //             for (var i = 0; i < bookings.length; ++i) {
-            //                 var booking = bookings[i],
-            //                     d = new Date(booking.d);
-
-            //                 if (booking.price > 0) {
-            //                     labels.push({
-            //                         start: d,
-            //                         title: '$' + booking.price,
-            //                         textColor: '#e1528f'
-            //                     });
-            //                 } else {
-            //                     invalid.push(d);
-            //                 }
-            //             }
-            //             callback({
-            //                 labels: labels,
-            //                 invalid: invalid
-            //             });
-            //         }, 'jsonp');
-            // }
-
-
-            //         var fromPlace = $('#fromPlace').mobiscroll().select({
-            //     display: 'anchored',
-            //     filter: true,
-            //     data: [],
-            //     onFilter: function (ev) {
-            //         fromFiltering(ev.filterText);
-            //         return false;
-            //     },
-            // }).mobiscroll('getInst');
-
-
-            // function fromFiltering(filterText) {
-            //     // $.getJSON('https://trial.mobiscroll.com/airports/' + encodeURIComponent(filterText) + '?callback=?', function (data) {
-            //     $.getJSON("{{ route('get-airports') }}"+ '/?filterText=' + filterText, function (data) {
-            //       // console.log(data);
-            //         var item;
-            //         var airports = [];
-
-            //         for (var i = 0; i < data.length; i++) {
-            //             item = data[i];
-            //             airports.push({ text: item.name+', '+item.country, value: item.code })
-            //         }
-
-            //         fromPlace.setOptions({ data: airports });
-            //     }, 'jsonp');
-            // }
-
-            // fromFiltering('');
-
-
-            //   var toPlace = $('#toPlace').mobiscroll().select({
-            //     display: 'anchored',
-            //     filter: true,
-            //     data: [],
-
-            //     onFilter: function (ev) {
-            //         toFiltering(ev.filterText);
-            //         return false;
-            //     },
-            // }).mobiscroll('getInst');
-
-            // function toFiltering(filterText) {
-            //     // $.getJSON('https://trial.mobiscroll.com/airports/' + encodeURIComponent(filterText) + '?callback=?', function (data) {
-            //     $.getJSON("{{ route('get-airports') }}"+ '/?filterText=' + filterText, function (data) {
-            //       // console.log(data);
-            //         var item;
-            //         var airports = [];
-
-
-            //         for (var i = 0; i < data.length; i++) {
-            //             item = data[i];
-            //             airports.push({ text: item.name+', '+item.country, value: item.code })
-            //         }
-
-            //         toPlace.setOptions({ data: airports });
-            //     }, 'jsonp');
-            // }
-
-            // toFiltering('');
-
-
-
-
 
             $('#fromPlace').select2({
                 placeholder: 'Select from',
@@ -841,72 +640,51 @@ aria-hidden="true">
             });
 
 
-
-            //     $('form[name=searchOneWay]').on('submit', function(e) {
-            //     e.preventDefault();
-            //     var fromPlace = $('#fromPlace').val();
-            //     var toPlace = $('#toPlace').val();
-            //     var flightBookingDepart = $('#flightBookingDepart').val();
-            //     var adultsVal = localStorage.getItem('adultsVal');
-            //     var travelClassVal = localStorage.getItem('travelClassVal');
-            //      var formData = {'fromPlace':fromPlace,'toPlace':toPlace,'flightBookingDepart':flightBookingDepart,'adultsVal':adultsVal,'travelClassVal':travelClassVal};
-
-            //     //  console.log(formData);
-            //      $.ajaxSetup({
-            //     headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //     },
-            //   });
-
-            //     $.ajax({
-            //         type: 'POST',
-            //         url: '{{ route('SearchFlights') }}',
-            //         data: formData,
-            //         dataType: 'json',
-            //         // cache: false,
-            //         // async: true,
-            //         // processData: true,
-            //         success: function (data) {
-            //             if(data.status.success == false){
-            //                 alert(data.errors[0].message);
-
-            //             }
-            //         }
-            //     })
-
-
-            // })
-
         });
 
         function clone_div() {
-            var count = $('.newrow').length;
+            var count1 = $('.newrow').length;
+            var count = count1 + 1;
             // alert(count);
             var html =`<div class="row align-items-center newrow" id="newrow${count}">
                                     <div class="col-md-3 " style="position: relative;">
                         <small>From</small>
                         <div class="airport-name ">
-                            <p><b>Hyderabad</b></p>
-                            <p>Rajiv Gandi international Airport</p>
+                            <select class="form-select" onchange="validateLocation(${count})" name="fromPlace[]${count}" id="FromPlace${count}">
+                            <option value="">Select From</option>
+                                    @foreach (DB::table('airport_details')->get() as $airport)
+                                        <option value="{{ $airport->code }}"
+                                        >{{ $airport->name . ', ' .$airport->city.', '. $airport->country }}
+                                        </option>
+                                    @endforeach
+                                </select>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <small>To</small>
                         <div class="airport-name">
-                            <p><b>Mumbai</b></p>
-                            <p>Chathrapathi Shivaji international Airport</p>
+                            <select class="form-control" onchange="setFromPlace(${count})" name="toPlace[]${count}" id="ToPlace${count}">
+                            <option value="">Select To</option>
+                                    @foreach (DB::table('airport_details')->get() as $airport)
+                                        <option value="{{ $airport->code }}">{{ $airport->name . ', ' .$airport->city.', '. $airport->country }}
+                                        </option>
+                                    @endforeach
+                                </select>
                         </div>
                     </div>
                     <div class="col-md-2">
 
                                 <small>Departure</small>
                                 <div class="airport-name">
-                                    <input type="text" name="flightBookingDepart" class="flightBookingDepart" placeholder="Start date" autocomplete="off" required/>
+                                    <input type="text" name="flightBookingDepart[]${count}" class="flightBookingDepart" placeholder="Start date"
+                                    autocomplete="off" id="flightBookingDepart${count}"  />
                                 </div>
-
+                                <span id="error_date${count}" style="color:red"></span>
                     </div>
+
+
                     <div class="col-md-2 ">
-                        <button id="addCity${count}" onclick="clone_div()" class="btn btn-sm btn-primary">+ Add Another City</button>
+                        <button id="addCity${count}" onclick="clone_div()" type="button" class="btn btn-sm btn-primary">+ Add Another City</button>
                     </div>
                     <div class="col-md-2 ">
                         <button id="removeCity${count}" type="button" class="plus-bg bg-danger" onclick="remove(${count})">
@@ -914,9 +692,8 @@ aria-hidden="true">
                                 </button>
 
                     </div>
-
-
-                </div>`;
+                </div>
+                 </br> <span id="error_same${count}" style="color:red"></span>`;
 
 
                 $('#multiCityDiv').append(html);
@@ -924,8 +701,8 @@ aria-hidden="true">
                 $('#addCity1').hide();
 
 
-                if(count >= 4){
-                    $('#addCity4').hide();
+                if(count >= 5){
+                    $('#addCity5').hide();
                     $('#addCity'+(parseInt(count)-1)).hide();
                     $('#removeCity'+(parseInt(count)-1)).hide();
                 }else{
@@ -935,8 +712,16 @@ aria-hidden="true">
                 }
 
 
-
-
+                $('#FromPlace'+count).select2({
+                    placeholder: 'Select from',
+                });
+                var prev_count = parseInt(count) - 1 ;
+                var prev_to_place = $("#ToPlace"+prev_count).val();
+                $("#FromPlace"+count).select2();
+                $("#FromPlace"+count).val(prev_to_place).trigger("change");
+                $('#ToPlace'+count).select2({
+                        placeholder: 'Select to'
+                });
         }
 
         function remove(id) {
@@ -945,179 +730,293 @@ aria-hidden="true">
             // alert(id+'kkk')
             $('#newrow' + id).remove();
             // $('#addCity1').show();
-            if(count <= 5){
+            if (count <= 5) {
                 // alert('addCity'+(parseInt(id)-1));
-                $('#addCity'+(parseInt(id)-1)).show();
-                $('#removeCity'+(parseInt(id)-1)).show();
+                $('#addCity' + (parseInt(id) - 1)).show();
+                $('#removeCity' + (parseInt(id) - 1)).show();
             }
 
         }
         $('#flightBookingReturn').prop('disabled', true);
-        $('#oneWay').click(function(){
+        $('#oneWay').click(function() {
             $('#tripType').val('oneway');
             $('#flightBookingReturn').prop('disabled', true);
         });
-         $('#roundTrip').click(function(){
+        $('#roundTrip').click(function() {
             $('#tripType').val('round');
             $('#flightBookingReturn').prop('disabled', false);
         });
-
     </script>
 
     <script>
-var start_date = null, end_date = null;
-var timestamp_start_date = null, timestamp_end_date = null;
-var $input_start_date = null, $input_end_date = null;
+        var start_date = null,
+            end_date = null;
+        var timestamp_start_date = null,
+            timestamp_end_date = null;
+        var $input_start_date = null,
+            $input_end_date = null;
 
 
 
-function getDateClass(date, start, end){
-	if(end != null && start != null){
-		if(date > start && date < end)
-			return [ true, "sejour", "Séjour" ];
-	}
+        function getDateClass(date, start, end) {
+            if (end != null && start != null) {
+                if (date > start && date < end)
+                    return [true, "sejour", "Séjour"];
+            }
 
-	if(date == start)
-		return [ true, "start", "Début de votre séjour" ];
-	if(date == end)
-		return [ true, "end", "Fin de votre séjour" ];
+            if (date == start)
+                return [true, "start", "Début de votre séjour"];
+            if (date == end)
+                return [true, "end", "Fin de votre séjour"];
 
-	return false;
-}
-
-function datepicker_draw_nb_nights(){
-	var $datepicker = jQuery("#ui-datepicker-div");
-	setTimeout(function(){
-		if(start_date != null && end_date != null){
-			var $qty_days_stay = jQuery("<div />", { class: "ui-datepicker-stay-duration" });
-			var qty_nights_stay = get_days_difference(timestamp_start_date, timestamp_end_date);
-			$qty_days_stay.text(qty_nights_stay + " nights stay");
-			$qty_days_stay.appendTo($datepicker);
-		}
-	});
-}
-
-            var d = new Date();
-            var month = d.getMonth() + 1;
-            var day = d.getDate();
-
-            var todayDate = (day < 10 ? '0' : '') + day+ '-' +
-                (month < 10 ? '0' : '') + month + '-' + d.getFullYear();
-
-            // var todayDate = '21/09/2022';
-
-            var maxDate = '31-03-'+parseInt(d.getFullYear() + 1) ;
-
-
-
-var options_start_date = {
-    dateFormat : "dd-mm-yy",
-	showAnim: false,
-	constrainInput: true,
-  	numberOfMonths: 1,
-	showOtherMonths: true,
-    minDate: todayDate,
-    maxDate: maxDate,
-	beforeShow: function(input, datepicker){
-
-		datepicker_draw_nb_nights();
-	},
-	beforeShowDay: function(date){
-
-		// 0: published
-		// 1: class
-		// 2: tooltip
-		var timestamp_date = date.getTime();
-		var result = getDateClass(timestamp_date, timestamp_start_date, timestamp_end_date);
-		if(result != false)
-			return result;
-
-		return [true, "", ""];
-		// return [ true, "chocolate", "Chocolate! " ];
-	},
-	onSelect: function(date_string, datepicker){
-		// this => input
-        if($('#tripType').val() != 'oneway'){
-		start_date = $input_start_date.datepicker("getDate",'minDate');
-		timestamp_start_date = start_date.getTime();
+            return false;
         }
 
-	},
-	onClose: function(){
-		if(end_date != null){
-			if(timestamp_start_date >= timestamp_end_date || end_date == null){
-				$input_end_date.datepicker("setDate", null);
-				end_date = null;
-				timestamp_end_date = null;
-				$input_end_date.datepicker("show");
-				return;
-			}
-		}
-		if(start_date != null && end_date == null)
-			$input_end_date.datepicker("show");
-	}
-};
+        function datepicker_draw_nb_nights() {
+            var $datepicker = jQuery("#ui-datepicker-div");
+            setTimeout(function() {
+                if (start_date != null && end_date != null) {
+                    var $qty_days_stay = jQuery("<div />", {
+                        class: "ui-datepicker-stay-duration"
+                    });
+                    var qty_nights_stay = get_days_difference(timestamp_start_date, timestamp_end_date);
+                    $qty_days_stay.text(qty_nights_stay + " nights stay");
+                    $qty_days_stay.appendTo($datepicker);
+                }
+            });
+        }
 
-var options_end_date = {
-    dateFormat : "dd-mm-yy",
-	showAnim: false,
-	constrainInput: true,
-  	numberOfMonths: 1,
-	showOtherMonths: true,
-    minDate: todayDate,
-    maxDate:maxDate,
-	beforeShow: function(input, datepicker){
-		datepicker_draw_nb_nights();
-	},
-	beforeShowDay: function(date){
-		var timestamp_date = date.getTime();
-		var result = getDateClass(timestamp_date, timestamp_start_date, timestamp_end_date);
-		if(result != false)
-			return result;
+        var d = new Date();
+        var month = d.getMonth() + 1;
+        var day = d.getDate();
 
-		return [ true, "", "Chocolate !" ];
-	},
-	onSelect: function(date_string, datepicker){
-		// this => input
-		end_date = $input_end_date.datepicker("getDate",'minDate');
-		timestamp_end_date = end_date.getTime();
-	},
-	onClose: function(){
-		if(end_date == null)
-			return;
+        var todayDate = (day < 10 ? '0' : '') + day + '-' +
+            (month < 10 ? '0' : '') + month + '-' + d.getFullYear();
 
-		if(timestamp_end_date <= timestamp_start_date || start_date == null){
-			$input_start_date.datepicker("setDate", null);
-			start_date = null;
-			timestamp_start_date = null;
-			$input_start_date.datepicker("show");
-		}
-	}
-};
+        // var todayDate = '21/09/2022';
 
-$input_start_date = jQuery("#flightBookingDepart");
-$input_end_date = jQuery("#flightBookingReturn");
+        var maxDate = '31-03-' + parseInt(d.getFullYear() + 1);
 
 
 
+        var options_start_date = {
+            dateFormat: "dd-mm-yy",
+            showAnim: false,
+            constrainInput: true,
+            numberOfMonths: 1,
+            showOtherMonths: true,
+            minDate: todayDate,
+            maxDate: maxDate,
+            beforeShow: function(input, datepicker) {
 
-$input_start_date.datepicker(options_start_date);
-$input_start_date.datepicker('setDate',todayDate);
-$input_end_date.datepicker(options_end_date);
+                datepicker_draw_nb_nights();
+            },
+            beforeShowDay: function(date) {
+
+                // 0: published
+                // 1: class
+                // 2: tooltip
+                var timestamp_date = date.getTime();
+                var result = getDateClass(timestamp_date, timestamp_start_date, timestamp_end_date);
+                if (result != false)
+                    return result;
+
+                return [true, "", ""];
+                // return [ true, "chocolate", "Chocolate! " ];
+            },
+            onSelect: function(date_string, datepicker) {
+                // this => input
+                if ($('#tripType').val() != 'oneway') {
+                    start_date = $input_start_date.datepicker("getDate", 'minDate');
+                    timestamp_start_date = start_date.getTime();
+                }
+
+            },
+            onClose: function() {
+                if (end_date != null) {
+                    if (timestamp_start_date >= timestamp_end_date || end_date == null) {
+                        $input_end_date.datepicker("setDate", null);
+                        end_date = null;
+                        timestamp_end_date = null;
+                        $input_end_date.datepicker("show");
+                        return;
+                    }
+                }
+                if (start_date != null && end_date == null)
+                    $input_end_date.datepicker("show");
+            }
+        };
+
+        var options_end_date = {
+            dateFormat: "dd-mm-yy",
+            showAnim: false,
+            constrainInput: true,
+            numberOfMonths: 1,
+            showOtherMonths: true,
+            minDate: todayDate,
+            maxDate: maxDate,
+            beforeShow: function(input, datepicker) {
+                datepicker_draw_nb_nights();
+            },
+            beforeShowDay: function(date) {
+                var timestamp_date = date.getTime();
+                var result = getDateClass(timestamp_date, timestamp_start_date, timestamp_end_date);
+                if (result != false)
+                    return result;
+
+                return [true, "", "Chocolate !"];
+            },
+            onSelect: function(date_string, datepicker) {
+                // this => input
+                end_date = $input_end_date.datepicker("getDate", 'minDate');
+                timestamp_end_date = end_date.getTime();
+            },
+            onClose: function() {
+                if (end_date == null)
+                    return;
+
+                if (timestamp_end_date <= timestamp_start_date || start_date == null) {
+                    $input_start_date.datepicker("setDate", null);
+                    start_date = null;
+                    timestamp_start_date = null;
+                    $input_start_date.datepicker("show");
+                }
+            }
+        };
+
+        $input_start_date = jQuery("#flightBookingDepart");
+        $input_end_date = jQuery("#flightBookingReturn");
+
+
+
+
+        $input_start_date.datepicker(options_start_date);
+        $input_start_date.datepicker('setDate', todayDate);
+        $input_end_date.datepicker(options_end_date);
 
 
 
 
 
-function get_days_difference(start_date, end_date){
-	return Math.floor(end_date - start_date) / (1000*60*60*24);
-}
+        function get_days_difference(start_date, end_date) {
+            return Math.floor(end_date - start_date) / (1000 * 60 * 60 * 24);
+        }
 
 
-    $(document).on('focus','.flightBookingDepart',function(){
+        $(document).on('focus', '.flightBookingDepart', function() {
+            $(this).datepicker(options_start_date);
+        })
+
+
+        // ================ mrunal===========================
+        function setFromPlace(id) {
+            var nxt_id = parseInt(id) + 1;
+            var to_place = $("#ToPlace" + id).val();
+            var from_place = $("#FromPlace" + id).val();
+            if (to_place == from_place) {
+                $("#error_same" + id).text('From-Place and To-Place can not be same...!');
+                //$("#Submit").prop('disabled', true);
+                $("#Submit").hide();
+            } else {
+                $("#error_same" + id).text('');
+                //$("#Submit").prop('disabled', false);
+                $("#Submit").show();
+                $("#FromPlace" + nxt_id).val(to_place);
+                $("#FromPlace" + nxt_id).select2();
+                $("#FromPlace" + nxt_id).val(to_place).trigger("change");
+            }
+        }
+
+        function validateLocation(id) {
+            var to_place = $("#ToPlace" + id).val();
+            var from_place = $("#FromPlace" + id).val();
+            if (to_place != '' || from_place != '') {
+                if (to_place == from_place) {
+                    $("#error_same" + id).text('From-Place and To-Place can not be same...!');
+                    $("#Submit").hide();
+                } else {
+                    $("#error_same" + id).text('');
+                    $("#Submit").show();
+                }
+            }
+        }
+
+        $('form[name="MultiCityForm"]').submit(function(e){
+
+    var count1 = $('.newrow').length;
+    var arr=[];
+    for(var i=1; i<=count1; i++)
+    {
+      arr.push(i);
+    }
+     $.each(arr, function(key, value){
+         var fplace = $("#FromPlace"+value).val();
+          var tplace = $("#ToPlace"+value).val();
+          var date = $("#flightBookingDepart"+value).val();
+          var prev_date = $("#flightBookingDepart"+parseInt(value - 1)).val();
+          var nxt_date = $("#flightBookingDepart"+parseInt(value + 1)).val();
+          var temp = '';
+         if(value <= count1)
+         {
+           if(date == '')
+              {
+                   $("#error_date"+value).text('This field can not be empty...!');
+                   e.preventDefault();
+              }else if(date > nxt_date)
+                  {
+                      $.each(arr, function(key1, value1){
+                      $("#flightBookingDepart"+value1).val('');
+                      });
+
+                      $("#error_date"+value).text('Please enter correct date...!');
+                      e.preventDefault();
+                  }
+               else if(fplace == '')
+              {
+                  $("#error_same"+value).text('This field can not be empty...!');
+                  e.preventDefault();
+                  return false;
+              }else if(tplace == '')
+              {
+                  $("#error_same"+value).text('This field can not be empty...!');
+                   e.preventDefault();
+                  return false;
+              }
+              else{
+                  $("#error_date"+value).text('');
+                  $("#error_same"+value).text('');
+                  $("#error_date"+value).text('');
+                  return true;
+              }
+         }
+
+     });
+  });
+
+  $(document).on('focus','.flightBookingDepart',function(){
         $(this).datepicker(options_start_date);
-    })
+    });
+
+    $(document).on('select2:open', () => {
+   document.querySelector('.select2-search__field').focus();
+});
+
+$('#FromPlace1').select2({
+    placeholder: 'Select from',
+});
 
 
-        </script>
+$('#ToPlace1').select2({
+        placeholder: 'Select to',
+});
+
+$('#FromPlace2').select2({
+    placeholder: 'Select from',
+});
+
+$('#ToPlace2').select2({
+        placeholder: 'Select to'
+});
+        // ================ mrunal===========================
+    </script>
 @endsection

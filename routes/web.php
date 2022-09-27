@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReviewBookingController;
 use App\Http\Controllers\SearchFlightsController;
+use App\Http\Controllers\SeatSelectionController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -32,7 +33,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::any('/getFarePrices', [SearchFlightsController::class, 'getFarePrices'])->name('getFarePrices');
 
     Route::get('/reviewDetails', [ReviewBookingController::class, 'reviewDetails'])->name('reviewDetails');
-    Route::get('/booking-final', [HomeController::class, 'bookingFinal'])->name('booking-final');
+    Route::get('/seatSelection', [SeatSelectionController::class, 'seatSelection'])->name('seatSelection');
 
 });
 

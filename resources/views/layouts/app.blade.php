@@ -99,7 +99,7 @@
                     {{-- <p class="link"><a href="" data-bs-toggle="modal" data-bs-target="#reset"><i>Reset Password</i></a></p> --}}
                 </div>
                 <div class="col-md-4 text-right">
-                    <a href="" id="loginButton" class="btn btn-theme float-end" data-bs-toggle="modal" data-bs-target="#loginotp" style="cursor:pointer; display:none">LOGIN</a>
+                    <button disabled  id="loginButton" class="btn btn-theme float-end" data-bs-toggle="modal" data-bs-target="#loginotp" style="cursor:pointer; ">LOGIN</button>
                 </div>
             </div>
         </form>
@@ -470,8 +470,11 @@
 
                if(data == 1){
                       $('#email_exist').hide();
+                      // $('#loginButton').removeAttr('disabled');
                }else{
                 $('#email_exist').show();
+                $('#loginButton').prop("disabled", true);
+
                }
               }
             });
@@ -501,10 +504,12 @@
 
                 if(data == 1){
                       $('#pwd_exist').hide();
-                      $('#loginButton').show();
+                      // $('#loginButton').show();
+                      $('#loginButton').prop("disabled", false);
                }else{
                 $('#pwd_exist').show();
-                $('#loginButton').hide();
+                // $('#loginButton').hide();
+                $('#loginButton').prop("disabled", true);
                }
               }
             });
@@ -514,7 +519,8 @@
         });
 
         //submit login
-      $(document).on('click','#loginButton',function(){
+      $(document).on('click','#loginButton',function(e){
+        e.preventDefault();
           // var password = $('#loginPwd').val();
           var email = $('#email').val();
           if(password != ''){

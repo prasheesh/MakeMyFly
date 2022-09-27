@@ -14,9 +14,10 @@ class SearchFlightsController extends Controller
     {
 
       // dd($request->all());
-        $travelDate = date('Y-m-d', strtotime($request->flightBookingDepart));
-        $travelReturnDate = date('Y-m-d', strtotime($request->flightBookingReturn));
+
         if($request->tripType == 'oneway'){
+          $travelDate = date('Y-m-d', strtotime($request->flightBookingDepart));
+        $travelReturnDate = date('Y-m-d', strtotime($request->flightBookingReturn));
 
         $data = '{
             "searchQuery": {
@@ -38,12 +39,14 @@ class SearchFlightsController extends Controller
                 }
               ],
               "searchModifiers": {
-                "isDirectFlight": true,
-                "isConnectingFlight": false
+                "isDirectFlight": false,
+                "isConnectingFlight": true
               }
             }
           }';
         }else if($request->tripType == 'round'){
+          $travelDate = date('Y-m-d', strtotime($request->flightBookingDepart));
+        $travelReturnDate = date('Y-m-d', strtotime($request->flightBookingReturn));
           $data = '{
             "searchQuery": {
               "cabinClass": "' . $request->travelClass . '",
@@ -72,6 +75,47 @@ class SearchFlightsController extends Controller
                   "travelDate": "' . $travelReturnDate . '"
                 }
               ],
+              "searchModifiers": {
+                "isDirectFlight": true,
+                "isConnectingFlight": false
+              }
+            }
+          }';
+        }else if($request->tripType == 'multi'){
+
+          $data = '{
+            "searchQuery": {
+              "cabinClass": "' . $request->travelClass . '",
+              "paxInfo": {
+                "ADULT": "' . $request->adultval . '",
+                "CHILD": "0",
+                "INFANT": "0"
+              },
+              "routeInfos": [';
+
+              for($i=0;$i<count($request->fromPlace);$i++){
+
+                $travelDate = date('Y-m-d', strtotime($request->flightBookingDepart[$i]));
+
+                $data .=    '{
+                  "fromCityOrAirport": {
+                    "code": "' . $request->fromPlace[$i] . '"
+                  },
+                  "toCityOrAirport": {
+                    "code": "' . $request->toPlace[$i] . '"
+                  },
+                  "travelDate": "' . $travelDate . '"
+                }';
+
+               if($i < (count($request->fromPlace)-1)){
+                $data .= ',';
+               }
+
+              }
+
+
+
+            $data .= '],
               "searchModifiers": {
                 "isDirectFlight": true,
                 "isConnectingFlight": false

@@ -63,7 +63,7 @@ border: 0px solid #257483;
 
              <div class="modal-footer text-end">
               <button class="btn btn-edit">Edit</button>
-                <a href="{{ route('booking-final')}}"><button class="btn btn-confirm">Confirm</button></a>
+                <a href="{{ route('seatSelection')}}"><button class="btn btn-confirm">Confirm</button></a>
              </div>
 
            <div class="clearfix"></div>
