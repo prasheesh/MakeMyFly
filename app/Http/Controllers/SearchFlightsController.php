@@ -39,8 +39,8 @@ class SearchFlightsController extends Controller
                 }
               ],
               "searchModifiers": {
-                "isDirectFlight": false,
-                "isConnectingFlight": true
+                "isDirectFlight": true,
+                "isConnectingFlight": false
               }
             }
           }';

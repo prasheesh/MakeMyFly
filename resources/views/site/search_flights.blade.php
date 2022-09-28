@@ -931,6 +931,8 @@
                                             <div class="card-body round-trip1">
                                                 @if ($result_array->status->success == true && $result_array->status->httpStatus == 200)
                                                     @if (isset($result_array->searchResult->tripInfos->ONWARD))
+
+
                                                         <p>{{ $result_array->searchResult->tripInfos->ONWARD[0]->sI[0]->da->city }}
                                                             →
                                                             {{ $result_array->searchResult->tripInfos->ONWARD[0]->sI[0]->aa->city }}
@@ -959,6 +961,12 @@
                                                         </p>
                                                     @endif
                                                 @endif
+                                                <div class="bg-tablle">
+                                                    <p>Departure</p>
+                                                    <p>Duration</p>
+                                                    <p>Arrival</p>
+                                                    <p>Price</p>
+                                                </div>
 
                                             </div>
                                         </div>
@@ -969,26 +977,6 @@
 {{-- //international round trip --}}
 
 
-<?php
-
-    foreach($result_array->searchResult->tripInfos->COMBO as $keys=>$values){
-        foreach($values->sI as $key=>$v){
-
-
-if($v->isRs == false)
-{
-    // print_r($v);
-}
-
-
-
-        }
-
-
-    }
-
-
-?>
 
 @foreach ($result_array->searchResult->tripInfos->COMBO as $key => $value)
 {{-- {{ print_r($value->sI) }} --}}
@@ -1004,11 +992,11 @@ if($v->isRs == false)
                                                 <span><b>{{ $value->sI[0]->fD->aI->name }}</b></span>
                                             </div>
                                             <div class="col-md-6 mb-3 text-end">
-                                                <span><i class="fas fa-indian-rupee-sign"></i> <b>25,000</b></span>&nbsp;&nbsp;
+                                                <span><i class="fas fa-indian-rupee-sign"></i> <b>{{ number_format($value->totalPriceList[0]->fd->ADULT->fC->TF) }}</b></span>&nbsp;&nbsp;
                                                 <span><a href="" class="btn btn-outline-primary btn-sm">View Prices</a></span>
                                             </div>
 
-                                            @foreach($values->sI as $key=>$v)
+                                            @foreach($value->sI as $key=>$v)
 
                                                 @if($v->isRs == false)
 
@@ -1049,7 +1037,7 @@ if($v->isRs == false)
                                                             </li>
                                                         </ul>
                                                     </div>
-                                                    <small>Partially Refundable</small>
+                                                    {{-- <small>Partially Refundable</small> --}}
                                                 </div>
                                             </div>
                                             @elseif($v->isRs == true)
@@ -1107,9 +1095,27 @@ if($v->isRs == false)
 
                                     @if ($result_array->status->success == true && $result_array->status->httpStatus == 200)
                                         @if (isset($result_array->searchResult->tripInfos->ONWARD))
+
+                                        <?php
+
+                                        // foreach ($result_array->searchResult->tripInfos->ONWARD as $key=>$value){
+                                        //     // foreach($value->sI as $k=>$v){
+                                        //         // echo '<pre>';
+                                        //         //     // echo count($value->sI);
+                                        //         //     for($i=0;$i<= count($value->sI); $i++){
+
+                                        //         //     }
+                                        //         // // print_r($value->sI[0]);
+                                        //         // echo '</pre>';
+                                        //     // }
+                                        // }
+
+                                        ?>
+
                                             <div class="col-md-6">
                                                 <?php $radio_on_cnt = 1; ?>
                                                 @foreach ($result_array->searchResult->tripInfos->ONWARD as $key => $value)
+                                                   <?php  $cnt_up =    count($value->sI); ?>
                                                     <div class="row mt-2">
                                                         <div class="col-md-12">
                                                             <div class="card">
@@ -1144,10 +1150,14 @@ if($v->isRs == false)
                                                                                 @endif
                                                                             </span>
                                                                         </div>
+                                                                        @for($i=0;$i < $cnt_up; $i++)
+                                                                        @if($i == ($cnt_up-1))
                                                                         <div class="col-md-3 departture">
-                                                                            <span>{{ date('H:m', strtotime($value->sI[0]->at)) }}</span>
-                                                                            <span>{{ $value->sI[0]->aa->city }}</span>
+                                                                            <span>{{ date('H:m', strtotime($value->sI[$i]->at)) }}</span>
+                                                                            <span>{{ $value->sI[$i]->aa->city }}</span>
                                                                         </div>
+                                                                        @endif
+                                                                        @endfor
                                                                         <div class="col-md-3 departture text-center">
                                                                             <input <?php echo $radio_on_cnt == 1 ? 'Checked' : ''; ?> type="radio"
                                                                                 name="roundFromTo"
@@ -1170,6 +1180,7 @@ if($v->isRs == false)
                                                         </div>
                                                     </div>
                                                     <?php $radio_on_cnt++; ?>
+
                                                 @endforeach
                                             </div>
 
@@ -1181,6 +1192,7 @@ if($v->isRs == false)
                                                 $radio_re_cnt = 1;
                                                 ?>
                                                 @foreach ($result_array->searchResult->tripInfos->RETURN as $key => $value)
+                                                <?php  $cnt_dwn =    count($value->sI); ?>
                                                     <div class="row mt-2">
                                                         <div class="col-md-12">
                                                             <div class="card">
@@ -1214,10 +1226,15 @@ if($v->isRs == false)
                                                                                 @endif
                                                                             </span>
                                                                         </div>
+                                                                        @for($j=0;$j < $cnt_dwn; $j++)
+
+                                                                        @if($j == ($cnt_dwn-1))
                                                                         <div class="col-md-3 departture">
-                                                                            <span>{{ date('H:m', strtotime($value->sI[0]->at)) }}</span>
-                                                                            <span>{{ $value->sI[0]->aa->city }}</span>
+                                                                            <span>{{ date('H:m', strtotime($value->sI[$j]->at)) }}</span>
+                                                                            <span>{{ $value->sI[$j]->aa->city }}</span>
                                                                         </div>
+                                                                        @endif
+                                                                        @endfor
                                                                         <div class="col-md-3 departture text-center">
                                                                             <input <?php echo $radio_re_cnt == 1 ? 'Checked' : ''; ?> type="radio"
                                                                                 name="roundToFrom"
@@ -1476,7 +1493,7 @@ if($v->isRs == false)
                                             <a href="#">Flight Details</a>
                                         </div>
                                         <div class="col-md-4">
-                                            <button class="btn btn-primary">Book</button>
+                                            <a href="#" ><button class="btn btn-primary">Book</button></a>
                                         </div>
                                     </div>
                                 </div>
