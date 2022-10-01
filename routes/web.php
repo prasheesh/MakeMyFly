@@ -37,6 +37,8 @@ Route::group(['middleware' => 'auth'],function(){
     Route::post('/passengerDetails', [ReviewBookingController::class, 'passengerDetails'])->name('passengerDetails');
     Route::get('/booking-final', [HomeController::class, 'bookingFinal'])->name('booking-final');
 
+    Route::get('/reviewDetailsRoundTrip', [ReviewBookingController::class, 'reviewDetailsRoundTrip'])->name('reviewDetailsRoundTrip');
+
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('index');

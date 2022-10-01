@@ -107,6 +107,108 @@ class ReviewBookingController extends Controller
         }
        // return view('site/review_details',compact('result_array','fair_rules'));
     }
+
+    public function reviewDetailsRoundTrip(Request $request)
+    {
+
+        $countries =   Country::all();
+       // dd($countries);
+        $priceId = $request->pkey;
+        $priceIdreturn = $request->return;
+        // $priceId = "5-4041047679_0HYDVGA6E7298_144134718253872";
+        // $priceIdreturn  = "5-4041047679_0VGAHYD6E7297_144134718043264";
+        $data = '{
+            "priceIds" : [ "'.$priceId.'" , "'.$priceIdreturn.'"]
+          }';
+         // dd($data);
+        $method = "POST";
+        $url = "https://apitest.tripjack.com/fms/v1/review";
+        $curl = curl_init();
+        switch ($method) {
+            case "POST":
+                curl_setopt($curl, CURLOPT_POST, true);
+                if ($data)
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                break;
+            default:
+                if ($data)
+                    $url = sprintf("%s?%s", $url, http_build_query(json_decode($data)));
+        }
+        //OPtions:
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'apikey:'.$this->api_key,
+            'Content-Type:application/json',
+        ));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        //Execute:
+        $result = curl_exec($curl);
+
+        if (!$result) {
+            die("Connection Failure");
+        }
+        curl_close($curl);
+        //dd($result);
+
+        $result_array =  json_decode($result);
+
+        ///////////getting fair rules start///////////
+
+            $data = '{
+            "id":"'.$priceId.'",
+            "flowType":"SEARCH"
+            }';
+
+        $method = "POST";
+        $url = "https://apitest.tripjack.com/fms/v1/farerule";
+        $curl = curl_init();
+        switch ($method) {
+            case "POST":
+                curl_setopt($curl, CURLOPT_POST, true);
+                if ($data)
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                break;
+            default:
+                if ($data)
+                    $url = sprintf("%s?%s", $url, http_build_query(json_decode($data)));
+        }
+        //OPtions:
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'apikey:'.$this->api_key,
+            'Content-Type:application/json',
+        ));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        //Execute:
+        $result = curl_exec($curl);
+
+        if (!$result) {
+            die("Connection Failure");
+        }
+        curl_close($curl);
+
+        $fair_rules =  json_decode($result);
+        ///////////getting fair rules end///////////
+
+        // echo "<pre>";
+        // print_r($result_array->errors[0]); exit();
+        if ($result_array->status->httpStatus == 200) {
+            // return $result_array;
+            return view('site/review_details',compact('result_array','fair_rules','countries'));
+              // return $result_array;
+        } else {
+            echo "<pre>";
+            print_r($result_array->errors[0]); exit();
+            $errors = $result_array->errors[0];
+            $result_array = $result_array;
+            return view('site/review_details',compact('result_array','errors'));
+        }
+       // return view('site/review_details',compact('result_array','fair_rules'));
+    }
+
+
     public function passengerDetails(Request $request)
     {
 

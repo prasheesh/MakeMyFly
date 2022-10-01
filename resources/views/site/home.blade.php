@@ -729,6 +729,9 @@
             // alert(count)
             // alert(id+'kkk')
             $('#newrow' + id).remove();
+            if(count == 3){
+                $('#addCity1').show();
+            }
             // $('#addCity1').show();
             if (count <= 5) {
                 // alert('addCity'+(parseInt(id)-1));

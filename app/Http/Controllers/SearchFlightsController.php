@@ -158,7 +158,7 @@ class SearchFlightsController extends Controller
 
         $result_array =  json_decode($result);
 
-        // dd($result_array->success);
+        // dd($result_array);
         if ($result_array->status->success == true) {
           // return $result_array;
             return view('site/search_flights',compact('result_array'));

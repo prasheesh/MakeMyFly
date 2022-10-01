@@ -149,7 +149,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /**
-* Get Startet Button 
+* Get Startet Button
 */
 .get-started-btn {
   margin-left: 22px;
@@ -177,7 +177,7 @@ h1, h2, h3, h4, h5, h6 {
 # Navigation Menu
 --------------------------------------------------------------*/
 /**
-* Desktop Navigation 
+* Desktop Navigation
 */
 .navbar {
   padding: 0;
@@ -268,7 +268,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /**
-* Mobile Navigation 
+* Mobile Navigation
 */
 .mobile-nav-toggle {
   color: #37423b;
@@ -400,7 +400,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'abril_fatfaceregular';
   font-size: 38px;
    line-height: 56px;
-  
+
 }
 #hero h3 {
   color: #fff;
@@ -408,7 +408,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 18px;
    line-height: 56px;
     font-family: "Poppins", sans-serif;
-  
+
 }
 #hero .btn-get-started {
   font-family: "Raleway", sans-serif;
@@ -1431,7 +1431,7 @@ section {
             background:none;
             opacity: 1;
         }
-         
+
         .modal{
             background:rgba(33,92,104,0.5);
         }
@@ -1558,7 +1558,7 @@ color: #00b0d5;
     text-align: center;
     padding: 5px;
         transition: 0.3s;
-} 
+}
 .social-icon li i {
   text-align: center;
     padding: 5px;
@@ -1568,7 +1568,7 @@ color: #00b0d5;
     height: 25px;
         transition: 0.3s;
 
-} 
+}
 .container-make {
   max-width: 1170px;
 }
@@ -1644,7 +1644,7 @@ color: #00b0d5;
     color: #495057;
     background-color: #fff;
     border-color: #dee2e6 #dee2e6 #fff;
-   
+
     font-weight: 600;
 }
 .nav-link {
@@ -1761,7 +1761,7 @@ color: #00b0d5;
     padding: 6px 10px;
     color: #fff;
     background: black;
-    right: -18px;
+    left: 128px;
     top: 12px;
     font-size: 16px;
 }
@@ -1804,7 +1804,7 @@ color: #00b0d5;
 .price-inner {
   font-size: 14px;
   margin-bottom: 0px;
-  
+
 }
 .slick-slide {
     margin: 5px 6px;
@@ -1890,19 +1890,19 @@ color: #00b0d5;
       border: none;
       margin: 20px 0 20px 0;
     }
-  
+
   .range-bar {
     border: none;
     background: #000;
-    height: 3px;  
+    height: 3px;
     width: 96%;
     margin-left: 8px;
   }
-    
+
     .ui-slider-range {
       background: 0px 0px 1px 1px #eeeeee;
     }
-    
+
     .ui-slider-handle {
       border:none;
       border-radius:25px;
@@ -2001,7 +2001,7 @@ color: #00b0d5;
     border-color: #86b7fe;
     /* outline: 0; */
     box-shadow: 0 0 0 0rem rgb(13 110 253 / 25%);
-} 
+}
 .accordion-button {
   font-size: 14px !important;
       background: #e3f2f5;
@@ -2077,7 +2077,7 @@ color: #00b0d5;
 .unsure-ticket h5 {
   margin-left: 10px;
       margin-bottom: 0;
-  
+
 }
 .check-ticket {
       padding-left: 15px;
@@ -2091,7 +2091,7 @@ color: #00b0d5;
 }
 .check-ticket p   {
     margin-bottom: 0px;
-    
+
 }
 .check-ticket img {
     text-align: right;
@@ -2139,7 +2139,7 @@ color: #00b0d5;
  .input-info p{
   padding: 0px 5px;
     font-size: 13px;
-    margin-top: 10px; 
+    margin-top: 10px;
  }
  .first-inputname {
    margin-top: 2rem;
@@ -2164,7 +2164,7 @@ color: #00b0d5;
    }
    .check-ticket-new {
     padding-left: 15px;   }
-   .check-ticket-new h6 { 
+   .check-ticket-new h6 {
      margin-top: 12px;
    }
 
@@ -2185,7 +2185,7 @@ color: #00b0d5;
    .btn-confirm {
         background: #067289;
     color: white;
-    border-radius: 0; 
+    border-radius: 0;
    }
    .bussiness-p p:nth-child(2) {
           margin-bottom: 0;
@@ -2278,24 +2278,127 @@ color: #00b0d5;
 
 /* Track */
 /*::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey; 
+  box-shadow: inset 0 0 5px grey;
   border-radius: 10px;
 }*/
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #ccc; 
+  background: #ccc;
   border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #c1c1c1; 
-}  
+  background: #c1c1c1;
+}
 
 
 
 
+
+/*29-09-2022*/
+.deapt {
+      background: #424242;
+    padding: 5px;
+    color: white;
+}
+.bag-icon {
+      line-height: 20px;
+    text-align: center;    
+    font-weight: 600;
+    font-size: 14px;
+}
+.bag-icon i {
+  color: #3f7288;
+}
+.footer-btn {
+  text-align: right;
+}
+.footer-btn p {
+      font-size: 20px;
+    font-weight: 600;
+    line-height: 10px;
+}
+.footer-btn small {
+  font-weight: 400;
+    font-size: 12px;
+    color: #ccc;
+}
+.citiname {
+  font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+.card-bkdetail {
+      height: 420px;
+    overflow: scroll;
+}
+
+.new-li i{
+      font-size: 22px;
+    color: #82bdd0;
+}
+.select-li i{
+      font-size: 22px;
+    color: rgb(71 118 224);
+}
+.booked-li i{
+      font-size: 22px;
+    color: #c3c3c3;
+}
+.flight-seats {
+  background: white;
+    border-radius: 5px;
+}
+.select-seat {
+  padding-left: 20px;
+}
+.select-seat-ul {
+   display: flex;
+}
+.seat-open {
+ list-style: none;
+    padding: 6px 10px;
+    border: 1px solid #8bf3b2;
+    margin: 5px;
+    border-radius: 5px;
+    height: 38px;
+}
+.select-seat-space {
+  list-style: none;
+  width: 40px;
+  height: 40px;
+}
+.seat-select {
+      list-style: none;
+}
+.seat-select i {
+  color: rgb(71 118 224);
+    list-style: none;
+    padding: inherit;
+    margin: 5px;
+    font-size: 38px;
+    background: none !important;
+}
+.seat-booked {
+    list-style: none;
+}
+.seat-booked i{
+ color: #c3c3c3;
+    list-style: none;
+    padding: inherit;
+    margin: 5px;
+    font-size: 38px;
+    background: none !important;
+}
+.select-seat-li {
+     list-style: none;
+    padding: 6px 10px;
+    border: 1px solid #8bf3b2;
+    margin: 5px;
+    border-radius: 5px;
+}
 
 
 
@@ -2338,10 +2441,10 @@ and (max-device-width: 1024px) {
     background-color: orange;
     color: black;
   }
- 
+
 
 }
- 
+
 /* For Mobile Portrait View */
 @media screen and (max-device-width: 480px)
 and (orientation: portrait) {
@@ -2356,23 +2459,23 @@ and (orientation: portrait) {
     margin-bottom: 8px;
 }
 }
- 
+
 /* For Mobile Landscape View */
 @media screen and (max-device-width: 640px)
 and (orientation: landscape) {
-  
+
 }
- 
+
 /* For Mobile Phones Portrait or Landscape View */
 /*@media screen and (max-device-width: 640px) {
-  
+
 }*/
- 
+
 
 .btn-outline-primary{
   color:#067289;
   border-color:#067289;
-  transition: 0.3s;  
+  transition: 0.3s;
 }
 .btn-outline-primary:hover{
   color:#fff;
