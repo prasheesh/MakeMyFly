@@ -271,7 +271,7 @@
                                                             value="{{ $values->id }}">
 
                                                         <p>
-                                                            Fair offered by airline.
+                                                            Fare offered by airline.
                                                         </p>
                                                     </td>
                                                     <td>{{ $values->fd->ADULT->bI->cB }}</td>
@@ -2269,7 +2269,7 @@
                                                                                                     id="uniqueTripPriceId{{ $value1->id }}{{ $id++ }}"
                                                                                                     value="{{ $values->id }}">
                                                                                                 <p>
-                                                                                                    Fair offered by airline.
+                                                                                                    Fare offered by airline.
                                                                                                 </p>
                                                                                             </td>
                                                                                             <td>{{ $values->fd->ADULT->bI->cB }}
@@ -2512,7 +2512,7 @@
                                                    id="uniqueTripPriceId{{ $value1->id }}{{ $id++ }}"
                                                    value="{{ $values->id }}">
                                                 <p>
-                                                   Fair offered by airline.
+                                                   Fare offered by airline.
                                                 </p>
                                              </td>
                                              <td>{{ $values->fd->ADULT->bI->cB }}</td>
