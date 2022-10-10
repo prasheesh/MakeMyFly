@@ -2275,7 +2275,18 @@ color: #00b0d5;
   background: #c1c1c1; 
 }  
 
-
+.fare-P small {
+  color: #ccc;
+}
+.fare-P h4 {
+      margin-bottom: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #83bdd0;
+}
+.text-olld {
+      text-decoration: line-through;
+}
 
 
 
@@ -2344,6 +2355,8 @@ and (orientation: portrait) {
 and (orientation: landscape) {
   
 }
+
+
  
 /* For Mobile Phones Portrait or Landscape View */
 /*@media screen and (max-device-width: 640px) {

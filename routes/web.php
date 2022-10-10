@@ -32,10 +32,12 @@ Route::group(['middleware' => 'auth'],function(){
     Route::any('/getFarePrices', [SearchFlightsController::class, 'getFarePrices'])->name('getFarePrices');
 
     Route::get('/reviewDetails', [ReviewBookingController::class, 'reviewDetails'])->name('reviewDetails');
+    Route::get('/reviewDetailsRoundTrip', [ReviewBookingController::class, 'reviewDetailsRoundTrip'])->name('reviewDetailsRoundTrip');
+   
     Route::get('/booking-final', [HomeController::class, 'bookingFinal'])->name('booking-final');
 
 });
-
+Route::post('/passengerDetails', [ReviewBookingController::class, 'passengerDetails'])->name('passengerDetails');
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/about-us', [HomeController::class, 'aboutUs'])->name('about');
 Route::get('/services', [HomeController::class, 'services'])->name('services');

@@ -14,10 +14,9 @@ class SearchFlightsController extends Controller
     {
 
       // dd($request->all());
-
-        if($request->tripType == 'oneway'){
-          $travelDate = date('Y-m-d', strtotime($request->flightBookingDepart));
+        $travelDate = date('Y-m-d', strtotime($request->flightBookingDepart));
         $travelReturnDate = date('Y-m-d', strtotime($request->flightBookingReturn));
+        if($request->tripType == 'oneway'){
 
         $data = '{
             "searchQuery": {
@@ -40,13 +39,11 @@ class SearchFlightsController extends Controller
               ],
               "searchModifiers": {
                 "isDirectFlight": true,
-                "isConnectingFlight": false
+                "isConnectingFlight": true
               }
             }
           }';
         }else if($request->tripType == 'round'){
-          $travelDate = date('Y-m-d', strtotime($request->flightBookingDepart));
-        $travelReturnDate = date('Y-m-d', strtotime($request->flightBookingReturn));
           $data = '{
             "searchQuery": {
               "cabinClass": "' . $request->travelClass . '",
@@ -78,47 +75,6 @@ class SearchFlightsController extends Controller
               "searchModifiers": {
                 "isDirectFlight": true,
                 "isConnectingFlight": true
-              }
-            }
-          }';
-        }else if($request->tripType == 'multi'){
-
-          $data = '{
-            "searchQuery": {
-              "cabinClass": "' . $request->travelClass . '",
-              "paxInfo": {
-                "ADULT": "' . $request->adultval . '",
-                "CHILD": "0",
-                "INFANT": "0"
-              },
-              "routeInfos": [';
-
-              for($i=0;$i<count($request->fromPlace);$i++){
-
-                $travelDate = date('Y-m-d', strtotime($request->flightBookingDepart[$i]));
-
-                $data .=    '{
-                  "fromCityOrAirport": {
-                    "code": "' . $request->fromPlace[$i] . '"
-                  },
-                  "toCityOrAirport": {
-                    "code": "' . $request->toPlace[$i] . '"
-                  },
-                  "travelDate": "' . $travelDate . '"
-                }';
-
-               if($i < (count($request->fromPlace)-1)){
-                $data .= ',';
-               }
-
-              }
-
-
-
-            $data .= '],
-              "searchModifiers": {
-                "isDirectFlight": true,
-                "isConnectingFlight": false
               }
             }
           }';
@@ -158,7 +114,7 @@ class SearchFlightsController extends Controller
 
         $result_array =  json_decode($result);
 
-        // dd($result_array);
+        // dd($result_array->success);
         if ($result_array->status->success == true) {
           // return $result_array;
             return view('site/search_flights',compact('result_array'));
