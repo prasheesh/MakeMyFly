@@ -2,6 +2,17 @@
 @section('style-content')
     <link href="assets/fonts/fontawesome/css/all.css" rel="stylesheet">
     <style>
+        .loader_div {
+            position: absolute;
+            top: 0;
+            bottom: 0%;
+            left: 0;
+            right: 0%;
+            z-index: 9999999;
+            opacity: 0.7;
+            display: none;
+            background: lightgrey url('http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/images/loader-large.gif') center center no-repeat;
+        }
         /* width */
         ::-webkit-scrollbar {
             width: 10px;
@@ -220,289 +231,292 @@
         #t-2:checked~.testimonials label[for="t-5"] {
             transform: translateX(900px) translateZ(-270px) translateY(-45px);
         }
+
     </style>
 @endsection
 
 @section('content')
+
     <section class="">
+        <div id="loader_div" class="loader_div"></div>
         <div class="bg-grey" style="height: 300px; margin-bottom: -270px;"></div>
         <div class="container container-make">
             <div class="row">
                 <div class="col-md-9 p-3">
                     <h5><b>Complete your booking</b></h5>
-                    <div class="card">
-                        <div class="card-body">
+                   <div class="card">
+                     <div class="card-body">
 
-                            <div class="mt-3 mb-3 cancelation-tab">
-                                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
-                                            data-bs-target="#pills-home" type="button" role="tab"
-                                            aria-controls="pills-home" aria-selected="true">
-                                            <i class="fa-solid fa-seat-airline"></i> Seats</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
-                                            data-bs-target="#pills-profile" type="button" role="tab"
-                                            aria-controls="pills-profile" aria-selected="false">Meals</button>
-                                    </li>
-                                </ul>
+                          <div class="mt-3 mb-3 cancelation-tab">
+                           <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                               <li class="nav-item" role="presentation">
+                                 <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
+                                  <i class="fa-solid fa-seat-airline"></i> Seats</button>
+                               </li>
+                               <li class="nav-item" role="presentation">
+                                 <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Meals</button>
+                               </li>
+                             </ul>
+                             <div class="tab-content ps-3" id="pills-tabContent">
+                               @if($result_array->status->success == true && $result_array->status->httpStatus == 200 )
+                               @if(isset($review->tripInfos))
+                               @if(isset($result_array->tripSeatMap))
 
-                                <div class="tab-content ps-3" id="pills-tabContent">
+                               <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                  <div class="hyderabad-booking">
+                                    @foreach ($review->tripInfos as $k=>$v )
+                                    @foreach ($v->sI as $k1=>$v1 )
+                                    {{-- {{ print_r($v1); }} --}}
 
-                                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
-                                        aria-labelledby="pills-home-tab">
-                                        <div class="hyderabad-booking">
-                                            <h6>Hyderabad - Mumbai</h6>
-                                            <p>0 of 1 selected</p>
+                                    <h6>{{ $v1->da->city }} - {{ $v1->aa->city }}</h6>
+                                  {{-- <p>0 of 1 selected</p> --}}
+
+                                    @endforeach
+
+
+
+                                  @endforeach($review->tripInfos)
+                                </div>
+                                  <div class="row align-items-end">
+                                     <div class="col-md-4">
+                                      {{-- <div class="row bussiness-p">
+                                        <div class="col-md-3 ">
+                                          <img src="assets/img/portfolio64.png" class="img-fluid">
                                         </div>
-                                        <div class="row align-items-end">
-                                            <div class="col-md-4">
-                                                <div class="row bussiness-p">
-                                                    <div class="col-md-3 ">
-                                                        <img src="assets/img/portfolio64.png" class="img-fluid">
-                                                    </div>
-                                                    <div class="col-md-9 ps-0">
-                                                        <p>Bussiness Class</p>
-                                                        <p>18 Seats <span>(79- in pitch)</span></p>
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="row bussiness-p mt-3">
-                                                    <div class="col-md-3 ">
-                                                        <img src="assets/img/sofa64.png" class="img-fluid">
-                                                    </div>
-                                                    <div class="col-md-9 ps-0">
-                                                        <p>Economy Class</p>
-                                                        <p>236 Seats <span>(33- in pitch)</span></p>
-                                                    </div>
-                                                </div>
-
-                                                <ul class="bussiness-ul">
-                                                    <li><span><img src="assets/img/preferred-seats.png" class="img-fluid">
-                                                        </span>
-                                                        <p>{{ $isBookedtrue }} Booked Seats <span>(34- in pitch)</span></p>
-                                                    </li>
-
-                                                    <li><span><img src="assets/img/preferred-seats1.png" class="img-fluid">
-                                                        </span>
-                                                        <p>5 Bussiness Seats</p>
-                                                    </li>
-                                                    <li><span><img src="assets/img/preferred-seats2.png" class="img-fluid">
-                                                        </span>
-                                                        <p>{{ $isLegroom }} Leg Space Seats</p>
-                                                    </li>
-
-                                                    <li><span><img src="assets/img/preferred-seats3.png" class="img-fluid">
-                                                        </span>
-                                                        <p>2 Windowless Seats</p>
-                                                    </li>
-
-                                                    <li><span><img src="assets/img/preferred-seats4.png" class="img-fluid">
-                                                        </span>
-                                                        <p>Emergency Exit Seats <span>fixed armered seats</span></p>
-                                                    </li>
-
-                                                    <li><span><img src="assets/img/preferred-seats5.png" class="img-fluid">
-                                                        </span>
-                                                        <p>Emergency Seats</p>
-                                                    </li>
-                                                </ul>
-
-                                            </div>
-
-                                            <div class="col-md-8 meals-seats">
-                                                <img src="assets/img/flight-booking-img.png" class="img-fluid">
-                                            </div>
+                                        <div class="col-md-9 ps-0" >
+                                           <p>Bussiness Class</p>
+                                           <p>18 Seats <span >(79- in pitch)</span></p>
                                         </div>
+                                      </div> --}}
+
+
+                                      {{-- <div class="row bussiness-p mt-3">
+                                        <div class="col-md-3 ">
+                                          <img src="assets/img/sofa64.png" class="img-fluid">
+                                        </div>
+                                        <div class="col-md-9 ps-0" >
+                                           <p>Economy Class</p>
+                                           <p>236 Seats <span >(33- in pitch)</span></p>
+                                        </div>
+                                      </div> --}}
+
+                                      <!-- <ul class="bussiness-ul">
+                                        <li><span><img src="assets/img/preferred-seats.png" class="img-fluid"> </span> <p>39 Preffered Seats <span >(34- in pitch)</span></p></li>
+
+                                        <li><span><img src="assets/img/preferred-seats1.png" class="img-fluid"> </span> <p>5 Bassinet Seats</p></li>
+                                        <li><span><img src="assets/img/preferred-seats2.png" class="img-fluid"> </span> <p>14 Extra Leg Space Seats</p></li>
+
+                                        <li><span><img src="assets/img/preferred-seats3.png" class="img-fluid"> </span> <p>2 Windowless Seats</p></li>
+
+                                        <li><span><img src="assets/img/preferred-seats4.png" class="img-fluid"> </span> <p>Emergency Exit Seats <span >fixed armered seats</span></p></li>
+
+                                        <li><span><img src="assets/img/preferred-seats5.png" class="img-fluid"> </span> <p>Emergency Seats</p></li>
+                                      </ul> -->
+                                      <ul class="bussiness-ul">
+                                        <li><span class="new-li"><i class="fa-regular fa-square"></i> </span> <p>{{ $isBookedfalse }} Seats Available</p></li>
+                                        {{-- <li><span class="select-li"><i class="fa-solid fa-square"></i> </span> <p> Select </p></li> --}}
+                                        <li><span class="booked-li"><i class="fa-solid fa-rectangle-xmark"></i> </span> <p>{{ $isBookedtrue }} Seats Booked</p></li>
+                                        <!-- <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top">Tooltip on top</button> -->
+                                      </ul>
+
+                                     </div>
+                                      <div class="col-md-8  meals-seats">
+                                       <div class="seats-bg">
+                                        <!-- <img src="assets/img/flight-booking-img.png" class="img-fluid"> -->
+                                        <img src="{{ 'assets/img/booking-front-crop.png' }}" class="img-fluid">
+                                        <div class="flight-seats">
+                                            @foreach($result_array->tripSeatMap->tripSeat as $key=>$value)
+                                            <?php
+                                                $row = $value->sData->row;
+                                                $column = $value->sData->column;
+                                            ?>
+
+{{-- {{ print_r($value->sData->row) }} --}}
+@for($i=1;$i<=$row;$i++)
+
+                                          <ul class="select-seat-ul">
+
+
+                                            <?php $sc =1;  ?>
+                                            @foreach ($value->sInfo as $k=>$seat)
+{{-- {{ print_r($seat->seatPosition->row) }} --}}
+<?php $cnt = $column/2; ?>
+
+@for($j=1;$j<=$column;$j++)
+
+                                    @if($seat->seatPosition->row == $i && $seat->seatPosition->column == $j)
+                                    <?php  $sc++; ?>
+                                        @php if($seat->isBooked == true){
+                                            echo '<li class="seat-booked" data-bs-toggle="tooltip" data-bs-placement="top" title="Sorry! This seat is taken"> <i class="fa-solid fa-rectangle-xmark"></i> </li>';
+
+                                        }else{
+                                            if(isset($seat->isLegroom)){
+                                                if(isset($seat->isAisle)){
+                                                echo '<li id="seat'.$seat->code.'" onclick="seatSelection('."'$seat->code','$seat->amount'".')" class="seat-open" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$seat->seatNo.' Aisle Seat | Extra Legroom Seat | '.$seat->amount.'">XL</li>';
+                                            }else{
+                                                echo '<li id="seat'.$seat->code.'" onclick="seatSelection('."'$seat->code','$seat->amount'".')" class="seat-open" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$seat->seatNo.' Extra Legroom seat | '.$seat->amount.'">XL</li>';
+                                            }
+                                            }
+                                            else{
+                                                if(isset($seat->isAisle)){
+                                                echo '<li id="seat'.$seat->code.'" onclick="seatSelection('."'$seat->code','$seat->amount'".')" class="seat-open" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$seat->seatNo.' Aisle Seat | '.$seat->amount.'">'. $seat->seatNo.'</li>';
+                                                }else{
+                                                    echo '<li id="seat'.$seat->code.'" onclick="seatSelection('."'$seat->code','$seat->amount'".')" class="seat-open" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$seat->seatNo.' | '.$seat->amount.'">'. $seat->seatNo.'</li>';
+                                                }
+                                            }
+
+
+                                         }
+
+                                        @endphp
+                                    @elseif($seat->seatPosition->row == $i && round($cnt) == $sc)
+                                    <li class="select-seat-space"></li>
+<?php  $sc++; ?>
+                                        @endif
+                                        @endfor
+                                            @endforeach
+
+
+
+
+                                          </ul>
+
+                                          @endfor
+                                          @endforeach
+
+
+                                        </div>
+                                        <img src="assets/img/booking-black.png" class="img-fluid">
+                                      </div>
+                                      </div>
                                     </div>
-                                    <!-- Meals tab -->
+                                  </div>
+                                  @endif
+                                  @else
+                                  <h4>{{ $review->errors[0]->errCode.' - '.$review->errors[0]->message }}</h4>
 
-                                    <div class="tab-pane fade" id="pills-profile" role="tabpanel"
-                                        aria-labelledby="pills-profile-tab">
+                                  @endif
+                                  @else
 
-                                        <div class="carousel-indicators">
-                                            <button type="button" data-bs-target="#demo" data-bs-slide-to="0"
-                                                class="active"></button>
-                                            <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
-                                            <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
-                                        </div>
+                                        <h4>{{ $result_array->errors[0]->errCode.' - '.$result_array->errors[0]->message }}</h4>
+                                  @endif
+
+
+
+                             <!-- Meals tab -->
+
+                               <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+
+
+
+                                 <div class="carousel-indicators">
+                                   <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+                                   <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+                                   <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+                                 </div>
 
 
 
 
                                         <div class="slider" id="demo">
-                                            <input type="radio" name="testimonial" id="t-1" />
-                                            <input type="radio" name="testimonial" id="t-2" />
-                                            <input type="radio" name="testimonial" id="t-3" checked />
-                                            <input type="radio" name="testimonial" id="t-4" />
-                                            <input type="radio" name="testimonial" id="t-5" />
-                                            <div class="testimonials mb-8">
-                                                <label class="item" for="t-1">
-                                                    <div class="mycard">
+                                                         <div class="testimonials mb-8">
+                                                           <label class="item" for="t-1">
+                                                            @if(isset($review->tripInfos))
+                                                             <div class="mycard">
 
-                                                        <div class="row align-items-center border-bottom">
-                                                            <div class="col-md-6 meals-border-left">
-                                                                <h6>Hyderabad to Mumbai</h6>
-                                                                <p>0 of 1 Meals Selected</p>
-                                                            </div>
-                                                            <div class="col-md-6 meals-input">
-                                                                <input type="checkbox" name="">
-                                                                <span>Veg</span>
-                                                                <input type="checkbox" name="">
-                                                                <span>Non-Veg</span>
-                                                            </div>
-                                                        </div>
+                                                               <div class="row align-items-center border-bottom">
+                                                                 <div class="col-md-6 meals-border-left">
+                                                                    @foreach ($review->tripInfos as $k=>$v )
+                                    @foreach ($v->sI as $k1=>$v1 )
+                                                                   <h6>{{ $v1->da->city }} to {{  $v1->aa->city  }}</h6>
+                                                                    {{-- <p>0 of 1 Meals Selected</p> --}}
+                                                                    @endforeach
+                                                                    @endforeach
+                                                                 </div>
 
+                                                                 {{-- <div class="col-md-6 meals-input">
+                                                                   <input type="checkbox" name="">
+                                                                   <span>Veg</span>
+                                                                   <input type="checkbox" name="">
+                                                                   <span>Non-Veg</span>
+                                                                 </div> --}}
+                                                               </div>
+                                                               @foreach ($review->tripInfos as $k=>$v )
+                                                                @foreach ($v->sI as $k1=>$v1 )
+                                                                @foreach ($v1->ssrInfo->MEAL as $k2=>$v2 )
 
-                                                        <div class="row align-items-center meals-parent">
-                                                            <div class="col-md-2 ">
-                                                                <img src="assets/img/veg-curry1.png" class="img-fluid">
-                                                            </div>
-                                                            <div class="col-md-8 meals-headtxt">
-                                                                <h6>UNIBIC CHOCOLATE CHIPS COOKIES 50 GMS</h6>
-                                                                <p><b><i class="fa-solid fa-indian-rupee-sign"></i> 200</b>
-                                                                </p>
-                                                            </div>
-                                                            <div class="col-md-2 ">
+                                                               <div class="row align-items-center meals-parent">
+                                                                 <div class="col-md-2 ">
+                                                                   <img src="assets/img/veg-curry1.png" class="img-fluid">
+                                                                 </div>
+                                                                 <div class="col-md-8 meals-headtxt">
+                                                                  <h6>{{ $v2->desc }}</h6>
+                                                                  @if(isset($v2->amount))
+                                                                  <p><b><i class="fa-solid fa-indian-rupee-sign"></i> {{ $v2->amount }}</b></p>
+                                                                  @endif
+                                                                 </div>
+                                                                 <div class="col-md-2 ">
 
-                                                                <button class="btn btn-add">ADD</button>
-                                                            </div>
-                                                        </div>
+                                                                  <button class="btn btn-add">ADD</button>
+                                                                 </div>
+                                                               </div>
 
-                                                        <div class="row align-items-center meals-parent">
-                                                            <div class="col-md-2 ">
-                                                                <img src="assets/img/veg-curry1.png" class="img-fluid">
-                                                            </div>
-                                                            <div class="col-md-8 meals-headtxt">
-                                                                <h6>UNIBIC CHOCOLATE CHIPS COOKIES 50 GMS</h6>
-                                                                <p><b><i class="fa-solid fa-indian-rupee-sign"></i> 200</b>
-                                                                </p>
-                                                            </div>
-                                                            <div class="col-md-2 ">
-
-                                                                <button class="btn btn-add">ADD</button>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="row align-items-center meals-parent">
-                                                            <div class="col-md-2 ">
-                                                                <img src="assets/img/veg-curry1.png" class="img-fluid">
-                                                            </div>
-                                                            <div class="col-md-8 meals-headtxt">
-                                                                <h6>UNIBIC CHOCOLATE CHIPS COOKIES 50 GMS</h6>
-                                                                <p><b><i class="fa-solid fa-indian-rupee-sign"></i> 200</b>
-                                                                </p>
-                                                            </div>
-                                                            <div class="col-md-2 ">
-
-                                                                <button class="btn btn-add">ADD</button>
-                                                            </div>
-                                                        </div>
+                                                               @endforeach
+                                                                    @endforeach
+                                                                    @endforeach
 
 
-                                                        <div class="row align-items-center meals-parent">
-                                                            <div class="col-md-2 ">
-                                                                <img src="assets/img/veg-curry1.png" class="img-fluid">
-                                                            </div>
-                                                            <div class="col-md-8 meals-headtxt">
-                                                                <h6>UNIBIC CHOCOLATE CHIPS COOKIES 50 GMS</h6>
-                                                                <p><b><i class="fa-solid fa-indian-rupee-sign"></i> 200</b>
-                                                                </p>
-                                                            </div>
-                                                            <div class="col-md-2 ">
 
-                                                                <button class="btn btn-add">ADD</button>
-                                                            </div>
-                                                        </div>
+                                                             </div>
+                                                             @else
+                                  <h4>{{ $review->errors[0]->errCode.' - '.$review->errors[0]->message }}</h4>
+
+                                  @endif
+                                                           </label>
+
+                                                         </div>
 
 
-                                                        <div class="row align-items-center meals-parent">
-                                                            <div class="col-md-2 ">
-                                                                <img src="assets/img/veg-curry1.png" class="img-fluid">
-                                                            </div>
-                                                            <div class="col-md-8 meals-headtxt">
-                                                                <h6>UNIBIC CHOCOLATE CHIPS COOKIES 50 GMS</h6>
-                                                                <p><b><i class="fa-solid fa-indian-rupee-sign"></i> 200</b>
-                                                                </p>
-                                                            </div>
-                                                            <div class="col-md-2 ">
+                                                       </div>
 
-                                                                <button class="btn btn-add">ADD</button>
-                                                            </div>
-                                                        </div>
+                                           </div>
+
+                               <!-- End of Meals tab -->
 
 
-                                                        <div class="row align-items-center meals-parent">
-                                                            <div class="col-md-2 ">
-                                                                <img src="assets/img/veg-curry1.png" class="img-fluid">
-                                                            </div>
-                                                            <div class="col-md-8 meals-headtxt">
-                                                                <h6>UNIBIC CHOCOLATE CHIPS COOKIES 50 GMS</h6>
-                                                                <p><b><i class="fa-solid fa-indian-rupee-sign"></i> 200</b>
-                                                                </p>
-                                                            </div>
-                                                            <div class="col-md-2 ">
-
-                                                                <button class="btn btn-add">ADD</button>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="row align-items-center meals-parent">
-                                                            <div class="col-md-2 ">
-                                                                <img src="assets/img/veg-curry1.png" class="img-fluid">
-                                                            </div>
-                                                            <div class="col-md-8 meals-headtxt">
-                                                                <h6>UNIBIC CHOCOLATE CHIPS COOKIES 50 GMS</h6>
-                                                                <p><b><i class="fa-solid fa-indian-rupee-sign"></i> 200</b>
-                                                                </p>
-                                                            </div>
-                                                            <div class="col-md-2 ">
-
-                                                                <button class="btn btn-add">ADD</button>
-                                                            </div>
-                                                        </div>
-
-                                                        <div>
-                                                            <p class="carddescription">Poner en práctica los conocimientos
-                                                                adquiridos.</p>
-                                                        </div>
-
-                                                    </div>
-                                                </label>
 
 
-                                            </div>
+                             </div>
 
-                                        </div>
+                       </div>
 
-                                    </div>
-
-                                    <!-- End of Meals tab -->
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="row mt-5">
-                            <div class="col-md-3 ms-auto">
+                           <div class="row mt-5">
+                              <div class="col-md-3 ms-auto">
                                 <button class="btn btn-blue-continue"> Procced to Pay</button>
-                            </div>
-                        </div>
-                    </div>
+                              </div>
+                             </div>
+                             </div>
 
 
 
 
 
+                     </div>
+                   </div>
 
-            </div>
+
 
             <div class="col-md-3 p-3 mt30 ">
+                @if($review->status->success == true && $review->status->httpStatus == 200 )
+                               @if(isset($review->tripInfos))
+                               <?php
+                               $adult = $review->searchQuery->paxInfo->ADULT
+
+                               ?>
+
                 <div class="card">
                     <div class=" card-body card-shadow">
-                        <h5><b>Fare Summery</b></h5>
+                        <h5><b>Fare Summary</b></h5>
 
                         <div class="accordion" id="myAccordion">
                             <div class="accordion-item">
@@ -510,14 +524,13 @@
                                     <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
                                         data-bs-target="#collapseOne">
                                         <span class="ms-2">Base Fare </span> <span class="ms-auto"> <i
-                                                class="fa-solid fa-indian-rupee-sign"></i> 4,600</span>
+                                                class="fa-solid fa-indian-rupee-sign"></i> {{ $adult *$review->totalPriceInfo->totalFareDetail->fC->BF }}</span>
                                     </button>
                                 </h2>
                                 <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#myAccordion">
-                                    <small class="ms-3">
+                                    <small class="ms-0">
                                         <span>Base Fare </span>
-                                        <span class="float-end"> <i class="fa-solid fa-indian-rupee-sign"></i>
-                                            4,600</span>
+                                        <span class="float-end"> Adult(s) ({{ $adult }} X ₹ {{ $review->totalPriceInfo->totalFareDetail->fC->BF }})</span>
                                     </small>
                                 </div>
                             </div>
@@ -530,31 +543,31 @@
                                     <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
                                         data-bs-target="#collapseOne2">
                                         <span class="ms-2">Fee & Surcharges </span> <span class="ms-auto"> <i
-                                                class="fa-solid fa-indian-rupee-sign"></i> 500</span>
+                                                class="fa-solid fa-indian-rupee-sign"></i> {{ $adult * $review->totalPriceInfo->totalFareDetail->fC->TAF }}</span>
                                     </button>
                                 </h2>
                                 <div id="collapseOne2" class="accordion-collapse collapse" data-bs-parent="#myAccordion">
-                                    <small class="ms-3">
+                                    {{-- <small class="ms-3">
                                         <span>Other Charges </span>
                                         <span class="float-end"> <i class="fa-solid fa-indian-rupee-sign"></i> 125</span>
-                                    </small>
+                                    </small> --}}
                                 </div>
                             </div>
                         </div>
 
-                        <div class="accordion mt-2" id="myAccordion">
+                        <div class="accordion mt-2 d-none othercharges" id="myAccordion"  >
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingOne">
                                     <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
                                         data-bs-target="#collapseOne3">
                                         <span class="ms-2">Other Charges </span> <span class="ms-auto"> <i
-                                                class="fa-solid fa-indian-rupee-sign"></i> 125</span>
+                                                class="fa-solid fa-indian-rupee-sign"></i> <span id="othercharges"> </span></span>
                                     </button>
                                 </h2>
                                 <div id="collapseOne3" class="accordion-collapse collapse" data-bs-parent="#myAccordion">
                                     <small class="ms-3">
-                                        <span>Other Charges </span>
-                                        <span class="float-end"> <i class="fa-solid fa-indian-rupee-sign"></i> 125</span>
+                                        <span>Seats</span>
+                                        <span class="float-end"> <i class="fa-solid fa-indian-rupee-sign"></i> <span id="seat_amt"></span></span>
                                     </small>
                                 </div>
                             </div>
@@ -565,14 +578,20 @@
                             <div class="col-md-7">
                                 <b>Total Amount</b>
                             </div>
+                            <?php $ttl_price = $adult * ($review->totalPriceInfo->totalFareDetail->fC->BF+$review->totalPriceInfo->totalFareDetail->fC->TAF) ?>
                             <div class="col-md-5  text-end">
-                                <i class="fa-solid fa-indian-rupee-sign"></i> 5,225
+                                <i class="fa-solid fa-indian-rupee-sign"></i> <span data-ttl_price="{{ $ttl_price }}" id="ttl_price">{{ $ttl_price }}</span>
                             </div>
                         </div>
 
 
                     </div>
                 </div>
+                @else
+                <h4>{{ $review->errors[0]->errCode.' - '.$review->errors[0]->message }}</h4>
+
+                @endif
+                @endif
             </div>
 
         </div>
@@ -584,193 +603,30 @@
     <!-- Meals Carousel -->
 
     <script type="text/javascript">
-        const $ = str => document.querySelector(str);
-        const $$ = str => document.querySelectorAll(str);
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+      })
+      </script>
 
-        (function() {
-            if (!window.app) {
-                window.app = {};
+      <script>
+            function seatSelection(code,seat_amt){
+                // alert(code+' - '+amount)
+                $("#loader_div").show();
+                setTimeout(function() {
+                    $("#loader_div").hide();
+                }, 3000);
+                var ttl_price = $('#ttl_price').attr('data-ttl_price');
+                var price = parseFloat(ttl_price)+parseFloat(seat_amt);
+                $('.othercharges').removeClass('d-none');
+                $('#othercharges').html(seat_amt);
+                $('#seat_amt').html(seat_amt);
+                $('#ttl_price').html(price);
+                $("#seat"+code).removeClass('seat-open');
+                $("#seat"+code).addClass('seat-select');
+                var count = $('.seat-select').length;
+                alert(count)
+                // $("#seat"+code).html('<i class="fa-solid fa-square"></i>');
             }
-            app.carousel = {
-                removeClass: function(el, classname = '') {
-                    if (el) {
-                        if (classname === '') {
-                            el.className = '';
-                        } else {
-                            el.classList.remove(classname);
-                        }
-                        return el;
-                    }
-                    return;
-                },
-                reorder: function() {
-                    let childcnt = $("#carousel").children.length;
-                    let childs = $("#carousel").children;
-
-                    for (let j = 0; j < childcnt; j++) {
-                        childs[j].dataset.pos = j;
-                    }
-                },
-                move: function(el) {
-                    let selected = el;
-
-                    if (typeof el === "string") {
-                        console.log(`got string: ${el}`);
-                        selected = (el == "next") ? $(".selected").nextElementSibling : $(".selected")
-                            .previousElementSibling;
-                        console.dir(selected);
-                    }
-
-                    let curpos = parseInt(app.selected.dataset.pos);
-                    let tgtpos = parseInt(selected.dataset.pos);
-
-                    let cnt = curpos - tgtpos;
-                    let dir = (cnt < 0) ? -1 : 1;
-                    let shift = Math.abs(cnt);
-
-                    for (let i = 0; i < shift; i++) {
-                        let el = (dir == -1) ? $("#carousel").firstElementChild : $("#carousel")
-                            .lastElementChild;
-
-                        if (dir == -1) {
-                            el.dataset.pos = $("#carousel").children.length;
-                            $('#carousel').append(el);
-                        } else {
-                            el.dataset.pos = 0;
-                            $('#carousel').prepend(el);
-                        }
-
-                        app.carousel.reorder();
-                    }
-
-
-                    app.selected = selected;
-                    let next = selected
-                        .nextElementSibling; // ? selected.nextElementSibling : selected.parentElement.firstElementChild;
-                    var prev = selected
-                        .previousElementSibling; // ? selected.previousElementSibling : selected.parentElement.lastElementChild;
-                    var prevSecond = prev ? prev.previousElementSibling : selected.parentElement
-                        .lastElementChild;
-                    var nextSecond = next ? next.nextElementSibling : selected.parentElement.firstElementChild;
-
-                    selected.className = '';
-                    selected.classList.add("selected");
-
-                    app.carousel.removeClass(prev).classList.add('prev');
-                    app.carousel.removeClass(next).classList.add('next');
-
-                    app.carousel.removeClass(nextSecond).classList.add("nextRightSecond");
-                    app.carousel.removeClass(prevSecond).classList.add("prevLeftSecond");
-
-                    app.carousel.nextAll(nextSecond).forEach(item => {
-                        item.className = '';
-                        item.classList.add('hideRight')
-                    });
-                    app.carousel.prevAll(prevSecond).forEach(item => {
-                        item.className = '';
-                        item.classList.add('hideLeft')
-                    });
-
-                },
-                nextAll: function(el) {
-                    let els = [];
-
-                    if (el) {
-                        while (el = el.nextElementSibling) {
-                            els.push(el);
-                        }
-                    }
-
-                    return els;
-
-                },
-                prevAll: function(el) {
-                    let els = [];
-
-                    if (el) {
-                        while (el = el.previousElementSibling) {
-                            els.push(el);
-                        }
-                    }
-
-
-                    return els;
-                },
-                keypress: function(e) {
-                    switch (e.which) {
-                        case 37: // left
-                            app.carousel.move('prev');
-                            break;
-
-                        case 39: // right
-                            app.carousel.move('next');
-                            break;
-
-                        default:
-                            return;
-                    }
-                    e.preventDefault();
-                    return false;
-                },
-                select: function(e) {
-                    console.log(`select: ${e}`);
-                    let tgt = e.target;
-                    while (!tgt.parentElement.classList.contains('carousel')) {
-                        tgt = tgt.parentElement;
-                    }
-
-                    app.carousel.move(tgt);
-
-                },
-                previous: function(e) {
-                    app.carousel.move('prev');
-                },
-                next: function(e) {
-                    app.carousel.move('next');
-                },
-                doDown: function(e) {
-                    console.log(`down: ${e.x}`);
-                    app.carousel.state.downX = e.x;
-                },
-                doUp: function(e) {
-                    console.log(`up: ${e.x}`);
-                    let direction = 0,
-                        velocity = 0;
-
-                    if (app.carousel.state.downX) {
-                        direction = (app.carousel.state.downX > e.x) ? -1 : 1;
-                        velocity = app.carousel.state.downX - e.x;
-
-                        if (Math.abs(app.carousel.state.downX - e.x) < 10) {
-                            app.carousel.select(e);
-                            return false;
-                        }
-                        if (direction === -1) {
-                            app.carousel.move('next');
-                        } else {
-                            app.carousel.move('prev');
-                        }
-                        app.carousel.state.downX = 0;
-                    }
-                },
-                init: function() {
-                    document.addEventListener("keydown", app.carousel.keypress);
-                    // $('#carousel').addEventListener("click", app.carousel.select, true);
-                    $("#carousel").addEventListener("mousedown", app.carousel.doDown);
-                    $("#carousel").addEventListener("touchstart", app.carousel.doDown);
-                    $("#carousel").addEventListener("mouseup", app.carousel.doUp);
-                    $("#carousel").addEventListener("touchend", app.carousel.doup);
-
-                    app.carousel.reorder();
-                    $('#prev').addEventListener("click", app.carousel.previous);
-                    $('#next').addEventListener("click", app.carousel.next);
-                    app.selected = $(".selected");
-
-                },
-                state: {}
-
-            }
-            app.carousel.init();
-        })();
-    </script>
+        </script>
 @endsection
