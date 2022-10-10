@@ -1163,7 +1163,7 @@
                         //  alert(result);
                         // console.log(result);
                         window.location.href =
-                            "{{ route('booking-final') }}?pkey=<?php echo $priceIds; ?>&bookingId=<?php echo $bookingId; ?> ";
+                            "{{ route('seatSelection') }}?pKey=<?php echo $priceIds; ?>&bookingId=<?php echo $bookingId; ?> ";
                     },
                     complete: function() {
                         $('#overlay').fadeOut();
