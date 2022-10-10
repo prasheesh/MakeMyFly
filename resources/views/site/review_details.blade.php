@@ -37,6 +37,8 @@
 @section('content')
     <!--Review Details modal -->
     <?php
+  //  echo "<pre>";
+    // print_r($_REQUEST); exit;
     $priceIds = $_REQUEST['pKey'];
     ?>
 
@@ -667,14 +669,14 @@
                                         </div>
                                     </div>
                                     {{-- <div class="col-md-2  ">
-              <div class="form-check" role="group" aria-label="Basic outlined example">
-                <input class="form-check-input " type="radio" id="Gender"  name="gender[0]"  value="Male" required="true">Male
-              </div>
-              <div class="form-check" role="group" aria-label="Basic outlined example">
+                                    <div class="form-check" role="group" aria-label="Basic outlined example">
+                                        <input class="form-check-input " type="radio" id="Gender"  name="gender[0]"  value="Male" required="true">Male
+                                    </div>
+                                    <div class="form-check" role="group" aria-label="Basic outlined example">
 
-                <input class="form-check-input " type="radio" id="Gender"  name="gender[0]"  value="Female" required="true">Female
-              </div>
-            </div> --}}
+                                        <input class="form-check-input " type="radio" id="Gender"  name="gender[0]"  value="Female" required="true">Female
+                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div id="app_div"></div>
                                 {{-- </form> --}}
@@ -1050,31 +1052,31 @@
                         var country_code = $('#country_code').val();
 
 
-                        $.ajax({
-                            url: "{{ route('passengerDetails') }}",
-                            type: "POST",
-                            data: {
-                                first_name: first_name,
-                                last_name: last_name,
-                                gender: gender,
-                                email: email,
-                                mobile: mobile,
-                                country_code: country_code,
-                                priceIds: priceIds,
-                                _token: _token,
-                            },
-                            beforeSend: function() {
-                                $('#overlay').fadeIn();
-                            },
-                            success: function(result) {
-                                // alert(result);
-                                console.log(result);
+                        // $.ajax({
+                        //     url: "{{ route('passengerDetails') }}",
+                        //     type: "POST",
+                        //     data: {
+                        //         first_name: first_name,
+                        //         last_name: last_name,
+                        //         gender: gender,
+                        //         email: email,
+                        //         mobile: mobile,
+                        //         country_code: country_code,
+                        //         priceIds: priceIds,
+                        //         _token: _token,
+                        //     },
+                        //     beforeSend: function() {
+                        //         $('#overlay').fadeIn();
+                        //     },
+                        //     success: function(result) {
+                        //         // alert(result);
+                        //         console.log(result);
 
-                            },
-                            complete: function() {
-                                $('#overlay').fadeOut();
-                            }
-                        });
+                        //     },
+                        //     complete: function() {
+                        //         $('#overlay').fadeOut();
+                        //     }
+                        // });
                         for (i = 0; i < adult_count; i++) {
                             var html = `
                             <div class="p-3 passengerreview">
