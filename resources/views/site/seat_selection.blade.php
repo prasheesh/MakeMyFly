@@ -253,9 +253,15 @@
                                  <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
                                   <i class="fa-solid fa-seat-airline"></i> Seats</button>
                                </li>
+                               @foreach ($review->tripInfos as $k=>$v )
+                                                                @foreach ($v->sI as $k1=>$v1 )
+                                                                @if(isset($v1->ssrInfo->MEAL))
                                <li class="nav-item" role="presentation">
                                  <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Meals</button>
                                </li>
+                               @endif
+                               @endforeach
+                               @endforeach
                              </ul>
                              <div class="tab-content ps-3" id="pills-tabContent">
                                @if($result_array->status->success == true && $result_array->status->httpStatus == 200 )
@@ -443,6 +449,7 @@
                                                                </div>
                                                                @foreach ($review->tripInfos as $k=>$v )
                                                                 @foreach ($v->sI as $k1=>$v1 )
+                                                                @if(isset($v1->ssrInfo->MEAL))
                                                                 @foreach ($v1->ssrInfo->MEAL as $k2=>$v2 )
 
                                                                <div class="row align-items-center meals-parent">
@@ -462,6 +469,7 @@
                                                                </div>
 
                                                                @endforeach
+                                                               @endif
                                                                     @endforeach
                                                                     @endforeach
 
